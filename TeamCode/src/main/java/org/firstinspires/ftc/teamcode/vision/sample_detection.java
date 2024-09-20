@@ -33,11 +33,11 @@ public class sample_detection extends OpenCvPipeline
    Telemetry telemetry;
    double x_resolution = 320;
    double y_resolution = 180;
-   public Scalar lower_red = new Scalar(0, 178, 60.9);
-   public Scalar lower_blue = new Scalar(0, 0, 157);
-   public Scalar lower = new Scalar(0, 178, 60.9);
+   public Scalar lower_red = new Scalar(0, 171, 75);
+   public Scalar lower_blue = new Scalar(0, 0, 140);
+   public Scalar lower = new Scalar(0, 171, 75);
    public Scalar upper = new Scalar(255, 255, 255);
-   public Scalar blur = new Scalar(4, 4, 0);
+   public Scalar blur = new Scalar(1, 1, 0);
    private Mat ycrcbMat       = new Mat();
    private Mat binaryMat      = new Mat();
    private Mat maskedInputMat = new Mat();
@@ -88,26 +88,17 @@ public class sample_detection extends OpenCvPipeline
       for (int i = 0; i < contours.size(); i++) {
          Scalar color = new Scalar(256, 256, 256);
          // Draw contour
-         Imgproc.drawContours(drawing, contours, i, color);
+         Imgproc.drawContours(input, contours, i, color);
          // Draw ellipse
-         //Imgproc.ellipse(drawing, minEllipse[i], color, 2);
+         //Imgproc.ellipse(input, minEllipse[i], color, 2);
          // Draw rotated rectangle
          Point[] rectPoints = new Point[4];
          minRect[i].points(rectPoints);
          for (int j = 0; j < 4; j++) {
-            Imgproc.line(drawing, rectPoints[j], rectPoints[(j+1) % 4], color);
+            Imgproc.line(input, rectPoints[j], rectPoints[(j+1) % 4], lower);
          }
       }
-
-      if (blur.val[2]>1)
-      {
-         return input;
-      }
-      else
-      {
-
-         return cannyOutput;
-      }
+      return input;
    }
 
 
