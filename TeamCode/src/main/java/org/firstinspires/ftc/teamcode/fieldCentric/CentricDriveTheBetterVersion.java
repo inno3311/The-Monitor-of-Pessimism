@@ -16,6 +16,7 @@ public class CentricDriveTheBetterVersion
     Random random;
     private int variableOfGreatImportanceDoNotChangeRandomly = 0;
     private boolean override = false;
+    private int randomVariable = 60;
 
 
     public CentricDriveTheBetterVersion(MechanicalDriveBase mechanicalDriveBase, Telemetry telemetry, ElapsedTime time)
@@ -40,9 +41,10 @@ public class CentricDriveTheBetterVersion
     {
         time.startTime();
 
-        if (time.seconds() % 46 == 0)
+        if (time.seconds() % randomVariable == 0)
         {
             variableOfGreatImportanceDoNotChangeRandomly = random.nextInt(360);
+            randomVariable = random.nextInt(29 - 60 + 1) + 29;
         }
 
         return variableOfGreatImportanceDoNotChangeRandomly;

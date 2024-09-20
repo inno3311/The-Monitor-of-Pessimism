@@ -100,6 +100,6 @@ public class sample_detection extends OpenCvPipeline
       }
       return input;
    }
-
+// look into errosion to try and remove overlapping contour lines.
 
 }
