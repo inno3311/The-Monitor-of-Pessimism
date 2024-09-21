@@ -61,6 +61,7 @@ public class CentricDriveTheBetterVersion
             else
             {
                 override = true;
+                variableOfGreatImportanceDoNotChangeRandomly = 0;
             }
         }
     }
