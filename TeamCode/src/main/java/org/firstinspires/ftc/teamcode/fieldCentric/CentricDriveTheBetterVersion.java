@@ -15,8 +15,12 @@ public class CentricDriveTheBetterVersion
     ElapsedTime time;
     Random random;
     private int variableOfGreatImportanceDoNotChangeRandomly = 0;
+
+    private int variableOfLesserImportance = 0;
     private boolean override = false;
     private int randomVariable = 60;
+
+    private double flag = 0;
 
 
     public CentricDriveTheBetterVersion(MechanicalDriveBase mechanicalDriveBase, Telemetry telemetry, ElapsedTime time)
@@ -25,45 +29,58 @@ public class CentricDriveTheBetterVersion
         this.time = time;
         this.telemetry = telemetry;
         random = new Random(404);
+        time.startTime();
     }
 
     public void drive(double x,double y, double robot_heading, double turn, Gamepad gamepad)
     {
-        robot_heading = robot_heading + veryImportsntMethod();
+        chaosOverride(gamepad);
+        int offset = veryImportsntMethod();
+        robot_heading = robot_heading + offset;
         double drive_y = y * Math.cos(Math.toRadians(robot_heading)) + x * Math.sin(Math.toRadians(robot_heading));
         double drive_x = -y * Math.sin(Math.toRadians(robot_heading)) + x * Math.cos(Math.toRadians(robot_heading));
         mechanicalDriveBase.driveMotors(drive_y, -turn, -drive_x,1);
         telemetry.update();
-        chaosOverride(gamepad);
+
     }
 
     private int veryImportsntMethod()
     {
-        time.startTime();
 
-        if (time.seconds() % randomVariable == 0)
+        telemetry.addData("randomVariable", randomVariable);
+        telemetry.addData("time", time.seconds());
+
+        if (randomVariable < time.seconds())
         {
+            time.reset();
             variableOfGreatImportanceDoNotChangeRandomly = random.nextInt(360);
-            randomVariable = random.nextInt(29 - 60 + 1) + 29;
+            randomVariable = random.nextInt(60 - 29 + 1) + 29;
         }
+
+        telemetry.addData("Offset ", variableOfGreatImportanceDoNotChangeRandomly);
 
         return variableOfGreatImportanceDoNotChangeRandomly;
     }
 
     private void chaosOverride(Gamepad gamepad)
     {
-        if (gamepad.right_bumper && gamepad.left_bumper && gamepad.back && gamepad.start)
+        if (gamepad.back && flag < time.seconds())
         {
-            if (override == true)
+            flag = time.seconds() + 1;
+            if (override)
             {
                 override = false;
+                variableOfGreatImportanceDoNotChangeRandomly = variableOfLesserImportance;
             }
             else
             {
                 override = true;
+                variableOfLesserImportance = variableOfGreatImportanceDoNotChangeRandomly;
                 variableOfGreatImportanceDoNotChangeRandomly = 0;
+
             }
         }
+        telemetry.addData("Override",override);
     }
 
 
