@@ -18,7 +18,7 @@ public class CentricDriveTheBetterVersion
 
     private int variableOfLesserImportance = 0;
     private boolean override = false;
-    private int randomVariable = 60;
+    private int randomVariable = 30;
 
     private double flag = 0;
 
@@ -28,7 +28,7 @@ public class CentricDriveTheBetterVersion
         this.mechanicalDriveBase = mechanicalDriveBase;
         this.time = time;
         this.telemetry = telemetry;
-        random = new Random(404);
+        random = new Random();
         time.startTime();
     }
 
@@ -54,7 +54,7 @@ public class CentricDriveTheBetterVersion
         {
             time.reset();
             variableOfGreatImportanceDoNotChangeRandomly = random.nextInt(360);
-            randomVariable = random.nextInt(60 - 29 + 1) + 29;
+            randomVariable = random.nextInt(45 - 25 + 1) + 25;
         }
 
         telemetry.addData("Offset ", variableOfGreatImportanceDoNotChangeRandomly);
