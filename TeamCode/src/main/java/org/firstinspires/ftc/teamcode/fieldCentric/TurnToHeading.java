@@ -20,7 +20,7 @@ public class TurnToHeading
         this.imu= imu;
     }
 
-    protected double turnToHeading(double x, double y, double deadzone_x, double deadzone_y)
+    public double turnToHeading(double x, double y, double deadzone_x, double deadzone_y)
     {
         if (Math.abs(x) <= deadzone_x && Math.abs(y) <= deadzone_y)
         {
