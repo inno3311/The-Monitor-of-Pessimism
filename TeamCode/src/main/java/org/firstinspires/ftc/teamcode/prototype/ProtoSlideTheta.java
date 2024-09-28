@@ -14,8 +14,8 @@ public class ProtoSlideTheta extends MotorControl
     }
 
     @Override
-    protected void simpleDrive(double speed, boolean argument1, boolean argument2)
+    protected void analogControl(double speedLimit, double input, boolean advanceBreak)
     {
-        super.simpleDrive(speed, argument1, argument2);
+        super.analogControl(speedLimit, input, advanceBreak);
     }
 }

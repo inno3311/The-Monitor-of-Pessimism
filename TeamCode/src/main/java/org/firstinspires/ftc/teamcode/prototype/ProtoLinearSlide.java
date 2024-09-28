@@ -8,7 +8,7 @@ public class ProtoLinearSlide extends MotorControl
 {
     protected ProtoLinearSlide(OpMode opMode)
     {
-        super("linearSlide", true, false, opMode);
+        super("linearSlide", false, false, opMode);
     }
 
     @Override
