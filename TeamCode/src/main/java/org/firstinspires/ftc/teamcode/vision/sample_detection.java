@@ -37,11 +37,25 @@ public class sample_detection extends OpenCvPipeline
    public Scalar lower_blue = new Scalar(0, 0, 140);
    public Scalar lower = new Scalar(0, 171, 75);
    public Scalar upper = new Scalar(255, 255, 255);
-   public Scalar blur = new Scalar(1, 1, 0);
+   public Scalar blur = new Scalar(1, 1, 0, 0);
    private Mat ycrcbMat       = new Mat();
    private Mat binaryMat      = new Mat();
    private Mat maskedInputMat = new Mat();
    Mat gray = new Mat();
+
+   public void reduce_bounding_boxes(Point rectangle_points)
+   {
+
+   }
+
+   public double calculate_bounding_box_area(Point[] rectangle_points)
+   {
+      double a = Math.sqrt(Math.pow((rectangle_points[0].x-rectangle_points[1].x), 2) + Math.pow((rectangle_points[0].y-rectangle_points[1].y), 2));
+      double b = Math.sqrt(Math.pow((rectangle_points[1].x-rectangle_points[2].x), 2) + Math.pow((rectangle_points[1].y-rectangle_points[2].y), 2));
+      double c = Math.sqrt(Math.pow((rectangle_points[2].x-rectangle_points[3].x), 2) + Math.pow((rectangle_points[2].y-rectangle_points[3].y), 2));
+      double d = Math.sqrt(Math.pow((rectangle_points[3].x-rectangle_points[0].x), 2) + Math.pow((rectangle_points[3].y-rectangle_points[0].y), 2));
+      return(a*b);
+   }
 
    @Override
    public void init(Mat firstFrame)
@@ -85,7 +99,12 @@ public class sample_detection extends OpenCvPipeline
 
       // Draw contours, elipses, and rectangles
       Mat drawing = Mat.zeros(cannyOutput.size(), CvType.CV_8UC3);
+      telemetry.addData("number of contours", contours.size());
       for (int i = 0; i < contours.size(); i++) {
+         if (blur.val[3] != i)
+         {
+            continue;
+         }
          Scalar color = new Scalar(256, 256, 256);
          // Draw contour
          Imgproc.drawContours(input, contours, i, color);
@@ -94,10 +113,17 @@ public class sample_detection extends OpenCvPipeline
          // Draw rotated rectangle
          Point[] rectPoints = new Point[4];
          minRect[i].points(rectPoints);
-         for (int j = 0; j < 4; j++) {
-            Imgproc.line(input, rectPoints[j], rectPoints[(j+1) % 4], lower);
+         double size = calculate_bounding_box_area(rectPoints);
+         telemetry.addData("calculated size", calculate_bounding_box_area(rectPoints));
+         telemetry.addData("contour size", Imgproc.contourArea(contours.get(i)));
+         for (int j = 0; j < 4; j++)
+         {
+            telemetry.addData(("rectPoint"+j), rectPoints[j]);
+            telemetry.addData(("rectPoint"+(j+1)%4), rectPoints[(j+1)%4]);
+            Imgproc.line(input, rectPoints[j], rectPoints[(j+1) % 4], new Scalar(50, 50, j*60));
          }
       }
+      telemetry.update();
       return input;
    }
 // look into errosion to try and remove overlapping contour lines.
