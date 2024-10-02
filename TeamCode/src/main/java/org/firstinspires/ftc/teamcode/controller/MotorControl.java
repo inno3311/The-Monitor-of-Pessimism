@@ -1,7 +1,13 @@
 package org.firstinspires.ftc.teamcode.controller;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -11,7 +17,7 @@ import org.firstinspires.ftc.teamcode.util.Logging;
 
 public class MotorControl
 {
-    private DcMotor motor;
+    private DcMotorEx motor;
     private String motorName;
     private boolean hasEncoder;
 
@@ -21,7 +27,7 @@ public class MotorControl
     protected Gamepad gamepad2;
 
     //Will be used to get the parameters below from the masterclass
-    private MotorControl(OpMode opMode)
+    private MotorControl(LinearOpMode opMode)
     {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
@@ -34,7 +40,7 @@ public class MotorControl
      * @param direction Direction you want the motor to spin: true = FORWARD, false = REVERSE
      * @param hasEncoder Does it have an encoder?
      */
-    protected MotorControl(String motorName, Boolean direction, Boolean hasEncoder, OpMode opMode)
+    protected MotorControl(String motorName, Boolean direction, Boolean hasEncoder, LinearOpMode opMode)
     {
         this(opMode);
 
@@ -42,7 +48,7 @@ public class MotorControl
         this.hasEncoder = hasEncoder;
         try
         {
-            motor = this.hardwareMap.get(DcMotor.class, motorName);
+            motor = this.hardwareMap.get(DcMotorEx.class, motorName);
 
             if (direction) {motor.setDirection(DcMotorSimple.Direction.FORWARD);}
             else {motor.setDirection(DcMotorSimple.Direction.REVERSE);}
@@ -197,6 +203,29 @@ public class MotorControl
         motor.setTargetPosition(target);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(speed);
+    }
+
+    public Action action(int target, double speed)
+    {
+        return new Action()
+        {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket)
+            {
+                if (!initialized)
+                {
+                    encoderControl(target, speed);
+                    initialized = true;
+                }
+
+                double vel = motor.getVelocity();
+
+                return  vel < 10_000.0;
+            }
+
+        };
     }
 
     /**

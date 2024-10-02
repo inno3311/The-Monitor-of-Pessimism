@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.prototype;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
+import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.controller.MotorControl;
 
 public class ProtoLinearSlide extends MotorControl
 {
-    protected ProtoLinearSlide(OpMode opMode)
+    public ProtoLinearSlide(LinearOpMode opMode)
     {
         super("linearSlide", false, false, opMode);
     }
@@ -15,5 +15,11 @@ public class ProtoLinearSlide extends MotorControl
     protected void analogControl(double speedLimit, double input, boolean advanceBreak)
     {
         super.analogControl(speedLimit, input, advanceBreak);
+    }
+
+    @Override
+    public Action action(int target, double speed)
+    {
+        return super.action(target, speed);
     }
 }

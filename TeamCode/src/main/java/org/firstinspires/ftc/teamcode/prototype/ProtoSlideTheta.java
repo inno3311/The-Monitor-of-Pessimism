@@ -2,15 +2,17 @@ package org.firstinspires.ftc.teamcode.prototype;
 
 import android.graphics.Path;
 
+import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.controller.MotorControl;
 
 public class ProtoSlideTheta extends MotorControl
 {
-    protected ProtoSlideTheta(OpMode opMode)
+    public ProtoSlideTheta(LinearOpMode opMode)
     {
-        super("slideTheta", true, false, opMode);
+        super("slideTheta", true, true, opMode);
     }
 
     @Override
@@ -18,4 +20,12 @@ public class ProtoSlideTheta extends MotorControl
     {
         super.analogControl(speedLimit, input, advanceBreak);
     }
+
+    @Override
+    public Action action(int target, double speed)
+    {
+        return super.action(target, speed);
+    }
+
+
 }
