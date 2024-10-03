@@ -21,11 +21,7 @@ public class ProtoSlideTheta extends MotorControl
         super.analogControl(speedLimit, input, advanceBreak);
     }
 
-    @Override
-    public Action action(int target, double speed)
-    {
-        return super.action(target, speed);
-    }
+
 
 
 }

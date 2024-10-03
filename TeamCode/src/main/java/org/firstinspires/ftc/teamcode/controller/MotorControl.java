@@ -50,12 +50,12 @@ public class MotorControl
         {
             motor = this.hardwareMap.get(DcMotorEx.class, motorName);
 
-            if (direction) {motor.setDirection(DcMotorSimple.Direction.FORWARD);}
-            else {motor.setDirection(DcMotorSimple.Direction.REVERSE);}
+            if (direction) {motor.setDirection(DcMotorEx.Direction.FORWARD);}
+            else {motor.setDirection(DcMotorEx.Direction.REVERSE);}
 
-            if (hasEncoder) {motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);}
+            if (hasEncoder) {motor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);}
 
-            motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
         }
         catch (IllegalArgumentException e)
@@ -199,34 +199,12 @@ public class MotorControl
      */
     public void encoderControl(int target, double speed)
     {
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         motor.setTargetPosition(target);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motor.setPower(speed);
     }
 
-    public Action action(int target, double speed)
-    {
-        return new Action()
-        {
-            private boolean initialized = false;
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket)
-            {
-                if (!initialized)
-                {
-                    encoderControl(target, speed);
-                    initialized = true;
-                }
-
-                double vel = motor.getVelocity();
-
-                return  vel < 10_000.0;
-            }
-
-        };
-    }
 
     /**
      * for motors that just need to spin call break to stop
@@ -253,6 +231,7 @@ public class MotorControl
      */
     protected void telemetry()
     {
+        telemetry.addData("Target position", motor.getTargetPosition());
         if (hasEncoder) {telemetry.addData(motorName, "Speed: %.2f\n\tEncoder Position: %d", motor.getPower(), motor.getCurrentPosition());}
         else {telemetry.addData(motorName, "Speed: %.2f", motor.getPower());}
     }
