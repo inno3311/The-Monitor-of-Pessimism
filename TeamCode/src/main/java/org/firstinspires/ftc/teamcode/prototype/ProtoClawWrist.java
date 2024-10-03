@@ -1,16 +1,16 @@
-package org.firstinspires.ftc.teamcode.outreach.Hippo;
+package org.firstinspires.ftc.teamcode.prototype;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.controller.ServoControl;
 
-public class HippoTrigger extends ServoControl
+public class ProtoClawWrist extends ServoControl
 {
-    // the smalled the value the more the trigger will be extended, the larger the more it will be contracted
-    public HippoTrigger(LinearOpMode opMode)
+
+    protected ProtoClawWrist(LinearOpMode opMode)
     {
-        super("trigger", 0, 1, opMode);
+        super("wrist", 0,0.5, opMode);
     }
 
     @Override

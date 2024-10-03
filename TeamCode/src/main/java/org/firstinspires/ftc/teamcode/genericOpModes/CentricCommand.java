@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opModes;
+package org.firstinspires.ftc.teamcode.genericOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
 import org.firstinspires.ftc.teamcode.util.PIDController;
 
-@TeleOp(name = "Centric Command", group = "FieldCentric")
+@TeleOp(name = "Centric Command *Don't run this one*", group = "FieldCentric")
 public class CentricCommand extends OpMode
 {
     MechanicalDriveBase mechanicalDriveBase;
@@ -31,7 +31,6 @@ public class CentricCommand extends OpMode
     @Override
     public void loop()
     {
-        //centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.15, 0.15));
-        centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), gamepad1.right_stick_x);
+        centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2));
     }
 }

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.controller;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -19,7 +20,7 @@ public class ServoControl
     protected Gamepad gamepad1;
     protected Gamepad gamepad2;
 
-    private ServoControl(OpMode opMode)
+    private ServoControl(LinearOpMode opMode)
     {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
@@ -27,7 +28,7 @@ public class ServoControl
         this.gamepad2 = opMode.gamepad2;
     }
 
-    protected ServoControl(String servoName, double minPosition, double maxPosition, OpMode opMode)
+    protected ServoControl(String servoName, double minPosition, double maxPosition, LinearOpMode opMode)
     {
         this(opMode);
 
