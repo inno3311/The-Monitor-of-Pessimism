@@ -8,7 +8,7 @@ public class ProtoLinearSlide extends MotorControl
 {
     public ProtoLinearSlide(LinearOpMode opMode)
     {
-        super("linearSlide", false, false, opMode);
+        super("linearSlide", false, true, opMode);
     }
 
     @Override
@@ -17,4 +17,13 @@ public class ProtoLinearSlide extends MotorControl
         super.analogControl(speedLimit, input, advanceBreak);
     }
 
+    @Override
+    public Action action(int target, double speed) {
+        return super.action(target, speed);
+    }
+
+    @Override
+    protected void telemetry() {
+        super.telemetry();
+    }
 }

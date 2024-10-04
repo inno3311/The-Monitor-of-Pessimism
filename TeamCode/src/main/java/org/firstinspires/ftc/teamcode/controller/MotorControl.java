@@ -5,10 +5,8 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
@@ -206,6 +204,27 @@ public class MotorControl
     }
 
 
+    public Action action(int target, double speed)
+    {
+
+        return new Action()
+        {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket)
+            {
+                if (!initialized)
+                {
+                    encoderControl(target, speed);
+                    initialized = true;
+                }
+
+                return !motor.isBusy();
+            }
+        };
+    }
+
     /**
      * for motors that just need to spin call break to stop
      * @param speed speed you want the motor to spin
@@ -231,7 +250,6 @@ public class MotorControl
      */
     protected void telemetry()
     {
-        telemetry.addData("Target position", motor.getTargetPosition());
         if (hasEncoder) {telemetry.addData(motorName, "Speed: %.2f\n\tEncoder Position: %d", motor.getPower(), motor.getCurrentPosition());}
         else {telemetry.addData(motorName, "Speed: %.2f", motor.getPower());}
     }

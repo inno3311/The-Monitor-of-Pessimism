@@ -43,11 +43,13 @@ public class ProtoMaster extends LinearOpMode
 
         while (opModeIsActive())
         {
+
+
             //        centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2));
 
             mechanicalDriveBase.gamepadController(gamepad1);
 
-            linearSlide.analogControl(0.5, gamepad2.left_stick_y, true);
+            linearSlide.analogControl(0.5, gamepad2.left_stick_y, false);
 
             slideTheta.analogControl(1, gamepad2.right_stick_y, false);
 
@@ -70,6 +72,11 @@ public class ProtoMaster extends LinearOpMode
             {
                 clawWrist.driveServo(0.5);
             }
+
+
+            linearSlide.telemetry();
+            slideTheta.telemetry();
+            telemetry.update();
         }
 
     }
