@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.prototype;
 
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -17,5 +18,11 @@ public class ProtoClawWrist extends ServoControl
     protected void driveServo(double target)
     {
         super.driveServo(target);
+    }
+
+    @Override
+    public Action action(double target)
+    {
+        return super.action(target);
     }
 }
