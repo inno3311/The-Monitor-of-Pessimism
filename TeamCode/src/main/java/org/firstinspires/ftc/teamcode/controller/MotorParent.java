@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.Logging;
 
-public class MotorControl
+public class MotorParent
 {
     private DcMotor motor;
     private String motorName;
@@ -21,7 +21,7 @@ public class MotorControl
     protected Gamepad gamepad2;
 
     //Will be used to get the parameters below from the masterclass
-    private MotorControl(OpMode opMode)
+    private MotorParent(OpMode opMode)
     {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
@@ -34,7 +34,7 @@ public class MotorControl
      * @param direction Direction you want the motor to spin: true = FORWARD, false = REVERSE
      * @param hasEncoder Does it have an encoder?
      */
-    protected MotorControl(String motorName, Boolean direction, Boolean hasEncoder, OpMode opMode)
+    protected MotorParent(String motorName, Boolean direction, Boolean hasEncoder, OpMode opMode)
     {
         this(opMode);
 

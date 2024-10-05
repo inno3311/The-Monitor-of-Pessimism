@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.Logging;
 
-public class ServoControl
+public class ServoParent
 {
     private Servo servo;
     private String servoName;
@@ -19,7 +19,7 @@ public class ServoControl
     protected Gamepad gamepad1;
     protected Gamepad gamepad2;
 
-    private ServoControl(OpMode opMode)
+    private ServoParent(OpMode opMode)
     {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
@@ -27,7 +27,7 @@ public class ServoControl
         this.gamepad2 = opMode.gamepad2;
     }
 
-    protected ServoControl(String servoName, double minPosition, double maxPosition, OpMode opMode)
+    protected ServoParent(String servoName, double minPosition, double maxPosition, OpMode opMode)
     {
         this(opMode);
 
