@@ -33,11 +33,12 @@ public class sample_detection extends OpenCvPipeline
    Telemetry telemetry;
 
 
-   //public Scalar cam_placement = new Scalar(8, 5.75);
 
-   public Scalar cam_placement = new Scalar(8, 5.75);
+   public Scalar cam_placement = new Scalar(8*2.54, 5.75*2.54, 3.7*2.54, 2.5);
+   //public Scalar cam_placement = new Scalar(8, 5.75, 3.7, 2.5);
    double camera_height = cam_placement.val[0];
    double distance_minimum_camera = cam_placement.val[1];
+   double camera_x_offset = cam_placement.val[2];
    double x_resolution = 320;
    double y_resolution = 180;
    double y_fov = 52.2;
@@ -115,10 +116,6 @@ public class sample_detection extends OpenCvPipeline
       Mat drawing = Mat.zeros(cannyOutput.size(), CvType.CV_8UC3);
       telemetry.addData("number of contours", contours.size());
       for (int i = 0; i < contours.size(); i++) {
-         /*if (blur.val[3] != i)
-         {
-            continue;
-         }*/
          Scalar color = new Scalar(256, 256, 256);
          // Draw contour
          Imgproc.drawContours(input, contours, i, color);
@@ -128,33 +125,45 @@ public class sample_detection extends OpenCvPipeline
          Point[] rectPoints = new Point[4];
          minRect[i].points(rectPoints);
          double size = calculate_bounding_box_area(rectPoints);
+         double y_range_limit = y_resolution/cam_placement.val[3];
+         if (minRect[i].center.y <= y_range_limit)
+         {
+            continue;
+         }
          if (size < 50)
          {
             continue;
          }
 
          Point pixel_camera_location = minEllipse[i].center;
+         double object_x = pixel_camera_location.x;
+         double object_y = y_resolution - pixel_camera_location.y;
          Imgproc.circle(input, pixel_camera_location, i*5, new Scalar(0, 255, 0), 1);
          Imgproc.circle(input, pixel_camera_location, 1, new Scalar(0, 255, 0), 2);
          telemetry.addData("i", i);
-         telemetry.addData("x", x_resolution - pixel_camera_location.x);
-         telemetry.addData("y", y_resolution - pixel_camera_location.y);
+         telemetry.addData("object x", object_x);
+         telemetry.addData("object y", object_y);
          double angle = Math.toRadians(angle_difference + y_degrees_per_pixel * (y_resolution - pixel_camera_location.y));
-         telemetry.addData("angle", Math.toDegrees(angle));
+         telemetry.addData("y_angle", Math.toDegrees(angle));
          double y_distance = camera_height * Math.tan(angle);
 
          //telemetry.addData("min_ellipse", minEllipse[i].center);
-         telemetry.addData("distance", y_distance);
+         telemetry.addData("y_distance", y_distance);
          telemetry.addData("calculated size", calculate_bounding_box_area(rectPoints));
-         telemetry.addData(" ", " ");
          //telemetry.addData("contour size", Imgproc.contourArea(contours.get(i)));
 
          for (int j = 0; j < 4; j++)
          {
-            //telemetry.addData(("rectPoint"+j), rectPoints[j]);
-            //telemetry.addData(("rectPoint"+(j+1)%4), rectPoints[(j+1)%4]);
             Imgproc.line(input, rectPoints[j], rectPoints[(j+1) % 4], new Scalar(50, 50, j*60));
          }
+         double center_line = (x_degrees_per_pixel*x_resolution)/2;
+         double x_angle = (x_degrees_per_pixel*object_x)-center_line;
+
+         double x_distance = Math.tan(Math.toRadians(x_angle))*y_distance+camera_x_offset;
+         telemetry.addData("x_angle", x_angle);
+         telemetry.addData("x_distance", x_distance);
+         telemetry.addData(" ", " ");
+
       }
       telemetry.update();
       return input;
