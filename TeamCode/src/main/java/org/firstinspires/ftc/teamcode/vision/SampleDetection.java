@@ -14,18 +14,12 @@ import org.opencv.core.Point;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
-import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-public class sample_detection extends OpenCvPipeline
+public class SampleDetection extends OpenCvPipeline
 {
    private Mat srcGray = new Mat();
    private static final int MAX_THRESHOLD = 255;
@@ -83,7 +77,7 @@ public class sample_detection extends OpenCvPipeline
 
    }
 
-   public sample_detection(Telemetry telemetry)
+   public SampleDetection(Telemetry telemetry)
    {
       this.telemetry = telemetry;
    }
