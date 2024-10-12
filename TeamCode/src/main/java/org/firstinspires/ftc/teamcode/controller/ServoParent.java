@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode.controller;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -8,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.Logging;
 
-public class ServoParent
+public class ServoControl
 {
     private Servo servo;
     private String servoName;
@@ -19,7 +24,7 @@ public class ServoParent
     protected Gamepad gamepad1;
     protected Gamepad gamepad2;
 
-    private ServoParent(OpMode opMode)
+    private ServoControl(LinearOpMode opMode)
     {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
@@ -27,7 +32,7 @@ public class ServoParent
         this.gamepad2 = opMode.gamepad2;
     }
 
-    protected ServoParent(String servoName, double minPosition, double maxPosition, OpMode opMode)
+    protected ServoControl(String servoName, double minPosition, double maxPosition, LinearOpMode opMode)
     {
         this(opMode);
 
@@ -66,6 +71,25 @@ public class ServoParent
         {
             driveServo(target);
         }
+    }
+
+    public Action action(double target)
+    {
+        return new Action()
+        {
+            private boolean initialized = false;
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket)
+            {
+                if (!initialized)
+                {
+                    driveServo(target);
+                    initialized = true;
+                }
+
+                return false;
+            }
+        };
     }
 
 

@@ -1,17 +1,21 @@
 package org.firstinspires.ftc.teamcode.controller;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.Logging;
 
-public class MotorParent
+public class MotorControl
 {
-    private DcMotor motor;
+    private DcMotorEx motor;
     private String motorName;
     private boolean hasEncoder;
 
@@ -21,7 +25,7 @@ public class MotorParent
     protected Gamepad gamepad2;
 
     //Will be used to get the parameters below from the masterclass
-    private MotorParent(OpMode opMode)
+    private MotorControl(LinearOpMode opMode)
     {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
@@ -34,7 +38,7 @@ public class MotorParent
      * @param direction Direction you want the motor to spin: true = FORWARD, false = REVERSE
      * @param hasEncoder Does it have an encoder?
      */
-    protected MotorParent(String motorName, Boolean direction, Boolean hasEncoder, OpMode opMode)
+    protected MotorControl(String motorName, Boolean direction, Boolean hasEncoder, LinearOpMode opMode)
     {
         this(opMode);
 
@@ -42,14 +46,14 @@ public class MotorParent
         this.hasEncoder = hasEncoder;
         try
         {
-            motor = this.hardwareMap.get(DcMotor.class, motorName);
+            motor = this.hardwareMap.get(DcMotorEx.class, motorName);
 
-            if (direction) {motor.setDirection(DcMotorSimple.Direction.FORWARD);}
-            else {motor.setDirection(DcMotorSimple.Direction.REVERSE);}
+            if (direction) {motor.setDirection(DcMotorEx.Direction.FORWARD);}
+            else {motor.setDirection(DcMotorEx.Direction.REVERSE);}
 
-            if (hasEncoder) {motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);}
+            if (hasEncoder) {motor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);}
 
-            motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
         }
         catch (IllegalArgumentException e)
@@ -193,10 +197,32 @@ public class MotorParent
      */
     public void encoderControl(int target, double speed)
     {
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         motor.setTargetPosition(target);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motor.setPower(speed);
+    }
+
+
+    public Action action(int target, double speed)
+    {
+
+        return new Action()
+        {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket)
+            {
+                if (!initialized)
+                {
+                    encoderControl(target, speed);
+                    initialized = true;
+                }
+
+                return !motor.isBusy();
+            }
+        };
     }
 
     /**
