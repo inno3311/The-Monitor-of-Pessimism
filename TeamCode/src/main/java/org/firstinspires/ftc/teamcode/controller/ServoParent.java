@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -13,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.Logging;
 
-public class ServoControl
+public class ServoParent
 {
     private Servo servo;
     private String servoName;
@@ -24,7 +23,7 @@ public class ServoControl
     protected Gamepad gamepad1;
     protected Gamepad gamepad2;
 
-    private ServoControl(LinearOpMode opMode)
+    private ServoParent(LinearOpMode opMode)
     {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
@@ -32,7 +31,7 @@ public class ServoControl
         this.gamepad2 = opMode.gamepad2;
     }
 
-    protected ServoControl(String servoName, double minPosition, double maxPosition, LinearOpMode opMode)
+    protected ServoParent(String servoName, double minPosition, double maxPosition, LinearOpMode opMode)
     {
         this(opMode);
 

@@ -1,14 +1,11 @@
 package org.firstinspires.ftc.teamcode.prototype;
 
-import android.graphics.Path;
-
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.controller.MotorControl;
+import org.firstinspires.ftc.teamcode.controller.MotorParent;
 
-public class ProtoSlideTheta extends MotorControl
+public class ProtoSlideTheta extends MotorParent
 {
     public ProtoSlideTheta(LinearOpMode opMode)
     {
