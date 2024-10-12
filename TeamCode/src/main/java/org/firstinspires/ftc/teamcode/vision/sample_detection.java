@@ -33,8 +33,8 @@ public class sample_detection extends OpenCvPipeline
    Telemetry telemetry;
 
 
-
-   public Scalar cam_placement = new Scalar(8*2.54, 5.75*2.54, 3.7*2.54, 2.5);
+   // cam_placement scalar format Scalar(camera height[cm], minimum distance visible from cam[cm], cam-to-arm distance[cm], range limit)
+   public Scalar cam_placement = new Scalar(8*2.54, 12.5, 8.5, 2.5);
    //public Scalar cam_placement = new Scalar(8, 5.75, 3.7, 2.5);
    double camera_height = cam_placement.val[0];
    double distance_minimum_camera = cam_placement.val[1];
@@ -78,7 +78,8 @@ public class sample_detection extends OpenCvPipeline
 
    }
 
-   public sample_detection(Telemetry telemetry) {
+   public sample_detection(Telemetry telemetry)
+   {
       this.telemetry = telemetry;
    }
    @Override
@@ -114,7 +115,7 @@ public class sample_detection extends OpenCvPipeline
 
       // Draw contours, elipses, and rectangles
       Mat drawing = Mat.zeros(cannyOutput.size(), CvType.CV_8UC3);
-      telemetry.addData("number of contours", contours.size());
+      //telemetry.addData("number of contours", contours.size());
       for (int i = 0; i < contours.size(); i++) {
          Scalar color = new Scalar(256, 256, 256);
          // Draw contour
@@ -141,10 +142,10 @@ public class sample_detection extends OpenCvPipeline
          Imgproc.circle(input, pixel_camera_location, i*5, new Scalar(0, 255, 0), 1);
          Imgproc.circle(input, pixel_camera_location, 1, new Scalar(0, 255, 0), 2);
          telemetry.addData("i", i);
-         telemetry.addData("object x", object_x);
-         telemetry.addData("object y", object_y);
+         //telemetry.addData("object x", object_x);
+         //telemetry.addData("object y", object_y);
          double angle = Math.toRadians(angle_difference + y_degrees_per_pixel * (y_resolution - pixel_camera_location.y));
-         telemetry.addData("y_angle", Math.toDegrees(angle));
+         //telemetry.addData("y_angle", Math.toDegrees(angle));
          double y_distance = camera_height * Math.tan(angle);
 
          //telemetry.addData("min_ellipse", minEllipse[i].center);
@@ -160,14 +161,12 @@ public class sample_detection extends OpenCvPipeline
          double x_angle = (x_degrees_per_pixel*object_x)-center_line;
 
          double x_distance = Math.tan(Math.toRadians(x_angle))*y_distance+camera_x_offset;
-         telemetry.addData("x_angle", x_angle);
+         //telemetry.addData("x_angle", x_angle);
          telemetry.addData("x_distance", x_distance);
-         telemetry.addData(" ", " ");
-
+         //telemetry.addData(" ", " ");
       }
       telemetry.update();
       return input;
    }
 // look into errosion to try and remove overlapping contour lines.
-
 }
