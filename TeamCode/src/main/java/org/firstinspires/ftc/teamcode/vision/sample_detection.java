@@ -56,6 +56,9 @@ public class sample_detection extends OpenCvPipeline
    private Mat ycrcbMat       = new Mat();
    private Mat binaryMat      = new Mat();
    private Mat maskedInputMat = new Mat();
+   private double x_distance = 0;
+   private double y_distance = 0;
+   private double z_distance = 0;
    Mat gray = new Mat();
 
    public void reduce_bounding_boxes(Point rectangle_points)
@@ -161,12 +164,27 @@ public class sample_detection extends OpenCvPipeline
          double x_angle = (x_degrees_per_pixel*object_x)-center_line;
 
          double x_distance = Math.tan(Math.toRadians(x_angle))*y_distance+camera_x_offset;
+         this.x_distance = x_distance;
+         this.z_distance = y_distance;
          //telemetry.addData("x_angle", x_angle);
          telemetry.addData("x_distance", x_distance);
          //telemetry.addData(" ", " ");
       }
       telemetry.update();
       return input;
+   }
+
+   public double x_distance()
+   {
+      return this.x_distance;
+   }
+   public double z_distance()
+   {
+      return this.z_distance;
+   }
+   public double y_distance()
+   {
+      return this.y_distance;
    }
 // look into errosion to try and remove overlapping contour lines.
 }
