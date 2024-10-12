@@ -33,12 +33,14 @@ public class sample_detection extends OpenCvPipeline
    Telemetry telemetry;
 
 
-   // cam_placement scalar format Scalar(camera height[cm], minimum distance visible from cam[cm], cam-to-arm distance[cm], range limit)
-   public Scalar cam_placement = new Scalar(8*2.54, 12.5, 8.5, 2.5);
+   // cam_placement scalar format Scalar(camera height[cm], minimum distance visible from cam[cm], cam-to-arm x_distance[cm], cam-to-arm hinge z_distance[cm])
+   public Scalar cam_placement = new Scalar(8*2.54, 12.5, 8.5, 29);
    //public Scalar cam_placement = new Scalar(8, 5.75, 3.7, 2.5);
    double camera_height = cam_placement.val[0];
    double distance_minimum_camera = cam_placement.val[1];
    double camera_x_offset = cam_placement.val[2];
+   double camera_z_offset = cam_placement.val[3];
+   double range_limiter = 2.5;
    double x_resolution = 320;
    double y_resolution = 180;
    double y_fov = 52.2;
@@ -129,7 +131,7 @@ public class sample_detection extends OpenCvPipeline
          Point[] rectPoints = new Point[4];
          minRect[i].points(rectPoints);
          double size = calculate_bounding_box_area(rectPoints);
-         double y_range_limit = y_resolution/cam_placement.val[3];
+         double y_range_limit = y_resolution/range_limiter;
          if (minRect[i].center.y <= y_range_limit)
          {
             continue;
