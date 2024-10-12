@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.controller.ServoControl;
 
 public class ProtoClawLeft extends ServoControl
 {
-    protected ProtoClawLeft(LinearOpMode opMode)
+    public ProtoClawLeft(LinearOpMode opMode)
     {
         super("clawLeft", 0,0.5, opMode);
     }

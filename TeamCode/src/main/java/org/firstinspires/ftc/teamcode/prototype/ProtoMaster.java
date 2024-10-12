@@ -1,18 +1,20 @@
 package org.firstinspires.ftc.teamcode.prototype;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 import org.firstinspires.ftc.teamcode.controller.MechanicalDriveBase;
 import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
+import org.firstinspires.ftc.vision.VisionPortal;
 
 @TeleOp(name = "Prototype", group = "proto")
 public class ProtoMaster extends LinearOpMode
 {
-
+    private static final boolean USE_WEBCAM = false;  // true for webcam, false for phone camera
     // DriveBase
     MechanicalDriveBase mechanicalDriveBase;
     TurnToHeading turnToHeading;
@@ -23,8 +25,10 @@ public class ProtoMaster extends LinearOpMode
     ProtoLinearSlide linearSlide;
     ProtoSlideTheta slideTheta;
     ProtoClawWrist clawWrist;
-    ProtoClawLeft clawLeft;
-    ProtoClawRight clawRight;
+
+    ProtoClaw claw;
+
+    private VisionPortal visionPortal;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -36,8 +40,17 @@ public class ProtoMaster extends LinearOpMode
         linearSlide = new ProtoLinearSlide(this);
         slideTheta = new ProtoSlideTheta(this);
         clawWrist = new ProtoClawWrist(this);
-        clawLeft = new ProtoClawLeft(this);
-        clawRight = new ProtoClawRight(this);
+        claw = new ProtoClaw(this);
+
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+
+        // Set the camera (webcam vs. built-in RC phone camera).
+        if (USE_WEBCAM) {
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+        } else {
+            builder.setCamera(BuiltinCameraDirection.BACK);
+        }
+
 
         waitForStart();
 
@@ -55,22 +68,20 @@ public class ProtoMaster extends LinearOpMode
 
             if (gamepad2.right_bumper)
             {
-                clawLeft.driveServo(0);
-                clawRight.driveServo(0);
+                claw.driveServo(0.5);
             }
             else if (gamepad2.right_trigger > 0.2)
             {
-                clawLeft.driveServo(0.5);
-                clawRight.driveServo(0.5);
+                claw.driveServo(0);
             }
 
             if (gamepad2.left_bumper)
             {
-                clawWrist.driveServo(0);
+                clawWrist.driveServo(1);
             }
             else if (gamepad2.left_trigger > 0.2)
             {
-                clawWrist.driveServo(0.5);
+                clawWrist.driveServo(0.3);
             }
 
 

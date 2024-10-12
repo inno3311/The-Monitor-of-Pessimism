@@ -197,9 +197,9 @@ public class MotorControl
      */
     public void encoderControl(int target, double speed)
     {
-        motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor.setTargetPosition(target);
-        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(speed);
     }
 

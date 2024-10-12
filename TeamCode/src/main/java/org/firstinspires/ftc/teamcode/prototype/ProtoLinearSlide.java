@@ -23,7 +23,7 @@ public class ProtoLinearSlide extends MotorControl
     }
 
     @Override
-    protected void telemetry() {
+    public void telemetry() {
         super.telemetry();
     }
 }

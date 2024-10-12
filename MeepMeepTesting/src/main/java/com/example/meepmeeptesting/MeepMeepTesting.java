@@ -38,6 +38,11 @@ public class MeepMeepTesting {
               .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
               .build();
 
+       RoadRunnerBotEntity myBotRedHang = new DefaultBotBuilder(meepMeep)
+           // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+           .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+           .build();
+
 
       myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-36, -55, Math.toRadians(90)))
               //.waitSeconds(2)
@@ -120,13 +125,21 @@ public class MeepMeepTesting {
               .splineToConstantHeading(new Vector2d(53, -58), Math.toRadians(270)) //parking
               .build());
 
+       myBotRedHang.runAction(myBotDaniel.getDrive().actionBuilder(new Pose2d(0,-55, Math.toRadians(90)))
+           //.splineToConstantHeading(new Vector2d(a, b), Math.toRadians(90))
+           .waitSeconds(1) //space for program to hook specimen on bar
+           .splineToSplineHeading(new Pose2d(0, -30, Math.toRadians(90)), Math.toRadians(90))
+           .waitSeconds(1)
+               .setTangent(Math.toRadians(270))
+           .splineToSplineHeading(new Pose2d(50, -50, Math.toRadians(90)), Math.toRadians(360))//.setReversed(true)
+           .build());
 
 
 
       meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_LIGHT)
               .setDarkMode(true)
               .setBackgroundAlpha(0.95f)
-              .addEntity(myBotDaniel)
+              .addEntity(myBotRedHang)
               .start();
    }
 }

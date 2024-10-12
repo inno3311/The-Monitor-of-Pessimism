@@ -9,7 +9,6 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import org.firstinspires.ftc.teamcode.prototype.ProtoLinearSlide;
 import org.firstinspires.ftc.teamcode.prototype.ProtoSlideTheta;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
@@ -104,7 +103,7 @@ public final class PushYellows extends LinearOpMode
             Action action = trajectoryActionBuilder
                 .build();
 
-            Actions.runBlocking(new SequentialAction(protoSlideTheta.action(-1250, 1), protoLinearSlide.action(-1090, 0.25), action));
+            Actions.runBlocking(new SequentialAction(protoLinearSlide.action(-1190, 0.25), action));
 //
 
 
