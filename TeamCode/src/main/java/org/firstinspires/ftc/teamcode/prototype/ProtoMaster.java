@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.prototype;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
@@ -22,9 +21,8 @@ public class ProtoMaster extends LinearOpMode
     // Accessories
     ProtoLinearSlide linearSlide;
     ProtoSlideTheta slideTheta;
-    ProtoClawWrist clawWrist;
-    ProtoClawLeft clawLeft;
-    ProtoClawRight clawRight;
+    ProtoWrist clawWrist;
+    ProtoClaw claw;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -35,9 +33,8 @@ public class ProtoMaster extends LinearOpMode
         centricDrive = new CentricDrive(mechanicalDriveBase, telemetry);
         linearSlide = new ProtoLinearSlide(this);
         slideTheta = new ProtoSlideTheta(this);
-        clawWrist = new ProtoClawWrist(this);
-        clawLeft = new ProtoClawLeft(this);
-        clawRight = new ProtoClawRight(this);
+        clawWrist = new ProtoWrist(this);
+        claw = new ProtoClaw(this);
 
         waitForStart();
 
@@ -53,13 +50,11 @@ public class ProtoMaster extends LinearOpMode
 
             if (gamepad2.right_bumper)
             {
-                clawLeft.driveServo(0);
-                clawRight.driveServo(0);
+                claw.driveServo(0);
             }
             else if (gamepad2.right_trigger > 0.2)
             {
-                clawLeft.driveServo(0.5);
-                clawRight.driveServo(0.5);
+                claw.driveServo(1);
             }
 
             if (gamepad2.left_bumper)

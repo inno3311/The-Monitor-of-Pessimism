@@ -1,15 +1,15 @@
 package org.firstinspires.ftc.teamcode.prototype;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.controller.ServoControl;
 
-public class ProtoClawLeft extends ServoControl
+public class ProtoWrist extends ServoControl
 {
-    protected ProtoClawLeft(LinearOpMode opMode)
+
+    protected ProtoWrist(LinearOpMode opMode)
     {
-        super("clawLeft", 0,0.5, opMode);
+        super("wrist", 0,0.5, opMode);
     }
 
     @Override
