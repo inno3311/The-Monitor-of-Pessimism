@@ -75,6 +75,8 @@ public class sample_detection extends OpenCvPipeline
    private double x_distance = 0;
    private double y_distance = 0;
    private double z_distance = 0;
+   private List<MatOfPoint> contours = new ArrayList<>();
+
    Mat gray = new Mat();
 
 
@@ -183,6 +185,7 @@ public class sample_detection extends OpenCvPipeline
          double x_distance = Math.tan(Math.toRadians(x_angle))*y_distance+camera_x_offset;
          this.x_distance = x_distance;
          this.z_distance = y_distance;
+         this.contours = contours;
          //telemetry.addData("x_angle", x_angle);
          telemetry.addData("x_distance", x_distance);
          //telemetry.addData(" ", " ");
@@ -193,19 +196,10 @@ public class sample_detection extends OpenCvPipeline
 
    public double getX()
    {
-      return x_distance;
-   }
-   public double x_distance()
-   {
-      return this.x_distance;
-   }
-   public double z_distance()
-   {
-      return this.z_distance;
-   }
-   public double y_distance()
-   {
-      return this.y_distance;
+      for (int i = 0; i < contours.size(); i++)
+      {
+         return x_distance;
+      }
    }
 // look into errosion to try and remove overlapping contour lines.
 }
