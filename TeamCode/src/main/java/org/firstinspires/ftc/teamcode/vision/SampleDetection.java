@@ -2,9 +2,15 @@ package org.firstinspires.ftc.teamcode.vision;
 
 //import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import java.io.BufferedInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -14,13 +20,27 @@ import org.opencv.core.Point;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
+import org.openftc.easyopencv.OpenCvWebcam;
+import org.openftc.easyopencv.OpenCvInternalCamera;
 
-public class SampleDetection extends OpenCvPipeline
+
+public class sample_detection extends OpenCvPipeline
 {
+   VisionPortal visionPortal;
+
    private Mat srcGray = new Mat();
    private static final int MAX_THRESHOLD = 255;
    private int threshold = 100;
@@ -57,6 +77,7 @@ public class SampleDetection extends OpenCvPipeline
    private double z_distance = 0;
    Mat gray = new Mat();
 
+
    public void reduce_bounding_boxes(Point rectangle_points)
    {
 
@@ -77,7 +98,7 @@ public class SampleDetection extends OpenCvPipeline
 
    }
 
-   public SampleDetection(Telemetry telemetry)
+   public sample_detection(Telemetry telemetry)
    {
       this.telemetry = telemetry;
    }
@@ -170,6 +191,10 @@ public class SampleDetection extends OpenCvPipeline
       return input;
    }
 
+   public double getX()
+   {
+      return x_distance;
+   }
    public double x_distance()
    {
       return this.x_distance;
