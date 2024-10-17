@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode.vision;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -19,6 +18,7 @@ import org.opencv.imgproc.Imgproc;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.openftc.easyopencv.OpenCvPipeline;
 
+
 public class SampleDetection extends OpenCvPipeline
 {
    private Mat srcGray = new Mat();
@@ -28,7 +28,7 @@ public class SampleDetection extends OpenCvPipeline
 
 
    // cam_placement scalar format Scalar(camera height[cm], minimum distance visible from cam[cm], cam-to-arm x_distance[cm], cam-to-arm hinge z_distance[cm])
-   public Scalar cam_placement = new Scalar(8*2.54, 12.5, 8.5, 29);
+   public Scalar cam_placement = new Scalar(8*2.54, 12.5, 8.5, 25);
    //public Scalar cam_placement = new Scalar(8, 5.75, 3.7, 2.5);
    double camera_height = cam_placement.val[0];
    double distance_minimum_camera = cam_placement.val[1];
@@ -191,5 +191,13 @@ public class SampleDetection extends OpenCvPipeline
 
       return contours;
    }
+
+    public double getX()
+    {
+        return x_distance;
+    }
+    public double getZ() {return z_distance;}
+    public double getY() {return y_distance;}
+
 // look into errosion to try and remove overlapping contour lines.
 }

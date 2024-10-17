@@ -14,9 +14,9 @@ public class DeltaChange
      * @param z is equal to the value returned by the open cv program. Z is up down
      * @returns the distance to the sample in cm
      */
-    protected double armLength(double z, double x)
+    protected double armLength(double z, double y)
     {
-        double distanceToSample = Math.sqrt((Math.pow(x,2) + Math.pow(z, 2)));
+        double distanceToSample = Math.sqrt((Math.pow(y,2) + Math.pow(z, 2)));
         return distanceToSample;
     }
 
