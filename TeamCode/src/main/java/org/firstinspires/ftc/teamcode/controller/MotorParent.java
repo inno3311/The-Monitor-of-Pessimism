@@ -219,6 +219,11 @@ public class MotorParent
         telemetry.addData(motorName, "Breaking");
     }
 
+    protected double getPower()
+    {
+        return motor.getPower();
+    }
+
     /**
      *     Prints motor telemetry
      */

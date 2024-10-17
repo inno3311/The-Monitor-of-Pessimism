@@ -23,4 +23,10 @@ public class HippoIntake extends MotorParent
     {
         super.simpleDrive(speed, argument1, argument2);
     }
+
+    @Override
+    protected double getPower()
+    {
+        return super.getPower();
+    }
 }
