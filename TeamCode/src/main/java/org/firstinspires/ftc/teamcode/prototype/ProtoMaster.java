@@ -21,6 +21,7 @@ public class ProtoMaster extends LinearOpMode
     // Accessories
     ProtoLinearSlide linearSlide;
     ProtoSlideTheta slideTheta;
+    ProtoHang protoHang;
     ProtoWrist clawWrist;
     ProtoClaw claw;
 
@@ -33,6 +34,7 @@ public class ProtoMaster extends LinearOpMode
         centricDrive = new CentricDrive(mechanicalDriveBase, telemetry);
         linearSlide = new ProtoLinearSlide(this);
         slideTheta = new ProtoSlideTheta(this);
+        protoHang = new ProtoHang(this);
         clawWrist = new ProtoWrist(this);
         claw = new ProtoClaw(this);
 
@@ -47,6 +49,8 @@ public class ProtoMaster extends LinearOpMode
             linearSlide.analogControl(0.5, gamepad2.left_stick_y, true);
 
             slideTheta.analogControl(1, gamepad2.right_stick_y, false);
+
+            protoHang.simpleDrive(1, gamepad2.y, gamepad2.a);
 
             if (gamepad2.right_bumper)
             {
