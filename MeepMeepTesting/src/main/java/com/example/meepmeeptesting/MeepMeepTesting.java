@@ -95,43 +95,58 @@ public class MeepMeepTesting {
       myBotDaniel.runAction(myBotDaniel.getDrive().actionBuilder(new Pose2d(0,-55, Math.toRadians(90)))
               .splineToConstantHeading(new Vector2d(a, b), Math.toRadians(90))
               .waitSeconds(1) //space for program to hook specimen on bar
-              .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
-              .splineToSplineHeading(new Pose2d(42, -10, Math.toRadians(270)), Math.toRadians(360))
-              .splineToConstantHeading(new Vector2d(46, -20), Math.toRadians(270))
-              .splineToConstantHeading(new Vector2d(x, y), Math.toRadians(270))
-              .waitSeconds(1) //space for program that obtains specimen
-              .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
-              .splineToSplineHeading(new Pose2d(a+1, b, Math.toRadians(90)), Math.toRadians(90)) //end of first lap
+              .splineToSplineHeading(new Pose2d(30, -35, Math.toRadians(180)), Math.toRadians(360))
+//              .splineToSplineHeading(new Pose2d(42, -10, Math.toRadians(270)), Math.toRadians(360))
+//              .splineToConstantHeading(new Vector2d(46, -20), Math.toRadians(270))
+//              .splineToConstantHeading(new Vector2d(x, y), Math.toRadians(270))
+//              .waitSeconds(1) //space for program that obtains specimen
+//              .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
+//              .splineToSplineHeading(new Pose2d(a+1, b, Math.toRadians(90)), Math.toRadians(90)) //end of first lap
 
-              .waitSeconds(1) //space for program to hook specimen on bar
-              .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
-              .splineToSplineHeading(new Pose2d(54, -10, Math.toRadians(270)), Math.toRadians(360))
-              .splineToConstantHeading(new Vector2d(56, -20), Math.toRadians(270))
-              .splineToConstantHeading(new Vector2d(x, y), Math.toRadians(270))
-              .waitSeconds(1) //space for program that obtains specimen
-              .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
-              .splineToSplineHeading(new Pose2d(a+2, b, Math.toRadians(90)), Math.toRadians(90)) //end of second lap
-
-              .waitSeconds(1) //space for program to hook specimen on bar
-              .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
-              .splineToSplineHeading(new Pose2d(58, -10, Math.toRadians(270)), Math.toRadians(360))
-              .splineToConstantHeading(new Vector2d(61, -20), Math.toRadians(270))
-              .splineToConstantHeading(new Vector2d(61, y), Math.toRadians(270)) //this line may not be necessary if robot can catch the sample on its side
-              .splineToConstantHeading(new Vector2d(x,y), Math.toRadians(180))
-              .waitSeconds(1) //space for program that obtains specimen
-              .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
-              .splineToSplineHeading(new Pose2d(a+2, b, Math.toRadians(90)), Math.toRadians(90)) //end of second lap
-              .waitSeconds(1) //space for program to hook specimen on bar
-              .splineToConstantHeading(new Vector2d(53, -58), Math.toRadians(270)) //parking
+//              .waitSeconds(1) //space for program to hook specimen on bar
+//              .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
+//              .splineToSplineHeading(new Pose2d(54, -10, Math.toRadians(270)), Math.toRadians(360))
+//              .splineToConstantHeading(new Vector2d(56, -20), Math.toRadians(270))
+//              .splineToConstantHeading(new Vector2d(x, y), Math.toRadians(270))
+//              .waitSeconds(1) //space for program that obtains specimen
+//              .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
+//              .splineToSplineHeading(new Pose2d(a+2, b, Math.toRadians(90)), Math.toRadians(90)) //end of second lap
+//
+//              .waitSeconds(1) //space for program to hook specimen on bar
+//              .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
+//              .splineToSplineHeading(new Pose2d(58, -10, Math.toRadians(270)), Math.toRadians(360))
+//              .splineToConstantHeading(new Vector2d(61, -20), Math.toRadians(270))
+//              .splineToConstantHeading(new Vector2d(61, y), Math.toRadians(270)) //this line may not be necessary if robot can catch the sample on its side
+//              .splineToConstantHeading(new Vector2d(x,y), Math.toRadians(180))
+//              .waitSeconds(1) //space for program that obtains specimen
+//              .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
+//              .splineToSplineHeading(new Pose2d(a+2, b, Math.toRadians(90)), Math.toRadians(90)) //end of second lap
+//              .waitSeconds(1) //space for program to hook specimen on bar
+//              .splineToConstantHeading(new Vector2d(53, -58), Math.toRadians(270)) //parking
               .build());
 
-       myBotRedHang.runAction(myBotDaniel.getDrive().actionBuilder(new Pose2d(0,-55, Math.toRadians(90)))
+       myBotRedHang.runAction(myBotRedHang.getDrive().actionBuilder(new Pose2d(0,-55, Math.toRadians(90)))
            //.splineToConstantHeading(new Vector2d(a, b), Math.toRadians(90))
            .waitSeconds(1) //space for program to hook specimen on bar
-           .splineToSplineHeading(new Pose2d(0, -30, Math.toRadians(90)), Math.toRadians(90))
+
+           .strafeTo(new Vector2d(0,-30))  //drive to chamber
+           .strafeTo(new Vector2d(0,-35))  //back up from chamber
+           .strafeToLinearHeading(new Vector2d(24, -34), Math.toRadians(0))  // start drive to samples
+           .splineToConstantHeading(new Vector2d(40,-24),Math.toRadians(0))
+           .setTangent(0)
+           .turnTo(Math.toRadians(270))
+           .strafeTo(new Vector2d(48,-60))
+
+
+
+           //        .splineToSplineHeading(new Pose2d(48, -60, Math.toRadians(270)),Math.toRadians(180))
+//           .splineToSplineHeading(new Pose2d(0, -30, Math.toRadians(90)), Math.toRadians(90))
+//           .splineToLinearHeading(new Pose2d(24, -34, 0), Math.toRadians(0))
            .waitSeconds(1)
-               .setTangent(Math.toRadians(270))
-           .splineToSplineHeading(new Pose2d(50, -50, Math.toRadians(90)), Math.toRadians(360))//.setReversed(true)
+//               .setTangent(Math.toRadians(270))
+//           .splineToSplineHeading(new Pose2d(24, -34, Math.toRadians(0)), Math.toRadians(90))
+//           .setTangent(Math.toRadians(270))
+//           .splineToConstantHeading(new Vector2d(34, -24), Math.toRadians(90))
            .build());
 
 
@@ -139,7 +154,7 @@ public class MeepMeepTesting {
       meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_LIGHT)
               .setDarkMode(true)
               .setBackgroundAlpha(0.95f)
-              .addEntity(myBotRedHang)
+              .addEntity(myBotDaniel)
               .start();
    }
 }

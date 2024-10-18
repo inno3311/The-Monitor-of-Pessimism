@@ -69,6 +69,19 @@ public final class HighChamberSpecimens extends LinearOpMode {
 //                .splineToConstantHeading(new Vector2d(50, -50), Math.toRadians(270))
                 .waitSeconds(10);
 
+            TrajectoryActionBuilder trajectoryActionBuilderMezTest = drive.actionBuilder(beginPose)
+                .strafeTo(new Vector2d(0,-30))  //drive to chamber
+                .strafeTo(new Vector2d(0,-45))  //back up from chamber
+                .strafeToLinearHeading(new Vector2d(24, -34), Math.toRadians(0))  // start drive to samples
+                .splineToConstantHeading(new Vector2d(40,-24),Math.toRadians(0))
+                .setTangent(0)
+                .turnTo(Math.toRadians(270))
+                .strafeTo(new Vector2d(48,-60));
+
+
+            Action actionTest = trajectoryActionBuilderMezTest
+                .build();
+
             Action actionDriveToBar = trajectoryActionBuilder
                 .build();
 
@@ -78,18 +91,18 @@ public final class HighChamberSpecimens extends LinearOpMode {
             Action actionWait = trajectoryActionBuilderWait
                 .build();
 
-            Actions.runBlocking(
-                new SequentialAction(
-                    //clawLeft.action(0),
-                    claw.action(0),
-                    actionWait,
-                    actionWait,
-                    claw.action(1),
-                    actionWait,
-                    actionWait,
-                    claw.action(0),
-                    actionWait,
-                    actionWait
+            Actions.runBlocking(actionTest
+//                new SequentialAction(
+//                    //clawLeft.action(0),
+//                    claw.action(0),
+//                    actionWait,
+//                    actionWait,
+//                    claw.action(1),
+//                    actionWait,
+//                    actionWait,
+//                    claw.action(0),
+//                    actionWait,
+//                    actionWait
 
 //                    protoSlideTheta.action( -1000, 0.4),
 //                    protoLinearSlide.action(-1300, 0.3),
@@ -97,7 +110,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
 //                    protoSlideTheta.action ( 0, 0.4),
 //                    protoLinearSlide.action(0, 0.3),
 //                    actionEnd
-                )
+//                )
             );
 
 

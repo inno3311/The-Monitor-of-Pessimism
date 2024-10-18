@@ -31,10 +31,7 @@ public final class PushYellows extends LinearOpMode
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class))
         {
             MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
-            int a = 0;
-            int b = -35;
-            int x = 47;
-            int y = -53;
+
             waitForStart();
 
             TrajectoryActionBuilder yellow_run = drive.actionBuilder(beginPose)
@@ -64,37 +61,37 @@ public final class PushYellows extends LinearOpMode
                     .splineToConstantHeading(new Vector2d(-24, -6), Math.toRadians(0));
 
 
-            TrajectoryActionBuilder red_run = drive.actionBuilder(beginPose)
-                    .splineToConstantHeading(new Vector2d(a, b), Math.toRadians(90))
-                    .waitSeconds(1) //space for program to hook specimen on bar
-                    .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
-                    .splineToSplineHeading(new Pose2d(42, -10, Math.toRadians(270)), Math.toRadians(360))
-                    .splineToConstantHeading(new Vector2d(46, -20), Math.toRadians(270))
-                    .splineToConstantHeading(new Vector2d(x, y), Math.toRadians(270))
-                    .waitSeconds(1) //space for program that obtains specimen
-                    .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
-                    .splineToSplineHeading(new Pose2d(a+1, b, Math.toRadians(90)), Math.toRadians(90)) //end of first lap
-
-                    .waitSeconds(1) //space for program to hook specimen on bar
-                    .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
-                    .splineToSplineHeading(new Pose2d(54, -10, Math.toRadians(270)), Math.toRadians(360))
-                    .splineToConstantHeading(new Vector2d(56, -20), Math.toRadians(270))
-                    .splineToConstantHeading(new Vector2d(x, y), Math.toRadians(270))
-                    .waitSeconds(1) //space for program that obtains specimen
-                    .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
-                    .splineToSplineHeading(new Pose2d(a+2, b, Math.toRadians(90)), Math.toRadians(90)) //end of second lap
-
-                    .waitSeconds(1) //space for program to hook specimen on bar
-                    .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
-                    .splineToSplineHeading(new Pose2d(58, -10, Math.toRadians(270)), Math.toRadians(360))
-                    .splineToConstantHeading(new Vector2d(61, -20), Math.toRadians(270))
-                    .splineToConstantHeading(new Vector2d(61, y), Math.toRadians(270)) //this line may not be necessary if robot can catch the sample on its side
-                    .splineToConstantHeading(new Vector2d(x,y), Math.toRadians(180))
-                    .waitSeconds(1) //space for program that obtains specimen
-                    .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
-                    .splineToSplineHeading(new Pose2d(a+2, b, Math.toRadians(90)), Math.toRadians(90)) //end of second lap
-                    .waitSeconds(1) //space for program to hook specimen on bar
-                    .splineToConstantHeading(new Vector2d(53, -58), Math.toRadians(270)); //parking
+//            TrajectoryActionBuilder red_run = drive.actionBuilder(beginPose)
+//                    .splineToConstantHeading(new Vector2d(a, b), Math.toRadians(90))
+//                    .waitSeconds(1) //space for program to hook specimen on bar
+//                    .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
+//                    .splineToSplineHeading(new Pose2d(42, -10, Math.toRadians(270)), Math.toRadians(360))
+//                    .splineToConstantHeading(new Vector2d(46, -20), Math.toRadians(270))
+//                    .splineToConstantHeading(new Vector2d(x, y), Math.toRadians(270))
+//                    .waitSeconds(1) //space for program that obtains specimen
+//                    .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
+//                    .splineToSplineHeading(new Pose2d(a+1, b, Math.toRadians(90)), Math.toRadians(90)) //end of first lap
+//
+//                    .waitSeconds(1) //space for program to hook specimen on bar
+//                    .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
+//                    .splineToSplineHeading(new Pose2d(54, -10, Math.toRadians(270)), Math.toRadians(360))
+//                    .splineToConstantHeading(new Vector2d(56, -20), Math.toRadians(270))
+//                    .splineToConstantHeading(new Vector2d(x, y), Math.toRadians(270))
+//                    .waitSeconds(1) //space for program that obtains specimen
+//                    .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
+//                    .splineToSplineHeading(new Pose2d(a+2, b, Math.toRadians(90)), Math.toRadians(90)) //end of second lap
+//
+//                    .waitSeconds(1) //space for program to hook specimen on bar
+//                    .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
+//                    .splineToSplineHeading(new Pose2d(58, -10, Math.toRadians(270)), Math.toRadians(360))
+//                    .splineToConstantHeading(new Vector2d(61, -20), Math.toRadians(270))
+//                    .splineToConstantHeading(new Vector2d(61, y), Math.toRadians(270)) //this line may not be necessary if robot can catch the sample on its side
+//                    .splineToConstantHeading(new Vector2d(x,y), Math.toRadians(180))
+//                    .waitSeconds(1) //space for program that obtains specimen
+//                    .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
+//                    .splineToSplineHeading(new Pose2d(a+2, b, Math.toRadians(90)), Math.toRadians(90)) //end of second lap
+//                    .waitSeconds(1) //space for program to hook specimen on bar
+//                    .splineToConstantHeading(new Vector2d(53, -58), Math.toRadians(270)); //parking
 //
             TrajectoryActionBuilder trajectoryActionBuilder = drive.actionBuilder(beginPose)
                 .waitSeconds(2);
