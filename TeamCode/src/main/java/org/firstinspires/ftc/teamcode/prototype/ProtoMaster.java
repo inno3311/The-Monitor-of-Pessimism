@@ -24,11 +24,9 @@ public class ProtoMaster extends LinearOpMode
     // Accessories
     ProtoLinearSlide linearSlide;
     ProtoSlideTheta slideTheta;
-    ProtoClawWrist clawWrist;
-
+    ProtoHang hang;
+    ProtoWrist clawWrist;
     ProtoClaw claw;
-
-    private VisionPortal visionPortal;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -39,40 +37,54 @@ public class ProtoMaster extends LinearOpMode
         centricDrive = new CentricDrive(mechanicalDriveBase, telemetry);
         linearSlide = new ProtoLinearSlide(this);
         slideTheta = new ProtoSlideTheta(this);
-        clawWrist = new ProtoClawWrist(this);
+
+        hang = new ProtoHang(this);
+        clawWrist = new ProtoWrist(this);
         claw = new ProtoClaw(this);
-
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-
-        // Set the camera (webcam vs. built-in RC phone camera).
-        if (USE_WEBCAM) {
-            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        } else {
-            builder.setCamera(BuiltinCameraDirection.BACK);
-        }
-
 
         waitForStart();
 
         while (opModeIsActive())
         {
-
-
             //        centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2));
 
             mechanicalDriveBase.gamepadController(gamepad1);
 
-            linearSlide.analogControl(0.5, gamepad2.left_stick_y, false);
-
+            if (gamepad2.dpad_up)
+            {
+                linearSlide.encoderPresets(ProtoLinearSlide.Presets.TOP_CHAMBER);
+                slideTheta.encoderPresets(ProtoSlideTheta.Presets.TOP_CHAMBER);
+            }
+            else if (gamepad2.dpad_down)
+            {
+                linearSlide.encoderPresets(ProtoLinearSlide.Presets.PICKUP_FLOOR);
+                slideTheta.encoderPresets(ProtoSlideTheta.Presets.PICKUP_FLOOR);
+            }
+            else if (gamepad2.dpad_left)
+            {
+                linearSlide.encoderPresets(ProtoLinearSlide.Presets.TOP_BUCKET);
+                slideTheta.encoderPresets(ProtoSlideTheta.Presets.TOP_BUCKET);
+            }
+            else if (gamepad2.dpad_right)
+            {
+                linearSlide.encoderPresets(ProtoLinearSlide.Presets.BOTTOM_BUCKET);
+                slideTheta.encoderPresets(ProtoSlideTheta.Presets.BOTTOM_BUCKET);
+            }
+            else
+            {
+            linearSlide.analogControl(0.5, gamepad2.left_stick_y, true);
             slideTheta.analogControl(1, gamepad2.right_stick_y, false);
+            }
+
+            hang.simpleDrive(1, gamepad2.y, gamepad2.a);
 
             if (gamepad2.right_bumper)
             {
-                claw.driveServo(0.5);
+                claw.driveServo(0);
             }
             else if (gamepad2.right_trigger > 0.2)
             {
-                claw.driveServo(0);
+                claw.driveServo(1);
             }
 
             if (gamepad2.left_bumper)
@@ -84,9 +96,9 @@ public class ProtoMaster extends LinearOpMode
                 clawWrist.driveServo(0.3);
             }
 
-
             linearSlide.telemetry();
             slideTheta.telemetry();
+            hang.telemetry();
             telemetry.update();
         }
 
