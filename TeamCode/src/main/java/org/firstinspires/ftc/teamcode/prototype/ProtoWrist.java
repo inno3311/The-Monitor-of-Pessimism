@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.controller.ServoControl;
 
 public class ProtoWrist extends ServoControl
 {
-    
+
     protected ProtoWrist(LinearOpMode opMode)
     {
         super("wrist", 0,0.5, opMode);
