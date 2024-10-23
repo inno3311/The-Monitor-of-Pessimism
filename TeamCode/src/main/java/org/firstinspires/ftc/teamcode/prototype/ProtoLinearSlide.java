@@ -6,9 +6,10 @@ import org.firstinspires.ftc.teamcode.controller.MotorControl;
 
 public class ProtoLinearSlide extends MotorControl
 {
+
     public ProtoLinearSlide(LinearOpMode opMode)
     {
-        super("linearSlide", false, true, opMode);
+        super("linearSlide", true, true, opMode);
     }
 
     @Override
@@ -22,8 +23,46 @@ public class ProtoLinearSlide extends MotorControl
         return super.action(target, speed);
     }
 
+    public enum Presets
+    {
+        TOP_CHAMBER,
+        BOTTOM_CHAMBER,
+        TOP_BUCKET,
+        BOTTOM_BUCKET,
+        PICKUP_FLOOR,
+        PICKUP_WALL
+    }
+
+    public void encoderPresets(Presets preset)
+    {
+        switch (preset)
+        {
+            case TOP_CHAMBER:
+                super.encoderControl(-920,1);
+                break;
+            case BOTTOM_CHAMBER:
+                super.encoderControl(-375,1);
+                break;
+            case TOP_BUCKET:
+                super.encoderControl(-2270,1);
+                break;
+            case BOTTOM_BUCKET:
+                super.encoderControl(-1 * 920,1);
+                break;
+            case PICKUP_FLOOR:
+                super.encoderControl(0,1);
+                break;
+            case PICKUP_WALL:
+                super.encoderControl(1,1);
+                break;
+            default:
+                break;
+        }
+    }
+
     @Override
-    public void telemetry() {
+    protected void telemetry()
+    {
         super.telemetry();
     }
 }
