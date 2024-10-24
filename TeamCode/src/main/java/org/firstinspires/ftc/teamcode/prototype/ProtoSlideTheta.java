@@ -12,9 +12,9 @@ public class ProtoSlideTheta extends MotorControl
     }
 
     @Override
-    protected void analogControl(double speedLimit, double input, boolean advanceBreak)
+    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode)
     {
-        super.analogControl(speedLimit, input, advanceBreak);
+        super.analogControl(speedLimit, input, advanceBreak, slowMode);
     }
 
     public enum Presets
@@ -32,16 +32,16 @@ public class ProtoSlideTheta extends MotorControl
         switch (preset)
         {
             case TOP_CHAMBER:
-                super.encoderControl(-1165,1);
+                super.encoderControl(-1165,0.5);
                 break;
             case BOTTOM_CHAMBER:
-                super.encoderControl(-525,1);
+                super.encoderControl(-525,0.5);
                 break;
             case TOP_BUCKET:
-                super.encoderControl(-2050,1);
+                super.encoderControl(-2050,0.5);
                 break;
             case BOTTOM_BUCKET:
-                super.encoderControl(-2030,1);
+                super.encoderControl(-2030,0.5);
                 break;
             case PICKUP_FLOOR:
                 super.encoderControl(0,1);

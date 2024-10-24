@@ -13,9 +13,9 @@ public class ProtoLinearSlide extends MotorControl
     }
 
     @Override
-    protected void analogControl(double speedLimit, double input, boolean advanceBreak)
+    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode, int lowerBound, int upperBound)
     {
-        super.analogControl(speedLimit, input, advanceBreak);
+        super.analogControl(speedLimit, input, advanceBreak, slowMode, lowerBound, upperBound);
     }
 
     public enum Presets
@@ -39,7 +39,7 @@ public class ProtoLinearSlide extends MotorControl
                 super.encoderControl(-375,1);
                 break;
             case TOP_BUCKET:
-                super.encoderControl(-2270,1);
+                super.encoderControl(-2150,1);
                 break;
             case BOTTOM_BUCKET:
                 super.encoderControl(-1 * 920,1);

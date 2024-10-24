@@ -69,8 +69,8 @@ public class ProtoMaster extends LinearOpMode
             }
             else
             {
-            linearSlide.analogControl(0.5, gamepad2.left_stick_y, true);
-            slideTheta.analogControl(1, gamepad2.right_stick_y, false);
+                linearSlide.analogControl(0.75, gamepad2.left_stick_y, true,false, 0,-2270);
+                slideTheta.analogControl(1, gamepad2.right_stick_y, true, false);
             }
 
             hang.simpleDrive(1, gamepad2.y, gamepad2.a);
