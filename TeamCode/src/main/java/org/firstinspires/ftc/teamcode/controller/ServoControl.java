@@ -77,14 +77,14 @@ public class ServoControl
     {
         return new Action()
         {
-            private boolean initialized = false;
+            //private boolean initialized = false;
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket)
             {
-                if (!initialized)
+                //if (!initialized)
                 {
                     driveServo(target);
-                    initialized = true;
+                    //initialized = true;
                 }
 
                 return false;

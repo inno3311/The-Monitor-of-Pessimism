@@ -37,7 +37,7 @@ public class DumbyOpMode extends LinearOpMode
                 linearSlide.encoderControl(target,0.1);
             }
 
-            linearSlide.telemetry();
+//            linearSlide.telemetry();
             telemetry.addData("Target", target);
             telemetry.update();
         }

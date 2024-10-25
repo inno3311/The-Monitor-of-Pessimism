@@ -2,14 +2,12 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.teamcode.prototype.ProtoClaw;
-import org.firstinspires.ftc.teamcode.prototype.ProtoClawWrist;
+import org.firstinspires.ftc.teamcode.prototype.ProtoWrist;
 import org.firstinspires.ftc.teamcode.prototype.ProtoLinearSlide;
 import org.firstinspires.ftc.teamcode.prototype.ProtoSlideTheta;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
@@ -23,7 +21,7 @@ public final class Redrun extends LinearOpMode {
     ProtoSlideTheta protoSlideTheta;
     ProtoLinearSlide protoLinearSlide;
 
-    ProtoClawWrist clawWrist;
+    ProtoWrist clawWrist;
     //ProtoClawLeft clawLeft;
     ProtoClaw claw;
 
@@ -33,7 +31,7 @@ public final class Redrun extends LinearOpMode {
 
         protoLinearSlide = new ProtoLinearSlide(this);
         protoSlideTheta = new ProtoSlideTheta(this);
-        clawWrist = new ProtoClawWrist(this);
+        clawWrist = new ProtoWrist(this);
         //clawLeft = new ProtoClawLeft(this);
         claw = new ProtoClaw(this);
 

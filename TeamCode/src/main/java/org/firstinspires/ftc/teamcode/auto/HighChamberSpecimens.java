@@ -9,16 +9,14 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.firstinspires.ftc.teamcode.prototype.ProtoClawLeft;
 import org.firstinspires.ftc.teamcode.prototype.ProtoClaw;
-import org.firstinspires.ftc.teamcode.prototype.ProtoClawWrist;
+import org.firstinspires.ftc.teamcode.prototype.ProtoWrist;
 import org.firstinspires.ftc.teamcode.prototype.ProtoLinearSlide;
 import org.firstinspires.ftc.teamcode.prototype.ProtoSlideTheta;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 
-@Autonomous(name="SpecimenRun", group="Linear OpMode")
+@Autonomous(name="SpecimenRun2", group="Linear OpMode")
 public final class HighChamberSpecimens extends LinearOpMode {
 
 
@@ -26,7 +24,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
     ProtoSlideTheta protoSlideTheta;
     ProtoLinearSlide protoLinearSlide;
 
-    ProtoClawWrist clawWrist;
+    ProtoWrist clawWrist;
     //ProtoClawLeft clawLeft;
     ProtoClaw claw;
 
@@ -36,7 +34,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
 
         protoLinearSlide = new ProtoLinearSlide(this);
         protoSlideTheta = new ProtoSlideTheta(this);
-        clawWrist = new ProtoClawWrist(this);
+        clawWrist = new ProtoWrist(this);
         //clawLeft = new ProtoClawLeft(this);
         claw = new ProtoClaw(this);
 
@@ -79,6 +77,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 .strafeTo(new Vector2d(48,-60));
 
 
+
             Action actionTest = trajectoryActionBuilderMezTest
                 .build();
 
@@ -91,45 +90,72 @@ public final class HighChamberSpecimens extends LinearOpMode {
             Action actionWait = trajectoryActionBuilderWait
                 .build();
 
-            Actions.runBlocking(actionTest
-//                new SequentialAction(
-//                    //clawLeft.action(0),
-//                    claw.action(0),
-//                    actionWait,
-//                    actionWait,
-//                    claw.action(1),
-//                    actionWait,
-//                    actionWait,
-//                    claw.action(0),
-//                    actionWait,
-//                    actionWait
-
-//                    protoSlideTheta.action( -1000, 0.4),
-//                    protoLinearSlide.action(-1300, 0.3),
-//                    new ParallelAction(actionDriveToBar,claw.action(0)),
-//                    protoSlideTheta.action ( 0, 0.4),
-//                    protoLinearSlide.action(0, 0.3),
-//                    actionEnd
-//                )
-            );
-
-
+//            Actions.runBlocking(actionTest
+////                new SequentialAction(
+////                    //clawLeft.action(0),
+////                    claw.action(0),
+////                    actionWait,
+////                    actionWait,
+////                    claw.action(1),
+////                    actionWait,
+////                    actionWait,
+////                    claw.action(0),
+////                    actionWait,
+////                    actionWait
+//
+////                    protoSlideTheta.action( -1000, 0.4),
+////                    protoLinearSlide.action(-1300, 0.3),
+////                    new ParallelAction(actionDriveToBar,claw.action(0)),
+////                    protoSlideTheta.action ( 0, 0.4),
+////                    protoLinearSlide.action(0, 0.3),
+////                    actionEnd
+////                )
+//            );
 
 
+            //Mesloh attempt to use afterDisp to hang a specs.
+            TrajectoryActionBuilder trajectoryActionBuilderMez2= drive.actionBuilder(beginPose)
+
+                .afterTime(0,claw.action(0))
+                .afterTime(0, protoSlideTheta.action( -1165, 0.5))
+                .afterTime(0, protoLinearSlide.action(-1000, 0.5))
+                .waitSeconds(3)
+                .splineToConstantHeading(new Vector2d(0, -32), Math.toRadians(90))
+                .waitSeconds(1)
+                .splineToConstantHeading(new Vector2d(0, -50), Math.toRadians(90))
+                .afterTime(0, protoSlideTheta.action( -800, 1))
+                .setReversed(true)
+                .afterTime(0,claw.action(1))
+                .afterTime(0, protoSlideTheta.action( 0, 0.5))
+                .afterTime(0, protoLinearSlide.action(0, 0.5))
+                .splineToConstantHeading(new Vector2d(40, -50), Math.toRadians(90))
+                .waitSeconds(3);
+//                .strafeTo(new Vector2d(0,-30))  //drive to chamber
+//                .strafeTo(new Vector2d(0,-45))  //back up from chamber
+//                .strafeToLinearHeading(new Vector2d(24, -34), Math.toRadians(0))  // start drive to samples
+//                .splineToConstantHeading(new Vector2d(40,-24),Math.toRadians(0))
+//                .setTangent(0)
+//                .turnTo(Math.toRadians(270))
+//                .strafeTo(new Vector2d(48,-60));
+
+            Action actionMez2 = trajectoryActionBuilderMez2
+                .build();
+
+            Actions.runBlocking(actionMez2);
 
 //            Actions.runBlocking(
-//                new SequentialAction(clawLeft.action(0),
-//                    clawRight.action(0),
-//                    protoSlideTheta.action( -1000, 0.4),
-//                    protoLinearSlide.action(-1500, 0.3),
+//                new SequentialAction(claw.action(0),
+//                    protoSlideTheta.action( -1165, 0.5),
+//                    protoLinearSlide.action(-920, 0.5),
 //                    new SequentialAction(
-//                        new ParallelAction(clawLeft.action(0),
-//                            clawRight.action(0),actionDriveToBar),
-//                            protoSlideTheta.action( 0, 0.4),
-//                            protoLinearSlide.action(0, 0.3)),
-//                    actionEnd
+//                        new ParallelAction(claw.action(0),
+//                            claw.action(0),actionDriveToBar),
+//                            protoSlideTheta.action( -950, 0.4),
+////                            protoLinearSlide.action(0, 0.3)),
+//                    actionWait,protoSlideTheta.action( -800, 0.5),
+//                        actionWait,claw.action(1)
 //                )
-//            );
+//            ));
 
 
         }  else {

@@ -78,11 +78,11 @@ public class ProtoMaster extends LinearOpMode
 
             hang.simpleDrive(1, gamepad2.y, gamepad2.a);
 
-            if (gamepad2.right_bumper)
+            if (gamepad2.right_bumper)   //close
             {
                 claw.driveServo(0);
             }
-            else if (gamepad2.right_trigger > 0.2)
+            else if (gamepad2.right_trigger > 0.2) //open
             {
                 claw.driveServo(1);
             }
