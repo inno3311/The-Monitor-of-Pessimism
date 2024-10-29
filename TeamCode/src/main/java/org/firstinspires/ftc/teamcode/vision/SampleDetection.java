@@ -139,6 +139,7 @@ public class SampleDetection extends OpenCvPipeline
          Imgproc.circle(input, pixel_camera_location, i*5, new Scalar(0, 255, 0), 1);
          Imgproc.circle(input, pixel_camera_location, 1, new Scalar(0, 255, 0), 2);
          telemetry.addData("i", i);
+         telemetry.addData("rotation", minRect[i].angle);
          //telemetry.addData("object x", object_x);
          //telemetry.addData("object y", object_y);
          double angle = Math.toRadians(angle_difference + y_degrees_per_pixel * (y_resolution - pixel_camera_location.y));
@@ -146,8 +147,8 @@ public class SampleDetection extends OpenCvPipeline
          double y_distance = camera_height * Math.tan(angle);
 
          //telemetry.addData("min_ellipse", minEllipse[i].center);
-         telemetry.addData("y_distance", y_distance);
-         telemetry.addData("calculated size", calculate_bounding_box_area(rectPoints));
+         //telemetry.addData("y_distance", y_distance);
+         //telemetry.addData("calculated size", calculate_bounding_box_area(rectPoints));
          //telemetry.addData("contour size", Imgproc.contourArea(contours.get(i)));
 
          for (int j = 0; j < 4; j++)
@@ -158,7 +159,7 @@ public class SampleDetection extends OpenCvPipeline
          double x_angle = (x_degrees_per_pixel*object_x)-center_line;
          double x_distance = Math.tan(Math.toRadians(x_angle))*y_distance+camera_x_offset;
          //telemetry.addData("x_angle", x_angle);
-         telemetry.addData("x_distance", x_distance);
+         //telemetry.addData("x_distance", x_distance);
          //telemetry.addData(" ", " ");
          this.x_distance = x_distance;
          this.z_distance = y_distance-camera_z_offset;
@@ -170,8 +171,9 @@ public class SampleDetection extends OpenCvPipeline
       return input;
    }
 
-   public List<MatOfPoint> contours()
+   public double[][] object_points()
    {
+      double[][] object_points = {};
       for (int i = 0; i < contours.size(); i++)
       {
          telemetry.addData("index", i);
@@ -185,19 +187,65 @@ public class SampleDetection extends OpenCvPipeline
          double x_distance = Math.tan(Math.toRadians(x_angle))*z_distance+camera_x_offset;
          telemetry.addData("Position in camera", position_in_camera);
          telemetry.addData("X Distance", x_distance);
-         telemetry.addData("Y Distance", z_distance);
+         telemetry.addData("Y Distance", y_distance);
+         telemetry.addData("Z Distance", z_distance);
          telemetry.addData(" ", " ");
+         //object_points[i][0] = x_distance;
+         //object_points[i][1] = y_distance;
+         //object_points[i][2] = z_distance;
       }
-
-      return contours;
+      return object_points;
    }
 
-    public double getX()
-    {
-        return x_distance;
-    }
-    public double getZ() {return z_distance;}
-    public double getY() {return y_distance;}
+   /*
+   public double[] find_nearest_object(double[][] object_points)
+   {
+      int nearest_object_index = 0;
+      for (int point_index = 0; point_index < object_points.length; point_index++)
+      {
+         if(object_points[point_index][1] >= object_points[nearest_object_index][2])
+         {
+            continue;
+         }
+         nearest_object_index = point_index;
+      }
+      return object_points[nearest_object_index];
+   }
+*/
 
+   public double[] get_nearest_object()
+   {
+      double[][] object_points = {};
+      for (int i = 0; i < contours.size(); i++)
+      {
+         telemetry.addData("index", i);
+         Point position_in_camera = minEllipse[i].center;
+         double position_in_camera_x = position_in_camera.x;
+         double position_in_camera_y = y_resolution - position_in_camera.y;
+         double angle = Math.toRadians(angle_difference + y_degrees_per_pixel * (y_resolution - position_in_camera.y));
+         double z_distance = camera_height * Math.tan(angle);
+         double center_line = (x_degrees_per_pixel * x_resolution) / 2;
+         double x_angle = (x_degrees_per_pixel * position_in_camera_x) - center_line;
+         double x_distance = Math.tan(Math.toRadians(x_angle)) * z_distance + camera_x_offset;
+         telemetry.addData("Position in camera", position_in_camera);
+         telemetry.addData("X Distance", x_distance);
+         telemetry.addData("Y Distance", y_distance);
+         telemetry.addData("Z Distance", z_distance);
+         telemetry.addData(" ", " ");
+         object_points[i][0] = x_distance;
+         object_points[i][1] = y_distance;
+         object_points[i][2] = z_distance;
+      }
+      int nearest_object_index = 0;
+      for (int point_index = 0; point_index < object_points.length; point_index++)
+      {
+         if(object_points[point_index][1] >= object_points[nearest_object_index][2])
+         {
+            continue;
+         }
+         nearest_object_index = point_index;
+      }
+      return object_points[nearest_object_index];
+   }
 // look into errosion to try and remove overlapping contour lines.
 }

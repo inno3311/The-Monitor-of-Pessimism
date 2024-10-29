@@ -10,9 +10,12 @@ import org.firstinspires.ftc.teamcode.controller.MechanicalDriveBase;
 import org.firstinspires.ftc.teamcode.prototype.ProtoLinearSlide;
 import org.firstinspires.ftc.teamcode.prototype.ProtoSlideTheta;
 import org.firstinspires.ftc.teamcode.vision.SampleDetection;
+import org.opencv.core.MatOfPoint;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+import java.util.ArrayList;
+import java.util.List;
 
 @Autonomous(name = "Failing")
 public class DumbyTestProgram extends LinearOpMode
@@ -39,22 +42,31 @@ public class DumbyTestProgram extends LinearOpMode
 
         while (opModeIsActive())
         {
-            mechanicalDriveBase.gamepadController(gamepad1);
-
-            if (gamepad1.a)
+            if (1==1)
             {
-                telemetry.addData("A HIT", "");
-                telemetry.addData("Values, ","z is: " + sampleDetection.getZ() + "\ny is: " + sampleDetection.getY() + "\nx is: " + sampleDetection.getX());
-                sampleDetection.contours();
-                if (sampleDetection.getZ() < 110 && sampleDetection.getZ() > 48)
+                double[][] object_locations = sampleDetection.object_points();
+                //telemetry.addData("object points", object_locations);
+                /*double[] nearest_object = sampleDetection.get_nearest_object();
+                telemetry.addData("nearest object", nearest_object);
+                double object_x = nearest_object[0];
+                double object_y = nearest_object[1];
+                double object_z = nearest_object[2];
+                telemetry.addData("nearest X", object_x);
+                telemetry.addData("nearest Y", object_y);
+                telemetry.addData("nearest Z", object_z);
+                if (object_z < 110 && object_z > 48)
                 {
                     telemetry.addData("z is > 48", "");
-                    linearSlide.encoderControl((int) (-1 * motorTicksConversion.linearSlideInCM() * deltaChange.armLength(sampleDetection.getZ(), 1) - 48), 0.7);
+                    linearSlide.encoderControl((int) Math.round((-1 * motorTicksConversion.linearSlideInCM() * deltaChange.armLength(object_z, 1) - 48)), 0.7);
                 }
             }
             if (gamepad1.y)
             {
-                slideTheta.encoderControl((int) (motorTicksConversion.ThetaInDegrees() * (Math.acos(sampleDetection.getZ()/deltaChange.armLength(sampleDetection.getZ(), 1)))),0.3);
+                double[] nearest_object = sampleDetection.get_nearest_object();
+                telemetry.addData("nearest object", nearest_object);
+                double object_z = nearest_object[2];
+                slideTheta.encoderControl((int) Math.round((motorTicksConversion.ThetaInDegrees() * (Math.acos(object_z/deltaChange.armLength(object_z, 1))))),0.3);
+*/
             }
             telemetry.update();
         }
