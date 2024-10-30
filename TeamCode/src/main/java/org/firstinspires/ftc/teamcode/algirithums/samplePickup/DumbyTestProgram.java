@@ -14,6 +14,8 @@ import org.opencv.core.MatOfPoint;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,16 +46,21 @@ public class DumbyTestProgram extends LinearOpMode
         {
             if (1==1)
             {
-                double[][] object_locations = sampleDetection.object_points();
-                //telemetry.addData("object points", object_locations);
-                /*double[] nearest_object = sampleDetection.get_nearest_object();
+                ArrayList<ArrayList<Double>> object_distances = sampleDetection.object_distances();
+                for (int i = 0; i < object_distances.size(); i++)
+                {
+                    telemetry.addData("object points", object_distances.get(i));
+                }
+                /*
+                double[] nearest_object = sampleDetection.get_nearest_object();
                 telemetry.addData("nearest object", nearest_object);
                 double object_x = nearest_object[0];
                 double object_y = nearest_object[1];
                 double object_z = nearest_object[2];
-                telemetry.addData("nearest X", object_x);
-                telemetry.addData("nearest Y", object_y);
-                telemetry.addData("nearest Z", object_z);
+                telemetry.addData("nearest X", Math.round(object_x));
+                telemetry.addData("nearest Y", Math.round(object_y));
+                telemetry.addData("nearest Z", Math.round(object_z));
+
                 if (object_z < 110 && object_z > 48)
                 {
                     telemetry.addData("z is > 48", "");
