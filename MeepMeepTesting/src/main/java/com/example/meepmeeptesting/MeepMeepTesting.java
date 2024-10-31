@@ -15,7 +15,7 @@ public class MeepMeepTesting {
    public static void main(String[] args) {
       MeepMeep meepMeep = new MeepMeep(800);
               int a = 0;
-              int b = -48;
+              int b = -32;
               int x = 47;
               int y = -53;
       RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -39,6 +39,11 @@ public class MeepMeepTesting {
               .build();
 
        RoadRunnerBotEntity myBotRedHang = new DefaultBotBuilder(meepMeep)
+           // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+           .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+           .build();
+
+       RoadRunnerBotEntity myRedHang = new DefaultBotBuilder(meepMeep)
            // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
            .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
            .build();
@@ -95,8 +100,22 @@ public class MeepMeepTesting {
       myBotDaniel.runAction(myBotDaniel.getDrive().actionBuilder(new Pose2d(0,-55, Math.toRadians(90)))
               .splineToConstantHeading(new Vector2d(a, b), Math.toRadians(90))
               .waitSeconds(1) //space for program to hook specimen on bar
-              .splineToSplineHeading(new Pose2d(30, -35, Math.toRadians(180)), Math.toRadians(360))
-//              .splineToSplineHeading(new Pose2d(42, -10, Math.toRadians(270)), Math.toRadians(360))
+              .setReversed(true)
+              .splineToSplineHeading(new Pose2d(0, -50, Math.toRadians(90)), Math.toRadians(270))
+          .setTangent(Math.toRadians(360))
+          .setReversed(false)
+          .splineToSplineHeading(new Pose2d(30, -36, Math.toRadians(360)), Math.toRadians(360))
+          .setTangent(Math.toRadians(45))
+          .splineToSplineHeading(new Pose2d(32, -12,Math.toRadians(315)), Math.toRadians(45))
+          .splineToSplineHeading(new Pose2d( x, y, Math.toRadians(270)), Math.toRadians(270))
+//              .setTangent(Math.toRadians(360))
+//              .splineToSplineHeading(new Pose2d(30, -36, Math.toRadians(360)), Math.toRadians(360))
+//                  .setTangent(Math.toRadians(45))
+//                  .splineToSplineHeading(new Pose2d(38, -20,Math.toRadians(315)), Math.toRadians(45))
+//                  .splineToSplineHeading(new Pose2d( x, y, Math.toRadians(270)), Math.toRadians(270))
+//              .setReversed(true)
+//              .setTangent(Math.toRadians(90))
+//              .splineToSplineHeading(new Pose2d(42, -10, Math.toRadians(270)), Math.toRadians(90))
 //              .splineToConstantHeading(new Vector2d(46, -20), Math.toRadians(270))
 //              .splineToConstantHeading(new Vector2d(x, y), Math.toRadians(270))
 //              .waitSeconds(1) //space for program that obtains specimen
@@ -131,11 +150,14 @@ public class MeepMeepTesting {
 
            .strafeTo(new Vector2d(0,-30))  //drive to chamber
            .strafeTo(new Vector2d(0,-35))  //back up from chamber
-           .strafeToLinearHeading(new Vector2d(24, -34), Math.toRadians(0))  // start drive to samples
-           .splineToConstantHeading(new Vector2d(40,-24),Math.toRadians(0))
+           .strafeTo(new Vector2d(30,-35))  //back up from chamber
+
+           //.strafeToLinearHeading(new Vector2d(24, -34), Math.toRadians(0))  // start drive to samples
+           //.splineToConstantHeading(new Vector2d(40,-24),Math.toRadians(0))
+           //.strafeToLinearHeading(new Vector2d(40, -34), Math.toRadians(0))
            .setTangent(0)
            .turnTo(Math.toRadians(270))
-           .strafeTo(new Vector2d(48,-60))
+           //.strafeTo(new Vector2d(48,-60))
 
 
 
@@ -150,11 +172,24 @@ public class MeepMeepTesting {
            .build());
 
 
+       myBotRedHang.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(0,-55, Math.toRadians(90)))
+           .splineToConstantHeading(new Vector2d(0, -32), Math.toRadians(90))
+           .waitSeconds(1)
+           .setReversed(true)
+           .strafeTo(new Vector2d(0,-32))
+
+           .strafeTo(new Vector2d(30,-35))  //back up from chamber
+               .strafeTo(new Vector2d(34, -12))
+               .turnTo(Math.toRadians(270))
+               .strafeTo(new Vector2d(x,y))
+           .build());
+
+
 
       meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_LIGHT)
               .setDarkMode(true)
               .setBackgroundAlpha(0.95f)
-              .addEntity(myBotDaniel)
+              .addEntity(myBotRedHang)
               .start();
    }
 }

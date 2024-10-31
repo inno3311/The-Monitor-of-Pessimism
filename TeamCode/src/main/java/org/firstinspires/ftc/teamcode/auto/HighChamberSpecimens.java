@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -112,24 +113,63 @@ public final class HighChamberSpecimens extends LinearOpMode {
 ////                )
 //            );
 
-
+                int x = 44;
+                int y = -48;
             //Mesloh attempt to use afterDisp to hang a specs.
             TrajectoryActionBuilder trajectoryActionBuilderMez2= drive.actionBuilder(beginPose)
 
-                .afterTime(0,claw.action(0))
-                .afterTime(0, protoSlideTheta.action( -1165, 0.5))
-                .afterTime(0, protoLinearSlide.action(-1000, 0.5))
-                .waitSeconds(3)
-                .splineToConstantHeading(new Vector2d(0, -32), Math.toRadians(90))
-                .waitSeconds(1)
-                .splineToConstantHeading(new Vector2d(0, -50), Math.toRadians(90))
-                .afterTime(0, protoSlideTheta.action( -800, 1))
-                .setReversed(true)
                 .afterTime(0,claw.action(1))
+                .afterTime(0, protoSlideTheta.action( -1165, 0.5))
+                .afterTime(0, protoLinearSlide.action(-1100, 0.5))
+                .waitSeconds(3)
+//                .afterTime(0,claw.action(1))
+                .strafeTo(new Vector2d(0,-31)) //move to chamber
+                .afterTime(0,claw.action(1))
+                .waitSeconds(1)
+                .setReversed(true)
+                .strafeTo(new Vector2d(0,-50))  //back up from chamber
+                .afterTime(0, protoSlideTheta.action( -800, 1))
+                .afterTime(0, claw.action(0))
                 .afterTime(0, protoSlideTheta.action( 0, 0.5))
                 .afterTime(0, protoLinearSlide.action(0, 0.5))
-                .splineToConstantHeading(new Vector2d(40, -50), Math.toRadians(90))
-                .waitSeconds(3);
+                .setTangent(Math.toRadians(360))
+                .setReversed(false)
+                .strafeTo(new Vector2d(40,-35))
+                .strafeTo(new Vector2d(44, -12))
+                .turnTo(Math.toRadians(270))
+                .afterTime(0, protoSlideTheta.action( -300, 0.5))
+                .afterTime(0, protoLinearSlide.action( -300, 0.5))
+                .strafeTo(new Vector2d(54,-52),new TranslationalVelConstraint(10))
+
+                .afterTime(0,claw.action(1))
+                .waitSeconds(1)
+                .afterTime(0, protoSlideTheta.action( -1165, 0.5))
+                .afterTime(1, protoLinearSlide.action( -1100, 0.5))
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(x,y-6), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(4,-31, Math.toRadians(90)), Math.toRadians(90))
+                .waitSeconds(1)
+                ;
+
+
+//                .splineToSplineHeading(new Pose2d(30, -36, Math.toRadians(360)), Math.toRadians(360))
+//                .setTangent(Math.toRadians(45))
+//                .splineToSplineHeading(new Pose2d(x, -12,Math.toRadians(315)), Math.toRadians(45))
+//                .setTangent(Math.toRadians(270))
+//                .splineToSplineHeading(new Pose2d( 38, -40, Math.toRadians(270)), Math.toRadians(270))
+//                .waitSeconds(1)
+//                .splineToConstantHeading(new Vector2d(x, y),Math.toRadians(270),new TranslationalVelConstraint(10))
+//                .waitSeconds(3);
+
+
+
+
+
+
+
+
+                //.splineToConstantHeading(new Vector2d(40, -50), Math.toRadians(90))
+                //.waitSeconds(3);
 //                .strafeTo(new Vector2d(0,-30))  //drive to chamber
 //                .strafeTo(new Vector2d(0,-45))  //back up from chamber
 //                .strafeToLinearHeading(new Vector2d(24, -34), Math.toRadians(0))  // start drive to samples
