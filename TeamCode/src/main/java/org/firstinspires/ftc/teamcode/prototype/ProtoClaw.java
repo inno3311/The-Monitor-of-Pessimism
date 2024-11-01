@@ -13,7 +13,7 @@ public class ProtoClaw extends ServoControl
     }
 
     @Override
-    protected void driveServo(double target)
+    public void driveServo(double target)
     {
         super.driveServo(target);
     }

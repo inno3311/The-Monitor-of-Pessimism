@@ -173,16 +173,69 @@ public class MeepMeepTesting {
 
 
        myBotRedHang.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(0,-55, Math.toRadians(90)))
-           .splineToConstantHeading(new Vector2d(0, -32), Math.toRadians(90))
+//           .afterTime(0,claw.action(1)) //close claw
+//           .afterTime(0, protoSlideTheta.action( -1165, 0.5))
+//           .afterTime(0, protoLinearSlide.action(-1100, 0.5))
            .waitSeconds(1)
-           .setReversed(true)
-           .strafeTo(new Vector2d(0,-32))
-
-           .strafeTo(new Vector2d(30,-35))  //back up from chamber
-               .strafeTo(new Vector2d(34, -12))
-               .turnTo(Math.toRadians(270))
-               .strafeTo(new Vector2d(x,y))
+           .splineToConstantHeading(new Vector2d( 0,-29), Math.toRadians(90)) //move to chamber
+//           .afterTime(0, claw.action(0)) //begins when the action after it begins
+           .waitSeconds(.1)
+           .setTangent(Math.toRadians(360))
+           .splineToSplineHeading(new Pose2d(19, -30, Math.toRadians(180)), Math.toRadians(360))
+//           .afterTime(0, protoSlideTheta.action( 0, 0.5))
+//           .afterTime(0, protoLinearSlide.action(0, 0.5))
+           //.waitSeconds(.1)
+           .splineToSplineHeading(new Pose2d(36, -30, Math.toRadians(270)), Math.toRadians(360))//.setReversed(true)
+           .setTangent(Math.toRadians(90))
+           .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))//.setReversed(true)
+           .splineToConstantHeading(new Vector2d( 48, -10), Math.toRadians(90))
+//           .afterTime(0, protoSlideTheta.action( -300, .75))
+//           .afterTime(0, protoLinearSlide.action( -300, 0.75))
+           .waitSeconds(.1)
+           .setTangent(Math.toRadians(270))
+           .splineToConstantHeading(new Vector2d(46, -50), Math.toRadians(270), new TranslationalVelConstraint(10))
+//           .afterTime(0, claw.action(1))
+//           .afterTime(0, protoSlideTheta.action( -1165, 0.5))
+//                .afterTime(0, protoLinearSlide.action( -1100, 0.5))
+           .waitSeconds(.1)
+           .setTangent(Math.toRadians(45))
+//                .setReversed(true)
+//                .splineToSplineHeading(new Pose2d(0, -51, Math.toRadians(180)), Math.toRadians(180))
+           .splineToSplineHeading(new Pose2d(0,-29, Math.toRadians(90)), Math.toRadians(45)) //move to chamber
+//           .afterTime(0, claw.action(0))
+//           .afterTime(0, protoSlideTheta.action( 0, 0.5))
+//           .afterTime(0, protoLinearSlide.action(0, 0.5))
+           .waitSeconds(.1)
            .build());
+
+
+//
+//                       .afterTime(0,claw.action(1)) //close claw
+//           .afterTime(0, protoSlideTheta.action( -1165, 0.5))
+//           .afterTime(0, protoLinearSlide.action(-1100, 0.5))
+//           .waitSeconds(1)
+//           .splineToConstantHeading(new Vector2d( 0,-29), Math.toRadians(90)) //move to chamber
+//           .afterTime(0, claw.action(0)) //begins when the action after it begins
+//           .waitSeconds(.1)
+//           .setTangent(Math.toRadians(360))
+//           .splineToSplineHeading(new Pose2d(19, -30, Math.toRadians(180)), Math.toRadians(360))
+//           .afterTime(0, protoSlideTheta.action( 0, 0.5))
+//           .afterTime(0, protoLinearSlide.action(0, 0.5))
+//           .waitSeconds(.1)
+//           .splineToSplineHeading(new Pose2d(36, -30, Math.toRadians(270)), Math.toRadians(360))
+//           .setTangent(Math.toRadians(90))
+//           .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))
+//           .splineToConstantHeading(new Vector2d( 48, -8), Math.toRadians(90))
+//           .afterTime(0, protoSlideTheta.action( -300, .75))
+//           .afterTime(0, protoLinearSlide.action( -300, 0.75))
+//           .waitSeconds(.1)
+////                .splineToSplineHeading(new Pose2d(42, -35, Math.toRadians(360)), Math.toRadians(90))
+////                .splineToSplineHeading(new Pose2d(40, -12, Math.toRadians(315)), Math.toRadians(360)) //sample floor location
+////                .afterTime(0, protoSlideTheta.action( -300, .75))
+////                .afterTime(0, protoLinearSlide.action( -300, 0.75))
+////                .waitSeconds(.5)
+//           .setTangent(Math.toRadians(270))
+//           .splineToConstantHeading(new Vector2d(44, -52), Math.toRadians(270))
 
 
 

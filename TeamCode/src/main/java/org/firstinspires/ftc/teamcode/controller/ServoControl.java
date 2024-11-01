@@ -55,14 +55,14 @@ public class ServoControl
 
     protected void driveServo(double target)
     {
-        if (servo.getPosition() != target)
-        {
+//        if (servo.getPosition() != target)
+//        {
             servo.setPosition(target);
-        }
-        else
-        {
-            servo.setPosition(servo.getPosition());
-        }
+//        }
+//        else
+//        {
+//            servo.setPosition(servo.getPosition());
+//        }
     }
 
     protected void driveServo(double target, boolean argument)
