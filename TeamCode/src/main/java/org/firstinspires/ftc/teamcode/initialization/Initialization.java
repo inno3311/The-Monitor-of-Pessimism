@@ -1,17 +1,18 @@
 package org.firstinspires.ftc.teamcode.initialization;
 
 import com.qualcomm.robotcore.hardware.TouchSensor;
-import org.firstinspires.ftc.teamcode.prototype.ProtoLinearSlide;
-import org.firstinspires.ftc.teamcode.prototype.ProtoSlideTheta;
+
+import org.firstinspires.ftc.teamcode.prototype.Elbow;
+import org.firstinspires.ftc.teamcode.prototype.Slide;
 
 public class Initialization
 {
-    ProtoLinearSlide slide;
+    Slide slide;
     TouchSensor slideLimit;
-    ProtoSlideTheta theta;
+    Elbow theta;
     TouchSensor thetaLimit;
 
-    public Initialization(ProtoLinearSlide slide, TouchSensor slideLimit, ProtoSlideTheta theta, TouchSensor thetaLimit)
+    public Initialization(Slide slide, TouchSensor slideLimit, Elbow theta, TouchSensor thetaLimit)
     {
         this.slide = slide;
         this.slideLimit = slideLimit;
@@ -46,7 +47,7 @@ public class Initialization
 
     private void fitTheBox()
     {
-        theta.encoderPresets(ProtoSlideTheta.Presets.INITIALIZATION);
+        theta.encoderPresets(Elbow.Presets.INITIALIZATION);
     }
 
 }

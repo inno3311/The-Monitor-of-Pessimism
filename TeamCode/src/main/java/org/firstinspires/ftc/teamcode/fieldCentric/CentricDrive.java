@@ -1,17 +1,17 @@
 package org.firstinspires.ftc.teamcode.fieldCentric;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.controller.MechanicalDriveBase;
+import org.firstinspires.ftc.teamcode.controller.DriveController;
 
 public class CentricDrive
 {
     Telemetry telemetry;
-    MechanicalDriveBase mechanicalDriveBase;
+    DriveController driveController;
 
 
-    public CentricDrive(MechanicalDriveBase mechanicalDriveBase, Telemetry telemetry)
+    public CentricDrive(DriveController driveController, Telemetry telemetry)
     {
-        this.mechanicalDriveBase = mechanicalDriveBase;
+        this.driveController = driveController;
         this.telemetry = telemetry;
     }
 
@@ -19,7 +19,7 @@ public class CentricDrive
     {
         double drive_y = y * Math.cos(Math.toRadians(robot_heading)) + x * Math.sin(Math.toRadians(robot_heading));
         double drive_x = -y * Math.sin(Math.toRadians(robot_heading)) + x * Math.cos(Math.toRadians(robot_heading));
-        mechanicalDriveBase.driveMotors(drive_y, -turn, -drive_x,1);
+        driveController.driveMotors(drive_y, -turn, -drive_x,1);
         telemetry.update();
     }
 

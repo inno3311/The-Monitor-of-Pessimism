@@ -4,10 +4,10 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.controller.ServoParent;
 
-public class ProtoWrist extends ServoParent
+public class Wrist extends ServoParent
 {
 
-    public ProtoWrist(LinearOpMode opMode)
+    public Wrist(LinearOpMode opMode)
     {
         super("wrist", 0,0.5, opMode);
     }

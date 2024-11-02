@@ -4,14 +4,14 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.controller.MechanicalDriveBase;
+import org.firstinspires.ftc.teamcode.controller.DriveController;
 
 import java.util.Random;
 
 public class CentricDriveTheBetterVersion
 {
     Telemetry telemetry;
-    MechanicalDriveBase mechanicalDriveBase;
+    DriveController driveController;
     ElapsedTime time;
     Random random;
     private int variableOfGreatImportanceDoNotChangeRandomly = 0;
@@ -23,9 +23,9 @@ public class CentricDriveTheBetterVersion
     private double flag = 0;
 
 
-    public CentricDriveTheBetterVersion(MechanicalDriveBase mechanicalDriveBase, Telemetry telemetry, ElapsedTime time)
+    public CentricDriveTheBetterVersion(DriveController driveController, Telemetry telemetry, ElapsedTime time)
     {
-        this.mechanicalDriveBase = mechanicalDriveBase;
+        this.driveController = driveController;
         this.time = time;
         this.telemetry = telemetry;
         random = new Random();
@@ -39,7 +39,7 @@ public class CentricDriveTheBetterVersion
         robot_heading = robot_heading + offset;
         double drive_y = y * Math.cos(Math.toRadians(robot_heading)) + x * Math.sin(Math.toRadians(robot_heading));
         double drive_x = -y * Math.sin(Math.toRadians(robot_heading)) + x * Math.cos(Math.toRadians(robot_heading));
-        mechanicalDriveBase.driveMotors(drive_y, -turn, -drive_x,1);
+        driveController.driveMotors(drive_y, -turn, -drive_x,1);
         telemetry.update();
 
     }

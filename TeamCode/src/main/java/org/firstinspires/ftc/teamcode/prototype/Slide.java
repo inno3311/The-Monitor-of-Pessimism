@@ -6,23 +6,22 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.controller.MotorParent;
 
-public class ProtoSlideTheta extends MotorParent
+public class Slide extends MotorParent
 {
 
-    public ProtoSlideTheta(LinearOpMode opMode)
+    public Slide(LinearOpMode opMode)
     {
-        super("slideTheta", true, true, opMode);
+        super("linearSlide", true, true, opMode);
     }
 
     @Override
-    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode)
+    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode, int lowerBound, int upperBound)
     {
-        super.analogControl(speedLimit, input, advanceBreak, slowMode);
+        super.analogControl(speedLimit, input, advanceBreak, slowMode, lowerBound, upperBound);
     }
 
     @Override
-    public Action action(int target, double speed)
-    {
+    public Action action(int target, double speed) {
         return super.action(target, speed);
     }
 
@@ -39,8 +38,7 @@ public class ProtoSlideTheta extends MotorParent
         TOP_BUCKET,
         BOTTOM_BUCKET,
         PICKUP_FLOOR,
-        PICKUP_WALL,
-        INITIALIZATION
+        PICKUP_WALL
     }
 
     public void encoderPresets(Presets preset)
@@ -48,25 +46,23 @@ public class ProtoSlideTheta extends MotorParent
         switch (preset)
         {
             case TOP_CHAMBER:
-                super.encoderControl(-1165,0.5);
+                super.encoderControl(-920,1);
                 break;
             case BOTTOM_CHAMBER:
-                super.encoderControl(-525,0.5);
+                super.encoderControl(-375,1);
                 break;
             case TOP_BUCKET:
-                super.encoderControl(-2050,0.5);
+                super.encoderControl(-2150,1);
                 break;
             case BOTTOM_BUCKET:
-                super.encoderControl(-2030,0.5);
+                super.encoderControl(-1 * 920,1);
                 break;
             case PICKUP_FLOOR:
                 super.encoderControl(0,1);
                 break;
             case PICKUP_WALL:
-                super.encoderControl(10,1);
+                super.encoderControl(1,1);
                 break;
-            case INITIALIZATION:
-                super.encoderControl(-1175,1);
             default:
                 break;
         }

@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.controller;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 
-public class MechanicalDriveBase
+public class DriveController
 {
     public DcMotor lf;
     public DcMotor lb;
@@ -29,7 +28,7 @@ public class MechanicalDriveBase
     IMUControl imuControl;
 
 
-    public MechanicalDriveBase(HardwareMap hardwareMap, int driveDir, int strafeDir, int turnDir)
+    public DriveController(HardwareMap hardwareMap, int driveDir, int strafeDir, int turnDir)
     {
         this(hardwareMap);
 
@@ -39,11 +38,11 @@ public class MechanicalDriveBase
     }
 
     /**
-     * Constructor for MechanicalDriveBase from the hardware map
+     * Constructor for DriveController from the hardware map
      *
      * @param hardwareMap the hardware map
      */
-    public MechanicalDriveBase(HardwareMap hardwareMap)
+    public DriveController(HardwareMap hardwareMap)
     {
         lf = hardwareMap.get(DcMotor.class, "lf");
         lb = hardwareMap.get(DcMotor.class, "lb");

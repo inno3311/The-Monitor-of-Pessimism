@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.teamcode.auto;
 
-import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.prototype.ProtoClaw;
-import org.firstinspires.ftc.teamcode.prototype.ProtoWrist;
-import org.firstinspires.ftc.teamcode.prototype.ProtoLinearSlide;
-import org.firstinspires.ftc.teamcode.prototype.ProtoSlideTheta;
+import org.firstinspires.ftc.teamcode.prototype.Claw;
+import org.firstinspires.ftc.teamcode.prototype.Elbow;
+import org.firstinspires.ftc.teamcode.prototype.Wrist;
+import org.firstinspires.ftc.teamcode.prototype.Slide;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 
@@ -18,22 +17,22 @@ public final class Redrun extends LinearOpMode {
 
 
 
-    ProtoSlideTheta protoSlideTheta;
-    ProtoLinearSlide protoLinearSlide;
+    Elbow elbow;
+    Slide slide;
 
-    ProtoWrist clawWrist;
+    Wrist wrist;
     //ProtoClawLeft clawLeft;
-    ProtoClaw claw;
+    Claw claw;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
 
-        protoLinearSlide = new ProtoLinearSlide(this);
-        protoSlideTheta = new ProtoSlideTheta(this);
-        clawWrist = new ProtoWrist(this);
+        slide = new Slide(this);
+        elbow = new Elbow(this);
+        wrist = new Wrist(this);
         //clawLeft = new ProtoClawLeft(this);
-        claw = new ProtoClaw(this);
+        claw = new Claw(this);
 
         Pose2d beginPose = new Pose2d(0, -55, Math.toRadians(90));
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {

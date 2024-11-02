@@ -1,14 +1,11 @@
 package org.firstinspires.ftc.teamcode.outreach.Hippo;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.util.concurrent.TimeoutException;
-
 @TeleOp(name = "Hippo Outreach", group = "outreach")
-public class HippoCommand extends LinearOpMode
+public class HippoTeleOp extends LinearOpMode
 {
     DriveHippo drive;
     HippoTrigger hippoTrigger;

@@ -3,10 +3,10 @@ package org.firstinspires.ftc.teamcode.prototype;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.controller.MotorParent;
 
-public class ProtoHang extends MotorParent
+public class Hang extends MotorParent
 {
 
-    public ProtoHang(LinearOpMode opMode)
+    public Hang(LinearOpMode opMode)
     {
         super("hang", true, true, opMode);
     }

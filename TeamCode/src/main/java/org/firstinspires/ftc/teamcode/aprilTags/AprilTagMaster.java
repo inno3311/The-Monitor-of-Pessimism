@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.controller.MechanicalDriveBase;
+import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -37,21 +37,21 @@ public class AprilTagMaster
     private VisionPortal visionPortal;               // Used to manage the video source.
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
-    private MechanicalDriveBase mechanicalDriveBase;
+    private DriveController driveController;
     WebcamName webcamName;
     private double rangeError = 0 ;
     private double headingError = 0;
     private double yawError = 0;
 
-    public AprilTagMaster(MechanicalDriveBase mechanicalDriveBase, HardwareMap hardwareMap, AprilTagProcessor aprilTag)
+    public AprilTagMaster(DriveController driveController, HardwareMap hardwareMap, AprilTagProcessor aprilTag)
     {
-        this.mechanicalDriveBase = mechanicalDriveBase;
+        this.driveController = driveController;
         this.aprilTag = aprilTag;
     }
 
-    public AprilTagMaster(MechanicalDriveBase mechanicalDriveBase, HardwareMap hardwareMap)
+    public AprilTagMaster(DriveController driveController, HardwareMap hardwareMap)
     {
-        this.mechanicalDriveBase = mechanicalDriveBase;
+        this.driveController = driveController;
         initAprilTag(hardwareMap);
     }
 
@@ -119,7 +119,7 @@ public class AprilTagMaster
 //        telemetry.update();
 
         // Apply desired axes motions to the drivetrain.
-        mechanicalDriveBase.driveMotors(drive, -turn, strafe, 1);
+        driveController.driveMotors(drive, -turn, strafe, 1);
     }
 
     public void tagsTelemetry(Telemetry telemetry)

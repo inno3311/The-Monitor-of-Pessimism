@@ -6,14 +6,14 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
-import org.firstinspires.ftc.teamcode.controller.MechanicalDriveBase;
+import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.teamcode.fieldCentric.CentricDriveTheBetterVersion;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
 
 @TeleOp(name = "Centric Command", group = "FieldCentric")
 public class CentricCommandBetterVersion extends OpMode
 {
-    MechanicalDriveBase mechanicalDriveBase;
+    DriveController driveController;
     TurnToHeading turnToHeading;
     CentricDriveTheBetterVersion centricDriveTheBetterVersion;
     IMUControl imu;
@@ -21,10 +21,10 @@ public class CentricCommandBetterVersion extends OpMode
     @Override
     public void init()
     {
-        mechanicalDriveBase = new MechanicalDriveBase(hardwareMap);
+        driveController = new DriveController(hardwareMap);
         imu = new IMUControl(hardwareMap, telemetry);
-        turnToHeading = new TurnToHeading(telemetry, mechanicalDriveBase, imu);
-        centricDriveTheBetterVersion = new CentricDriveTheBetterVersion(mechanicalDriveBase, telemetry, new ElapsedTime());
+        turnToHeading = new TurnToHeading(telemetry, driveController, imu);
+        centricDriveTheBetterVersion = new CentricDriveTheBetterVersion(driveController, telemetry, new ElapsedTime());
     }
 
     @Override

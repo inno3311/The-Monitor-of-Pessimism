@@ -2,14 +2,6 @@ package org.firstinspires.ftc.teamcode.genericOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.TouchSensor;
-
-import org.firstinspires.ftc.teamcode.initialization.Initialization;
-import org.firstinspires.ftc.teamcode.prototype.ProtoClaw;
-import org.firstinspires.ftc.teamcode.prototype.ProtoLinearSlide;
-import org.firstinspires.ftc.teamcode.prototype.ProtoSlideTheta;
 
 @Autonomous(name = "dumbyOpMode")
 public class DumbyOpMode extends LinearOpMode
@@ -23,7 +15,7 @@ public class DumbyOpMode extends LinearOpMode
 
         while (opModeIsActive());
 
-//        linearSlide = new ProtoLinearSlide(this);
+//        linearSlide = new Slide(this);
 //
 //        waitForStart();
 //

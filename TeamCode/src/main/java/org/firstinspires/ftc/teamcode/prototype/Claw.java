@@ -4,9 +4,9 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.controller.ServoParent;
 
-public class ProtoClaw extends ServoParent
+public class Claw extends ServoParent
 {
-    public ProtoClaw(LinearOpMode opMode)
+    public Claw(LinearOpMode opMode)
     {
         super("claw", 0,1, opMode);
     }
