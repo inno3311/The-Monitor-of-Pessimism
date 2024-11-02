@@ -73,6 +73,8 @@ public class NessieTeleOp extends LinearOpMode
             else if (gamepad2.dpad_right)
             {
                 slide.encoderPresets(Slide.Presets.BOTTOM_BUCKET);
+
+
                 elbow.encoderPresets(Elbow.Presets.BOTTOM_BUCKET);
             }
             else
