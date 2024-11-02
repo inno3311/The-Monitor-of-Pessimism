@@ -128,6 +128,7 @@ public class SampleDetection extends OpenCvPipeline
          minRect[i].points(rectPoints);
          double size = calculate_bounding_box_area(rectPoints);
          double y_range_limit = y_resolution/range_limiter;
+         //0, 0 is in the top left, that's why we want a LARGER y value than the limit, NOT a smaller
          if (minRect[i].center.y <= y_range_limit)
          {
             continue;
@@ -147,9 +148,16 @@ public class SampleDetection extends OpenCvPipeline
          ArrayList<Double> no_object_point = new ArrayList<>(Arrays.asList(-100.0, -100.0, -100.0));
          return new ArrayList<>(Arrays.asList(no_object_point));
       }
+      int nearest_object_index = 0;
       for (int i = 0; i < sample_points.size(); i++)
       {
-         Point position_in_camera = sample_points.get(i);
+         if (sample_points.get(i).y <= sample_points.get(nearest_object_index).y)
+         {
+            continue;
+         }
+         nearest_object_index = i;
+      }
+         Point position_in_camera = sample_points.get(nearest_object_index);
          double position_in_camera_x = position_in_camera.x;
          double position_in_camera_y = y_resolution - position_in_camera.y;
          double angle = Math.toRadians(angle_difference + y_degrees_per_pixel * (y_resolution - position_in_camera.y));
@@ -159,8 +167,8 @@ public class SampleDetection extends OpenCvPipeline
          double x_distance = Math.tan(Math.toRadians(x_angle))*z_distance+camera_x_offset;
          ArrayList<Double> distances = new ArrayList<>(Arrays.asList(x_distance, y_distance, z_distance));
          object_points.add(distances);
-      }
       return object_points;
    }
+
 // look into errosion to try and remove overlapping contour lines.
 }

@@ -44,12 +44,16 @@ public class DumbyTestProgram extends LinearOpMode
 
         while (opModeIsActive())
         {
-            if (1==1)
+            //if (1==1)
+            if (gamepad1.a)
             {
                 ArrayList<ArrayList<Double>> object_distances = sampleDetection.object_distances();
                 for (int i = 0; i < object_distances.size(); i++)
                 {
-                    telemetry.addData("object points", object_distances.get(i));
+                    telemetry.addData("x", Math.round(object_distances.get(i).get(0)));
+                    telemetry.addData("y", Math.round(object_distances.get(i).get(1)));
+                    telemetry.addData("z", Math.round(object_distances.get(i).get(2)));
+                    telemetry.addData("", "");
                 }
                 /*
                 double[] nearest_object = sampleDetection.get_nearest_object();
