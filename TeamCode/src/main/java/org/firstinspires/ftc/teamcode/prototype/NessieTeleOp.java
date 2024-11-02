@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.prototype;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 import org.firstinspires.ftc.teamcode.controller.DriveController;
@@ -25,6 +26,10 @@ public class NessieTeleOp extends LinearOpMode
     Wrist wrist;
     Claw claw;
 
+    // Sensor
+    TouchSensor slideLimit;
+    TouchSensor elbowLimit;
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -38,6 +43,9 @@ public class NessieTeleOp extends LinearOpMode
         hang = new Hang(this);
         wrist = new Wrist(this);
         claw = new Claw(this);
+
+        slideLimit = hardwareMap.get(TouchSensor.class, "slideLimit");
+        elbowLimit = hardwareMap.get(TouchSensor.class, "elbowLimit");
 
         waitForStart();
 
@@ -69,8 +77,8 @@ public class NessieTeleOp extends LinearOpMode
             }
             else
             {
-                slide.analogControl(0.75, gamepad2.left_stick_y, true,false, 0,-2270);
-                elbow.analogControl(1, gamepad2.right_stick_y, true, false);
+                slide.analogControl(0.75, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
+                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
             }
 
             hang.simpleDrive(1, gamepad2.y, gamepad2.a);

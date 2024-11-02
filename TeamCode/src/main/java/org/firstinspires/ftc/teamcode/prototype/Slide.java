@@ -11,13 +11,13 @@ public class Slide extends MotorParent
 
     public Slide(LinearOpMode opMode)
     {
-        super("linearSlide", true, true, opMode);
+        super("slide", true, true, opMode);
     }
 
     @Override
-    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode, int lowerBound, int upperBound)
+    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode, boolean lowerLimit, int upperLimit, boolean swapBounds)
     {
-        super.analogControl(speedLimit, input, advanceBreak, slowMode, lowerBound, upperBound);
+        super.analogControl(speedLimit, input, advanceBreak, slowMode, lowerLimit, upperLimit, swapBounds);
     }
 
     @Override

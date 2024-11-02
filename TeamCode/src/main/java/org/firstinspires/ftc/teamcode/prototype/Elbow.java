@@ -11,13 +11,13 @@ public class Elbow extends MotorParent
 
     public Elbow(LinearOpMode opMode)
     {
-        super("slideTheta", true, true, opMode);
+        super("elbow", true, true, opMode);
     }
 
     @Override
-    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode)
+    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode, boolean lowerLimit, boolean upperLimit)
     {
-        super.analogControl(speedLimit, input, advanceBreak, slowMode);
+        super.analogControl(speedLimit, input, advanceBreak, slowMode, lowerLimit, upperLimit);
     }
 
     @Override

@@ -9,29 +9,29 @@ public class Initialization
 {
     Slide slide;
     TouchSensor slideLimit;
-    Elbow theta;
-    TouchSensor thetaLimit;
+    Elbow elbow;
+    TouchSensor elbowLimit;
 
-    public Initialization(Slide slide, TouchSensor slideLimit, Elbow theta, TouchSensor thetaLimit)
+    public Initialization(Slide slide, TouchSensor slideLimit, Elbow elbow, TouchSensor elbowLimit)
     {
         this.slide = slide;
         this.slideLimit = slideLimit;
-        this.theta = theta;
-        this.thetaLimit = thetaLimit;
+        this.elbow = elbow;
+        this.elbowLimit = elbowLimit;
 
     }
 
     public void initialization()
     {
-        while ((!slideLimit.isPressed() || !thetaLimit.isPressed()))
+        while ((!slideLimit.isPressed() || !elbowLimit.isPressed()))
         {
             retract();
             slide.telemetry();
-            theta.telemetry();
+            elbow.telemetry();
         }
 
         slide.resetEncoder();
-        theta.resetEncoder();
+        elbow.resetEncoder();
 
         try {Thread.sleep(100);}
         catch (InterruptedException e) {throw new RuntimeException(e);}
@@ -42,12 +42,12 @@ public class Initialization
     private void retract()
     {
         slide.initialize(slideLimit, 1, 0.25);
-        theta.initialize(thetaLimit, 1, 0.5);
+        elbow.initialize(elbowLimit, 1, 0.5);
     }
 
     private void fitTheBox()
     {
-        theta.encoderPresets(Elbow.Presets.INITIALIZATION);
+        elbow.encoderPresets(Elbow.Presets.INITIALIZATION);
     }
 
 }
