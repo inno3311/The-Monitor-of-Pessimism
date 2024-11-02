@@ -5,6 +5,8 @@ package org.firstinspires.ftc.teamcode.vision;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -36,7 +38,7 @@ public class SampleDetection extends OpenCvPipeline
    double distance_minimum_camera = cam_placement.val[1];
    double camera_x_offset = cam_placement.val[2];
    double camera_z_offset = cam_placement.val[3];
-   double range_limiter = 2.5;
+   double range_limiter = 8; //larger = farther range detection
    double x_resolution = 320;
    double y_resolution = 180;
    double y_fov = 52.2;
@@ -147,8 +149,7 @@ public class SampleDetection extends OpenCvPipeline
       {
          ArrayList<Double> no_object_point = new ArrayList<>(Arrays.asList(-100.0, -100.0, -100.0));
          return new ArrayList<>(Arrays.asList(no_object_point));
-      }
-      int nearest_object_index = 0;
+      }      int nearest_object_index = 0;
       for (int i = 0; i < sample_points.size(); i++)
       {
          if (sample_points.get(i).y <= sample_points.get(nearest_object_index).y)
@@ -157,16 +158,16 @@ public class SampleDetection extends OpenCvPipeline
          }
          nearest_object_index = i;
       }
-         Point position_in_camera = sample_points.get(nearest_object_index);
-         double position_in_camera_x = position_in_camera.x;
-         double position_in_camera_y = y_resolution - position_in_camera.y;
-         double angle = Math.toRadians(angle_difference + y_degrees_per_pixel * (y_resolution - position_in_camera.y));
-         double z_distance = camera_height * Math.tan(angle);
-         double center_line = (x_degrees_per_pixel*x_resolution)/2;
-         double x_angle = (x_degrees_per_pixel*position_in_camera_x)-center_line;
-         double x_distance = Math.tan(Math.toRadians(x_angle))*z_distance+camera_x_offset;
-         ArrayList<Double> distances = new ArrayList<>(Arrays.asList(x_distance, y_distance, z_distance));
-         object_points.add(distances);
+      Point position_in_camera = sample_points.get(nearest_object_index);
+      double position_in_camera_x = position_in_camera.x;
+      double position_in_camera_y = y_resolution - position_in_camera.y;
+      double angle = Math.toRadians(angle_difference + y_degrees_per_pixel * (y_resolution - position_in_camera.y));
+      double z_distance = camera_height * Math.tan(angle);
+      double center_line = (x_degrees_per_pixel*x_resolution)/2;
+      double x_angle = (x_degrees_per_pixel*position_in_camera_x)-center_line;
+      double x_distance = Math.tan(Math.toRadians(x_angle))*z_distance+camera_x_offset;
+      ArrayList<Double> distances = new ArrayList<>(Arrays.asList(x_distance, y_distance, z_distance));
+      object_points.add(distances);
       return object_points;
    }
 

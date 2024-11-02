@@ -55,22 +55,26 @@ public class DumbyTestProgram extends LinearOpMode
                     telemetry.addData("z", Math.round(object_distances.get(i).get(2)));
                     telemetry.addData("", "");
                 }
-                /*
-                double[] nearest_object = sampleDetection.get_nearest_object();
-                telemetry.addData("nearest object", nearest_object);
-                double object_x = nearest_object[0];
-                double object_y = nearest_object[1];
-                double object_z = nearest_object[2];
+                double object_x = object_distances.get(0).get(0);
+                double object_y = object_distances.get(0).get(1);
+                double object_z = object_distances.get(0).get(2)-20;
+                if (object_z < 0)
+                {
+                    continue;
+                }
                 telemetry.addData("nearest X", Math.round(object_x));
                 telemetry.addData("nearest Y", Math.round(object_y));
                 telemetry.addData("nearest Z", Math.round(object_z));
-
-                if (object_z < 110 && object_z > 48)
+                telemetry.addData("motor", (int) Math.round((1 * motorTicksConversion.linearSlideInCM() * deltaChange.armLength(object_z, 1))));
+                if (object_z < 0)
                 {
-                    telemetry.addData("z is > 48", "");
-                    linearSlide.encoderControl((int) Math.round((-1 * motorTicksConversion.linearSlideInCM() * deltaChange.armLength(object_z, 1) - 48)), 0.7);
+                    telemetry.update();
+                    continue;
                 }
+                linearSlide.encoderControl((int) Math.round((1 * motorTicksConversion.linearSlideInCM() * deltaChange.armLength(object_z, 1))), 0.5);
+                /*
             }
+
             if (gamepad1.y)
             {
                 double[] nearest_object = sampleDetection.get_nearest_object();
