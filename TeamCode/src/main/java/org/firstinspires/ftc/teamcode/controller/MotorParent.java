@@ -1,10 +1,15 @@
 package org.firstinspires.ftc.teamcode.controller;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.Logging;
@@ -62,6 +67,11 @@ public class MotorParent
 
         }
 
+    }
+
+    protected void resetEncoder()
+    {
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /**
@@ -311,6 +321,24 @@ public class MotorParent
     }
 
     /**
+     * Assumes direction toward TouchSensor is negative
+     * @param sensor TouchSensor limit switch
+     * @param direction 1 or -1 to change direction
+     * @param speed How fast you want the motor to move
+     */
+    protected void initialize(TouchSensor sensor, int direction, double speed)
+    {
+        if (!sensor.isPressed())
+        {
+            motor.setPower(direction * speed);
+        }
+        else
+        {
+            motor.setPower(0);
+        }
+    }
+
+    /**
      * for motors that just need to spin call break to stop
      * @param speed speed you want the motor to spin
      */
@@ -318,7 +346,6 @@ public class MotorParent
     {
         motor.setPower(speed);
     }
-
 
     /**
      *     Breaking method also sets power to zero
