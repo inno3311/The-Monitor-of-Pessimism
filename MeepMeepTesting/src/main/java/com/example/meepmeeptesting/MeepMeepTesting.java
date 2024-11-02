@@ -180,20 +180,21 @@ public class MeepMeepTesting {
            .splineToConstantHeading(new Vector2d( 0,-29), Math.toRadians(90)) //move to chamber
 //           .afterTime(0, claw.action(0)) //begins when the action after it begins
            .waitSeconds(.1)
-           .setTangent(Math.toRadians(360))
-           .splineToSplineHeading(new Pose2d(19, -30, Math.toRadians(180)), Math.toRadians(360))
+           .setTangent(Math.toRadians(0))
+           .splineToSplineHeading(new Pose2d(19, -30, Math.toRadians(180)), Math.toRadians(0))  //head right while rotating
 //           .afterTime(0, protoSlideTheta.action( 0, 0.5))
 //           .afterTime(0, protoLinearSlide.action(0, 0.5))
            //.waitSeconds(.1)
            .splineToSplineHeading(new Pose2d(36, -30, Math.toRadians(270)), Math.toRadians(360))//.setReversed(true)
-           .setTangent(Math.toRadians(90))
-           .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))//.setReversed(true)
-           .splineToConstantHeading(new Vector2d( 48, -10), Math.toRadians(90))
+           //.setTangent(Math.toRadians(90))
+           .splineToConstantHeading(new Vector2d(42, -12), Math.toRadians(90))//.setReversed(true)
+        //   .splineToConstantHeading(new Vector2d( 48, -10), Math.toRadians(90))
 //           .afterTime(0, protoSlideTheta.action( -300, .75))
 //           .afterTime(0, protoLinearSlide.action( -300, 0.75))
-           .waitSeconds(.1)
-           .setTangent(Math.toRadians(270))
-           .splineToConstantHeading(new Vector2d(46, -50), Math.toRadians(270), new TranslationalVelConstraint(10))
+        //   .waitSeconds(.1)
+          // .setTangent(Math.toRadians(270))
+           .splineToConstantHeading(new Vector2d(46, -40), Math.toRadians(270), new TranslationalVelConstraint(100))  //push sample
+             .splineToConstantHeading(new Vector2d(46, -50), Math.toRadians(270), new TranslationalVelConstraint(10)) //slow down for pickup
 //           .afterTime(0, claw.action(1))
 //           .afterTime(0, protoSlideTheta.action( -1165, 0.5))
 //                .afterTime(0, protoLinearSlide.action( -1100, 0.5))
@@ -201,7 +202,10 @@ public class MeepMeepTesting {
            .setTangent(Math.toRadians(45))
 //                .setReversed(true)
 //                .splineToSplineHeading(new Pose2d(0, -51, Math.toRadians(180)), Math.toRadians(180))
-           .splineToSplineHeading(new Pose2d(0,-29, Math.toRadians(90)), Math.toRadians(45)) //move to chamber
+//
+                .setReversed(true)
+           .splineToSplineHeading(new Pose2d(0,-29, Math.toRadians(90)), Math.toRadians(90)) //move to chamber
+           //  .strafeToLinearHeading(new Vector2d(0, -27), Math.toRadians(90.1)) //alternate to chamber
 //           .afterTime(0, claw.action(0))
 //           .afterTime(0, protoSlideTheta.action( 0, 0.5))
 //           .afterTime(0, protoLinearSlide.action(0, 0.5))
