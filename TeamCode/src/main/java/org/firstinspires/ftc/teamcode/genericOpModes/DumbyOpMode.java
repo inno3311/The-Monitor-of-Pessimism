@@ -4,28 +4,21 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.prototype.ProtoClaw;
 import org.firstinspires.ftc.teamcode.prototype.ProtoLinearSlide;
+import org.firstinspires.ftc.teamcode.prototype.ProtoSlideTheta;
 
 @Autonomous(name = "dumbyOpMode")
 public class DumbyOpMode extends LinearOpMode
 {
 
-//    ProtoLinearSlide linearSlide;
-
-    int target = 1;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
-        ProtoClaw claw = new ProtoClaw(this);
-
-
-        waitForStart();
-
-        claw.driveServo(0);
-        claw.driveServo(1);
 
 
         while (opModeIsActive());

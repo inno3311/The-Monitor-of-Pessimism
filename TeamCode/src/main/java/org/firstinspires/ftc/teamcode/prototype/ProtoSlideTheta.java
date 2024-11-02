@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.prototype;
 
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.controller.MotorControl;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
-public class ProtoSlideTheta extends MotorControl
+import org.firstinspires.ftc.teamcode.controller.MotorParent;
+
+public class ProtoSlideTheta extends MotorParent
 {
 
     public ProtoSlideTheta(LinearOpMode opMode)
@@ -24,6 +26,12 @@ public class ProtoSlideTheta extends MotorControl
         return super.action(target, speed);
     }
 
+    @Override
+    public void initialize(TouchSensor sensor, int direction, double speed) {super.initialize(sensor, direction, speed);}
+
+    @Override
+    public void resetEncoder() {super.resetEncoder();}
+
     public enum Presets
     {
         TOP_CHAMBER,
@@ -31,7 +39,8 @@ public class ProtoSlideTheta extends MotorControl
         TOP_BUCKET,
         BOTTOM_BUCKET,
         PICKUP_FLOOR,
-        PICKUP_WALL
+        PICKUP_WALL,
+        INITIALIZATION
     }
 
     public void encoderPresets(Presets preset)
@@ -56,13 +65,15 @@ public class ProtoSlideTheta extends MotorControl
             case PICKUP_WALL:
                 super.encoderControl(10,1);
                 break;
+            case INITIALIZATION:
+                super.encoderControl(-1175,1);
             default:
                 break;
         }
     }
 
     @Override
-    protected void telemetry()
+    public void telemetry()
     {
         super.telemetry();
     }

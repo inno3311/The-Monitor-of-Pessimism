@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.prototype;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.controller.MotorControl;
+import org.firstinspires.ftc.teamcode.controller.MotorParent;
 
-public class ProtoHang extends MotorControl
+public class ProtoHang extends MotorParent
 {
 
     public ProtoHang(LinearOpMode opMode)

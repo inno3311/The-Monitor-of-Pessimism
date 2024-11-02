@@ -2,10 +2,9 @@ package org.firstinspires.ftc.teamcode.prototype;
 
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import org.firstinspires.ftc.teamcode.controller.ServoParent;
 
-import org.firstinspires.ftc.teamcode.controller.ServoControl;
-
-public class ProtoWrist extends ServoControl
+public class ProtoWrist extends ServoParent
 {
 
     public ProtoWrist(LinearOpMode opMode)

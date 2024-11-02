@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.prototype;
 
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.controller.MotorControl;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
-public class ProtoLinearSlide extends MotorControl
+import org.firstinspires.ftc.teamcode.controller.MotorParent;
+
+public class ProtoLinearSlide extends MotorParent
 {
 
     public ProtoLinearSlide(LinearOpMode opMode)
@@ -22,6 +24,12 @@ public class ProtoLinearSlide extends MotorControl
     public Action action(int target, double speed) {
         return super.action(target, speed);
     }
+
+    @Override
+    public void initialize(TouchSensor sensor, int direction, double speed) {super.initialize(sensor, direction, speed);}
+
+    @Override
+    public void resetEncoder() {super.resetEncoder();}
 
     public enum Presets
     {
@@ -61,7 +69,7 @@ public class ProtoLinearSlide extends MotorControl
     }
 
     @Override
-    protected void telemetry()
+    public void telemetry()
     {
         super.telemetry();
     }
