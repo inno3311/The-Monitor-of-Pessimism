@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.outreach.Hippo;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -7,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.util.concurrent.TimeoutException;
 
 @TeleOp(name = "Hippo Outreach", group = "outreach")
-public class HippoCommand extends OpMode
+public class HippoCommand extends LinearOpMode
 {
     DriveHippo drive;
     HippoTrigger hippoTrigger;
@@ -17,8 +18,9 @@ public class HippoCommand extends OpMode
     ElapsedTime time;
     double flag;
     double interval = Double.MIN_VALUE;
+
     @Override
-    public void init()
+    public void runOpMode() throws InterruptedException
     {
         //initiate classes
         drive = new DriveHippo(hardwareMap);
@@ -28,11 +30,9 @@ public class HippoCommand extends OpMode
         hippoStomper = new HippoStomper(this);
         time = new ElapsedTime();
         time.startTime();
-    }
 
-    @Override
-    public void loop()
-    {
+        waitForStart();
+
         //drive method
         drive.gamepadController(gamepad1);
 

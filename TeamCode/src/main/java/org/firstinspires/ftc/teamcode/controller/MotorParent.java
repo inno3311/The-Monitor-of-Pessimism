@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.controller;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.util.Logging;
 
 public class MotorParent
 {
-    private DcMotor motor;
+    private DcMotorEx motor;
     private String motorName;
     private boolean hasEncoder;
 
@@ -21,7 +21,7 @@ public class MotorParent
     protected Gamepad gamepad2;
 
     //Will be used to get the parameters below from the masterclass
-    private MotorParent(OpMode opMode)
+    private MotorParent(LinearOpMode opMode)
     {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
@@ -34,7 +34,7 @@ public class MotorParent
      * @param direction Direction you want the motor to spin: true = FORWARD, false = REVERSE
      * @param hasEncoder Does it have an encoder?
      */
-    protected MotorParent(String motorName, Boolean direction, Boolean hasEncoder, OpMode opMode)
+    protected MotorParent(String motorName, Boolean direction, Boolean hasEncoder, LinearOpMode opMode)
     {
         this(opMode);
 
@@ -42,14 +42,14 @@ public class MotorParent
         this.hasEncoder = hasEncoder;
         try
         {
-            motor = this.hardwareMap.get(DcMotor.class, motorName);
+            motor = this.hardwareMap.get(DcMotorEx.class, motorName);
 
-            if (direction) {motor.setDirection(DcMotorSimple.Direction.FORWARD);}
-            else {motor.setDirection(DcMotorSimple.Direction.REVERSE);}
+            if (direction) {motor.setDirection(DcMotorEx.Direction.FORWARD);}
+            else {motor.setDirection(DcMotorEx.Direction.REVERSE);}
 
-            if (hasEncoder) {motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);}
+            if (hasEncoder) {motor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);}
 
-            motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
         }
         catch (IllegalArgumentException e)
@@ -69,11 +69,16 @@ public class MotorParent
      *
      * @param speedLimit Put's restriction on how fast the motor can spin
      * @param input which gamepad float value that will mak this spin
+     * @param slowMode Set to gamepad button desired (set to false if not desired)
      */
-    protected void analogControl(double speedLimit, double input, boolean advanceBreak)
+    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode)
     {
         double motorPower = input;
+
+        if (slowMode) {input *= 0.5;}
+
         motorPower = Range.clip(motorPower, -speedLimit, speedLimit);
+
 
         if (Math.abs(motorPower) > 0)
         {
@@ -87,7 +92,8 @@ public class MotorParent
             motor.setPower(0.3);
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-        else if (advanceBreak && motor.getMode() == DcMotor.RunMode.RUN_TO_POSITION) {}
+        else if (advanceBreak) {}
+        else if (motor.getMode() == DcMotor.RunMode.RUN_TO_POSITION) {}
         else {motorBreak();}
 
     }
@@ -97,12 +103,16 @@ public class MotorParent
      *
      * @param speedLimit Put's restriction on how fast the motor can spin
      * @param input which gamepad float value that will mak this spin
+     * @param slowMode Set to gamepad button desired (set to false if not desired)
      * @param lowerBound Motor will not spin past this bound at negative power (must have encoder to use this feature)
      * @param upperBound Motor will not spin past this bound at positive power(must have encoder to use this feature)
      */
-    protected void analogControl(double speedLimit, double input, boolean advanceBreak, int lowerBound, int upperBound)
+    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode, int lowerBound, int upperBound)
     {
         double motorPower = input;
+
+        if (slowMode) {input *= 0.5;}
+
         motorPower = Range.clip(motorPower, -speedLimit, speedLimit);
 
         if (Math.abs(motorPower) > 0)
@@ -122,7 +132,86 @@ public class MotorParent
             motor.setPower(0.3);
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-        else if (advanceBreak && motor.getMode() == DcMotor.RunMode.RUN_TO_POSITION) {}
+        else if (advanceBreak) {}
+        else if (motor.getMode() == DcMotor.RunMode.RUN_TO_POSITION) {}
+        else {motorBreak();}
+
+    }
+
+    /**
+     * Analog control method with bounds
+     *
+     * @param speedLimit Put's restriction on how fast the motor can spin
+     * @param input which gamepad float value that will mak this spin
+     * @param slowMode Set to gamepad button desired (set to false if not desired)
+     * @param limit Motor will not spin when true (ideal for touch sensors and friends)
+     */
+    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode, boolean limit)
+    {
+        double motorPower = input;
+
+        if (slowMode) {input *= 0.5;}
+
+        motorPower = Range.clip(motorPower, -speedLimit, speedLimit);
+
+        if (Math.abs(motorPower) > 0)
+        {
+            if (limit) {telemetry.addData("limit break", "");motorBreak();}
+            else
+            {
+                motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                motor.setPower(motorPower);
+            }
+        }
+        else if (advanceBreak && motor.getMode() == DcMotor.RunMode.RUN_WITHOUT_ENCODER)
+        {
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor.setTargetPosition(motor.getCurrentPosition());
+            motor.setPower(0.3);
+            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        else if (advanceBreak) {}
+        else if (motor.getMode() == DcMotor.RunMode.RUN_TO_POSITION) {}
+        else {motorBreak();}
+
+    }
+
+    /**
+     * Analog control method with bounds
+     *
+     * @param speedLimit Put's restriction on how fast the motor can spin
+     * @param input which gamepad float value that will mak this spin
+     * @param slowMode Set to gamepad button desired (set to false if not desired)
+     * @param lowerLimit Motor will not spin when true (ideal for touch sensors and friends)
+     * @param upperLimit Motor will not spin when true (ideal for touch sensors and friends)
+     */
+    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode, boolean lowerLimit, boolean upperLimit)
+    {
+        double motorPower = input;
+
+        if (slowMode) {input *= 0.5;}
+
+        motorPower = Range.clip(motorPower, -speedLimit, speedLimit);
+
+        if (Math.abs(motorPower) > 0)
+        {
+            if (lowerLimit) {telemetry.addData("lowerLimit break", "");motorBreak();}
+            else if (upperLimit) {telemetry.addData("upperLimit break", "");motorBreak();}
+            else
+            {
+                motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                motor.setPower(motorPower);
+            }
+        }
+        else if (advanceBreak && motor.getMode() == DcMotor.RunMode.RUN_WITHOUT_ENCODER)
+        {
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor.setTargetPosition(motor.getCurrentPosition());
+            motor.setPower(0.3);
+            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        else if (advanceBreak) {}
+        else if (motor.getMode() == DcMotor.RunMode.RUN_TO_POSITION) {}
         else {motorBreak();}
 
     }
@@ -193,11 +282,12 @@ public class MotorParent
      */
     public void encoderControl(int target, double speed)
     {
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         motor.setTargetPosition(target);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motor.setPower(speed);
     }
+
 
     /**
      * for motors that just need to spin call break to stop
@@ -229,6 +319,7 @@ public class MotorParent
      */
     protected void telemetry()
     {
+        telemetry.addData("Target position", motor.getTargetPosition());
         if (hasEncoder) {telemetry.addData(motorName, "Speed: %.2f\n\tEncoder Position: %d", motor.getPower(), motor.getCurrentPosition());}
         else {telemetry.addData(motorName, "Speed: %.2f", motor.getPower());}
     }
@@ -243,3 +334,4 @@ public class MotorParent
         return motor.isBusy();
     }
 }
+

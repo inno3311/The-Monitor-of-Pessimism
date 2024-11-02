@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opModes;
+package org.firstinspires.ftc.teamcode.genericOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -7,10 +7,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 import org.firstinspires.ftc.teamcode.controller.MechanicalDriveBase;
-import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.CentricDriveTheBetterVersion;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
-import org.firstinspires.ftc.teamcode.util.PIDController;
 
 @TeleOp(name = "Centric Command", group = "FieldCentric")
 public class CentricCommandBetterVersion extends OpMode
