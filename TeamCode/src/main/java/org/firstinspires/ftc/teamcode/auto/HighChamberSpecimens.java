@@ -36,7 +36,6 @@ public final class HighChamberSpecimens extends LinearOpMode {
         protoLinearSlide = new ProtoLinearSlide(this);
         protoSlideTheta = new ProtoSlideTheta(this);
         clawWrist = new ProtoWrist(this);
-        //clawLeft = new ProtoClawLeft(this);
         claw = new ProtoClaw(this);
 
         Pose2d beginPose = new Pose2d(0, -55, Math.toRadians(90));
@@ -45,78 +44,11 @@ public final class HighChamberSpecimens extends LinearOpMode {
 
             waitForStart();
 
-            TrajectoryActionBuilder trajectoryActionBuilderWait = drive.actionBuilder(beginPose)
-                .waitSeconds(1)
-
-                //.waitSeconds(10)
-
-                ;
-
-            TrajectoryActionBuilder trajectoryActionBuilder = drive.actionBuilder(beginPose)
-                .waitSeconds(5)
-                .splineToConstantHeading(new Vector2d(0, -32), Math.toRadians(90))
-                //.waitSeconds(10)
-
-                ;
-
-            TrajectoryActionBuilder trajectoryActionBuilderEnd = drive.actionBuilder(beginPose)
-                .setTangent(Math.toRadians(270))
-                .splineToSplineHeading(new Pose2d(50, -40, Math.toRadians(90)), Math.toRadians(360))
-//                .setTangent(Math.toRadians(270)).setReversed(true)
-//                .splineToConstantHeading(new Vector2d(0, -40), Math.toRadians(270))
-//
-//                .splineToConstantHeading(new Vector2d(50, -50), Math.toRadians(270))
-                .waitSeconds(10);
-
-            TrajectoryActionBuilder trajectoryActionBuilderMezTest = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(0,-30))  //drive to chamber
-                .strafeTo(new Vector2d(0,-45))  //back up from chamber
-                .strafeToLinearHeading(new Vector2d(24, -34), Math.toRadians(0))  // start drive to samples
-                .splineToConstantHeading(new Vector2d(40,-24),Math.toRadians(0))
-                .setTangent(0)
-                .turnTo(Math.toRadians(270))
-                .strafeTo(new Vector2d(48,-60));
-
-
-
-            Action actionTest = trajectoryActionBuilderMezTest
-                .build();
-
-            Action actionDriveToBar = trajectoryActionBuilder
-                .build();
-
-            Action actionEnd = trajectoryActionBuilderEnd
-                .build();
-
-            Action actionWait = trajectoryActionBuilderWait
-                .build();
-
-//            Actions.runBlocking(actionTest
-////                new SequentialAction(
-////                    //clawLeft.action(0),
-////                    claw.action(0),
-////                    actionWait,
-////                    actionWait,
-////                    claw.action(1),
-////                    actionWait,
-////                    actionWait,
-////                    claw.action(0),
-////                    actionWait,
-////                    actionWait
-//
-////                    protoSlideTheta.action( -1000, 0.4),
-////                    protoLinearSlide.action(-1300, 0.3),
-////                    new ParallelAction(actionDriveToBar,claw.action(0)),
-////                    protoSlideTheta.action ( 0, 0.4),
-////                    protoLinearSlide.action(0, 0.3),
-////                    actionEnd
-////                )
-//            );
 
                 int x = 44;
                 int y = -48;
             //Mesloh attempt to use afterDisp to hang a specs.
-            TrajectoryActionBuilder trajectoryActionBuilderMez2= drive.actionBuilder(beginPose)
+            TrajectoryActionBuilder trajectoryActionBuilderTwoChamberRun= drive.actionBuilder(beginPose)
 
                 .afterTime(0,claw.action(1)) //close claw
                 .afterTime(0, protoSlideTheta.action( -1165, 0.5))
@@ -159,49 +91,13 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 ;
 
 
-//                .splineToSplineHeading(new Pose2d(30, -36, Math.toRadians(360)), Math.toRadians(360))
-//                .setTangent(Math.toRadians(45))
-//                .splineToSplineHeading(new Pose2d(x, -12,Math.toRadians(315)), Math.toRadians(45))
-//                .setTangent(Math.toRadians(270))
-//                .splineToSplineHeading(new Pose2d( 38, -40, Math.toRadians(270)), Math.toRadians(270))
-//                .waitSeconds(1)
-//                .splineToConstantHeading(new Vector2d(x, y),Math.toRadians(270),new TranslationalVelConstraint(10))
-//                .waitSeconds(3);
-
-
-                //.splineToConstantHeading(new Vector2d(40, -50), Math.toRadians(90))
-                //.waitSeconds(3);
-//                .strafeTo(new Vector2d(0,-30))  //drive to chamber
-//                .strafeTo(new Vector2d(0,-45))  //back up from chamber
-//                .strafeToLinearHeading(new Vector2d(24, -34), Math.toRadians(0))  // start drive to samples
-//                .splineToConstantHeading(new Vector2d(40,-24),Math.toRadians(0))
-//                .setTangent(0)
-//                .turnTo(Math.toRadians(270))
-//                .strafeTo(new Vector2d(48,-60));
-
-            Action actionMez2 = trajectoryActionBuilderMez2
+            Action redRun = trajectoryActionBuilderTwoChamberRun
                 .build();
 
+            Actions.runBlocking(redRun);
 
-
-            Actions.runBlocking(actionMez2);
-
-//            Actions.runBlocking(
-//                new SequentialAction(claw.action(0),
-//                    protoSlideTheta.action( -1165, 0.5),
-//                    protoLinearSlide.action(-920, 0.5),
-//                    new SequentialAction(
-//                        new ParallelAction(claw.action(0),
-//                            claw.action(0),actionDriveToBar),
-//                            protoSlideTheta.action( -950, 0.4),
-////                            protoLinearSlide.action(0, 0.3)),
-//                    actionWait,protoSlideTheta.action( -800, 0.5),
-//                        actionWait,claw.action(1)
-//                )
-//            ));
-
-
-        }  else {
+        }  else
+        {
             throw new RuntimeException();
         }
     }
