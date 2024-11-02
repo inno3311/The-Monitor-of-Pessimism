@@ -18,6 +18,11 @@ public class ProtoLinearSlide extends MotorControl
         super.analogControl(speedLimit, input, advanceBreak, slowMode, lowerBound, upperBound);
     }
 
+    @Override
+    public Action action(int target, double speed) {
+        return super.action(target, speed);
+    }
+
     public enum Presets
     {
         TOP_CHAMBER,

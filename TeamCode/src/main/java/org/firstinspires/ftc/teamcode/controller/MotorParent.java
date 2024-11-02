@@ -282,12 +282,33 @@ public class MotorParent
      */
     public void encoderControl(int target, double speed)
     {
-        motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor.setTargetPosition(target);
-        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(speed);
     }
 
+
+    public Action action(int target, double speed)
+    {
+
+        return new Action()
+        {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket)
+            {
+                if (!initialized)
+                {
+                    encoderControl(target, speed);
+                    initialized = true;
+                }
+
+                return !motor.isBusy();
+            }
+        };
+    }
 
     /**
      * for motors that just need to spin call break to stop
@@ -319,7 +340,6 @@ public class MotorParent
      */
     protected void telemetry()
     {
-        telemetry.addData("Target position", motor.getTargetPosition());
         if (hasEncoder) {telemetry.addData(motorName, "Speed: %.2f\n\tEncoder Position: %d", motor.getPower(), motor.getCurrentPosition());}
         else {telemetry.addData(motorName, "Speed: %.2f", motor.getPower());}
     }

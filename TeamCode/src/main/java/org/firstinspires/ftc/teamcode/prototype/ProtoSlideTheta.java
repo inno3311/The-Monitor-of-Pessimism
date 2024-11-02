@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.prototype;
 
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.controller.MotorControl;
 
@@ -15,6 +16,12 @@ public class ProtoSlideTheta extends MotorControl
     protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode)
     {
         super.analogControl(speedLimit, input, advanceBreak, slowMode);
+    }
+
+    @Override
+    public Action action(int target, double speed)
+    {
+        return super.action(target, speed);
     }
 
     public enum Presets

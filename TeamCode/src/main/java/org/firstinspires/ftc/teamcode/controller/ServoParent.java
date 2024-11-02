@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.controller;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -51,14 +55,14 @@ public class ServoParent
 
     protected void driveServo(double target)
     {
-        if (servo.getPosition() != target)
-        {
+//        if (servo.getPosition() != target)
+//        {
             servo.setPosition(target);
-        }
-        else
-        {
-            servo.setPosition(servo.getPosition());
-        }
+//        }
+//        else
+//        {
+//            servo.setPosition(servo.getPosition());
+//        }
     }
 
     protected void driveServo(double target, boolean argument)
@@ -67,6 +71,25 @@ public class ServoParent
         {
             driveServo(target);
         }
+    }
+
+    public Action action(double target)
+    {
+        return new Action()
+        {
+//            private boolean initialized = false;
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket)
+            {
+//                if (!initialized)
+//                {
+                    driveServo(target);
+//                    initialized = true;
+//                }
+
+                return false;
+            }
+        };
     }
 
 

@@ -3,15 +3,18 @@ package org.firstinspires.ftc.teamcode.prototype;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 import org.firstinspires.ftc.teamcode.controller.MechanicalDriveBase;
 import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
+import org.firstinspires.ftc.vision.VisionPortal;
 
 @TeleOp(name = "Prototype", group = "proto")
 public class ProtoMaster extends LinearOpMode
 {
-
+    private static final boolean USE_WEBCAM = false;  // true for webcam, false for phone camera
     // DriveBase
     MechanicalDriveBase mechanicalDriveBase;
     TurnToHeading turnToHeading;
@@ -34,6 +37,7 @@ public class ProtoMaster extends LinearOpMode
         centricDrive = new CentricDrive(mechanicalDriveBase, telemetry);
         linearSlide = new ProtoLinearSlide(this);
         slideTheta = new ProtoSlideTheta(this);
+
         hang = new ProtoHang(this);
         clawWrist = new ProtoWrist(this);
         claw = new ProtoClaw(this);
@@ -42,7 +46,6 @@ public class ProtoMaster extends LinearOpMode
 
         while (opModeIsActive())
         {
-
             //        centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2));
 
             mechanicalDriveBase.gamepadController(gamepad1);
@@ -75,22 +78,22 @@ public class ProtoMaster extends LinearOpMode
 
             hang.simpleDrive(1, gamepad2.y, gamepad2.a);
 
-            if (gamepad2.right_bumper)
+            if (gamepad2.right_bumper)   //close
             {
                 claw.driveServo(0);
             }
-            else if (gamepad2.right_trigger > 0.2)
+            else if (gamepad2.right_trigger > 0.2) //open
             {
                 claw.driveServo(1);
             }
 
             if (gamepad2.left_bumper)
             {
-                clawWrist.driveServo(0);
+                clawWrist.driveServo(1);
             }
             else if (gamepad2.left_trigger > 0.2)
             {
-                clawWrist.driveServo(0.5);
+                clawWrist.driveServo(0.3);
             }
 
             linearSlide.telemetry();
