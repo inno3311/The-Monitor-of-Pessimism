@@ -21,10 +21,16 @@ public class MeepMeepTestingTheCleanOne
               .splineToSplineHeading(new Pose2d(-55,-55, Math.toRadians(225)), Math.toRadians(225))
               .build());
 
+       RoadRunnerBotEntity chamberRun = new DefaultBotBuilder(meepMeep).setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15).build();
+
+       chamberRun.runAction(bucketRun.getDrive().actionBuilder(new Pose2d(10, -40, Math.toRadians(270)))
+               .splineToSplineHeading(new Pose2d(0,-29, Math.toRadians(90)), Math.toRadians(90))
+               .build());
+
       meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_LIGHT)
               .setDarkMode(true)
               .setBackgroundAlpha(0.95f)
-              .addEntity(bucketRun)
+              .addEntity(chamberRun)
               .start();
    }
 }

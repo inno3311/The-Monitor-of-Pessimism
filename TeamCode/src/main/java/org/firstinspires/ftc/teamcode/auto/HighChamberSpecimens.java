@@ -116,7 +116,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
             //Mesloh attempt to use afterDisp to hang a specs.
             TrajectoryActionBuilder trajectoryActionBuilderMez2= drive.actionBuilder(beginPose)
 
-                .afterTime(0,claw.action(1)) //close claw
+                .afterTime(0, claw.action(1)) //close claw
                 .afterTime(0, elbow.action( -1165, 0.5))
                 .afterTime(0, slide.action(-1100, 0.5))
                 .waitSeconds(1)
