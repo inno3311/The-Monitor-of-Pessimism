@@ -176,38 +176,34 @@ public class MeepMeepTesting {
 
        myBotRedHang.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(0,-55, Math.toRadians(90)))
 //           .afterTime(0,claw.action(1)) //close claw
-//           .afterTime(0, protoSlideTheta.action( -1165, 0.5))
-//           .afterTime(0, protoLinearSlide.action(-1100, 0.5))
+//           .afterTime(0, elbow.action(-1300, 0.5))
+//           .afterTime(0, slide.action(-1100, 0.5))
            .waitSeconds(1)
-           .splineToConstantHeading(new Vector2d( 0,-29), Math.toRadians(90)) //move to chamber
+           .splineToConstantHeading(new Vector2d( 10,-29), Math.toRadians(90)) //move to chamber
 //           .afterTime(0, claw.action(0)) //begins when the action after it begins
+//           .afterTime(0.3, elbow.action(0, 0.5))
+//           .afterTime(0, slide.action(0, 0.5))
            .waitSeconds(.1)
-           .setTangent(Math.toRadians(360))
-           .splineToSplineHeading(new Pose2d(19, -30, Math.toRadians(180)), Math.toRadians(360))
-//           .afterTime(0, protoSlideTheta.action( 0, 0.5))
-//           .afterTime(0, protoLinearSlide.action(0, 0.5))
-           //.waitSeconds(.1)
-           .splineToSplineHeading(new Pose2d(36, -30, Math.toRadians(270)), Math.toRadians(360))//.setReversed(true)
-           .setTangent(Math.toRadians(90))
+           .setTangent(Math.toRadians(0))
+//                .splineToSplineHeading(new Pose2d(19, -30, Math.toRadians(180)), Math.toRadians(0))  //head right while rotating
+////           .afterTime(0, protoSlideTheta.action( 0, 0.5))
+////           .afterTime(0, protoLinearSlide.action(0, 0.5))
+           .splineToSplineHeading(new Pose2d(30, -30, Math.toRadians(270)), Math.toRadians(360))//.setReversed(true)
            .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))//.setReversed(true)
-           .splineToConstantHeading(new Vector2d( 48, -10), Math.toRadians(90))
-//           .afterTime(0, protoSlideTheta.action( -300, .75))
-//           .afterTime(0, protoLinearSlide.action( -300, 0.75))
-           .waitSeconds(.1)
-           .setTangent(Math.toRadians(270))
-           .splineToConstantHeading(new Vector2d(46, -50), Math.toRadians(270), new TranslationalVelConstraint(10))
+           .splineToConstantHeading(new Vector2d(48, -12), Math.toRadians(0))//.setReversed(true)
+//                .afterTime(0, elbow.action( -300, .75))
+//                .afterTime(0, slide.action( -300, 0.75))
+           .splineToConstantHeading(new Vector2d(48, -40), Math.toRadians(270), new TranslationalVelConstraint(50))  //push sample
+           .splineToConstantHeading(new Vector2d(48, -48), Math.toRadians(270), new TranslationalVelConstraint(50)) //slow down for pickup
+            //.setReversed(true)
+           .splineToConstantHeading(new Vector2d(48, -10), Math.toRadians(90), new TranslationalVelConstraint(50)) //go fetch center sample
+           .splineToConstantHeading(new Vector2d(60, -10), Math.toRadians(270), new TranslationalVelConstraint(25))
+           //.setReversed(false)
+//           .afterTime(0, elbow.action( -400, .75))
+//           .afterTime(0, slide.action( -400, 0.75))
+           .splineToConstantHeading(new Vector2d(50, -38), Math.toRadians(270), new TranslationalVelConstraint(50))
+           .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270), new TranslationalVelConstraint(20))
 //           .afterTime(0, claw.action(1))
-//           .afterTime(0, protoSlideTheta.action( -1165, 0.5))
-//                .afterTime(0, protoLinearSlide.action( -1100, 0.5))
-           .waitSeconds(.1)
-           .setTangent(Math.toRadians(45))
-//                .setReversed(true)
-//                .splineToSplineHeading(new Pose2d(0, -51, Math.toRadians(180)), Math.toRadians(180))
-           .splineToSplineHeading(new Pose2d(0,-29, Math.toRadians(90)), Math.toRadians(45)) //move to chamber
-//           .afterTime(0, claw.action(0))
-//           .afterTime(0, protoSlideTheta.action( 0, 0.5))
-//           .afterTime(0, protoLinearSlide.action(0, 0.5))
-           .waitSeconds(.1)
            .build());
 
 
