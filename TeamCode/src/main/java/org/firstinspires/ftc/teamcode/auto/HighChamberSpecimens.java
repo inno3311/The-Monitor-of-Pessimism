@@ -130,49 +130,49 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 .afterTime(0,claw.action(1)) //close claw
                 .afterTime(0, elbow.action(-1165, 0.5))
                 .afterTime(0, slide.action(-1100, 0.5))
-//                .afterTime(0, elbow.action(-1300, 0.5))
-//                .afterTime(0, slide.action(-1000, 0.5))
                 .waitSeconds(1)
                 .splineToConstantHeading(new Vector2d( 10,-29), Math.toRadians(90)) //move to chamber
-                .afterTime(0, claw.action(0)) //begins when the action after it begins
+                .afterTime(0, claw.action(0))
                 .afterTime(0.3, elbow.action(0, 0.5))
                 .afterTime(0, slide.action(0, 0.5))
                 .waitSeconds(.1)
                 .setTangent(Math.toRadians(0))
-//                .splineToSplineHeading(new Pose2d(19, -30, Math.toRadians(180)), Math.toRadians(0))  //head right while rotating
-////           .afterTime(0, protoSlideTheta.action( 0, 0.5))
-////           .afterTime(0, protoLinearSlide.action(0, 0.5))
-                .splineToSplineHeading(new Pose2d(30, -30, Math.toRadians(270)), Math.toRadians(360))//.setReversed(true)
+                .splineToSplineHeading(new Pose2d(30, -30, Math.toRadians(270)), Math.toRadians(360))//back away from the submersible
                 .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))//.setReversed(true)
                 .splineToConstantHeading(new Vector2d(48, -12), Math.toRadians(0))//.setReversed(true)
-//                .afterTime(0, elbow.action( -300, .75))
-//                .afterTime(0, slide.action( -300, 0.75))
-                .splineToConstantHeading(new Vector2d(48, -40), Math.toRadians(270), new TranslationalVelConstraint(25))  //push sample
-                .splineToConstantHeading(new Vector2d(48, -48), Math.toRadians(270), new TranslationalVelConstraint(25)) //slow down for pickup
-              //  .setReversed(true)
+                .splineToConstantHeading(new Vector2d(48, -40), Math.toRadians(270), new TranslationalVelConstraint(25)) //slow down for sample drop off
+                .setReversed(true)
                 .splineToConstantHeading(new Vector2d(48, -10), Math.toRadians(90), new TranslationalVelConstraint(25)) //go fetch center sample
-                .splineToConstantHeading(new Vector2d(60, -10), Math.toRadians(270), new TranslationalVelConstraint(25))
-                //.setReversed(false)
+                .splineToConstantHeading(new Vector2d(60, -10), Math.toRadians(270), new TranslationalVelConstraint(25)) //move centered to center sample
                 .afterTime(0, elbow.action( -300, .75))
-                .afterTime(0, slide.action( -400, 0.75))
-                .splineToConstantHeading(new Vector2d(50, -38), Math.toRadians(270), new TranslationalVelConstraint(25))
-                .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270), new TranslationalVelConstraint(20))
-                .afterTime(0, claw.action(1))
-                .waitSeconds(1)
+                .afterTime(0, slide.action( -400, 0.75)) //raise and extend the arm to the position of the specimen on the wall
+                .splineToConstantHeading(new Vector2d(50, -38), Math.toRadians(270), new TranslationalVelConstraint(25)) //push center sample
+                .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270), new TranslationalVelConstraint(20)) //slow down for sample drop off and run into the specimen on the wall
+                .afterTime(0, claw.action(1)) //close claw
+                .waitSeconds(.5)
                 .afterTime(0, elbow.action( -1165, 0.5))
-                .waitSeconds(1)
-                .afterTime(.5, slide.action( -1100, 0.5))
-//                .setTangent(Math.toRadians(45))
+                .waitSeconds(.5)
+                .afterTime(.5, slide.action( -1100, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(10,-27, Math.toRadians(90)), Math.toRadians(90)) //move to chamber
-                .afterTime(0, claw.action(0))
+                .afterTime(0, claw.action(0)) //open claw to release the specimen that is on the bar
                 .waitSeconds(1)
-                .splineToSplineHeading(new Pose2d(10,-30, Math.toRadians(90)), Math.toRadians(270)) //move to chamber
-                .splineToSplineHeading(new Pose2d(50,-50, Math.toRadians(90)), Math.toRadians(270))
-////           .afterTime(0, claw.action(0))
-////           .afterTime(0, protoSlideTheta.action( 0, 0.5))
-////           .afterTime(0, protoLinearSlide.action(0, 0.5))
-//                .waitSeconds(.1)
+                .setReversed(true)
+                .afterTime(0.2, elbow.action( -300, .75))
+                .afterTime(0.2, slide.action( -400, 0.75)) //raise and extend the arm to the position of the specimen on the wall
+                .splineToSplineHeading(new Pose2d(20, -35, Math.toRadians(270)), Math.toRadians(0))//back away from the submersible
+                .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270)) //go to pick up the second specimen from the wall
+                .afterTime(0, claw.action(1)) //close claw
+                .waitSeconds(.5)
+                .setReversed(true)
+                .afterTime(0, elbow.action( -1165, 0.5))
+                .afterTime(.5, slide.action( -1100, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
+                .splineToSplineHeading(new Pose2d(10,-27, Math.toRadians(90)), Math.toRadians(90)) //move to chamber
+                .afterTime(0, claw.action(0)) //open claw to release the specimen that is on the bar
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270)) //park
+
+
 
 
 
