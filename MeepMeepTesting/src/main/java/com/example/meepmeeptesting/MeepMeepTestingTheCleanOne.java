@@ -17,7 +17,7 @@ public class MeepMeepTestingTheCleanOne
 
       RoadRunnerBotEntity bucketRun = new DefaultBotBuilder(meepMeep).setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15).build();
 
-      bucketRun.runAction(bucketRun.getDrive().actionBuilder(new Pose2d(-40, -45, Math.toRadians(180)))
+      bucketRun.runAction(bucketRun.getDrive().actionBuilder(new Pose2d(-40, -45, Math.toRadians(0)))
               .splineToSplineHeading(new Pose2d(-55,-55, Math.toRadians(225)), Math.toRadians(225))
               .build());
 
@@ -30,7 +30,7 @@ public class MeepMeepTestingTheCleanOne
       meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_LIGHT)
               .setDarkMode(true)
               .setBackgroundAlpha(0.95f)
-              .addEntity(chamberRun)
+              .addEntity(bucketRun)
               .start();
    }
 }

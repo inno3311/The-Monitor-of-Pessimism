@@ -196,6 +196,7 @@ public class AprilTagMaster
     }   // end method telemetryAprilTag()
 
     // These are getters for algorithms that are using apriltags Field give the robots position relative to the field (used in roadrunner) tag getters are the robot relative to the the apriltag (used in tag homing)
+
     public double getFieldX()
     {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();

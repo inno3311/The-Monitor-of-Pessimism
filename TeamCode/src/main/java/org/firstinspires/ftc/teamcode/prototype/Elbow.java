@@ -11,7 +11,7 @@ public class Elbow extends MotorParent
 
     public Elbow(LinearOpMode opMode)
     {
-        super("slideTheta", true, true, opMode);
+        super("elbow", true, true, opMode);
     }
 
     @Override
