@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.prototype;
+package org.firstinspires.ftc.teamcode.RobotChildren;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.controller.MotorParent;
