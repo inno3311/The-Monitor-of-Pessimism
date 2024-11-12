@@ -57,12 +57,15 @@ public class DumbyOpMode extends LinearOpMode
         {
             driveController.gamepadController(gamepad1);
 
-            aprilTag.tagsTelemetry(telemetry);
+            if (aprilTag.aprilTagDetected()) {telemetry.addData("Heading", aprilTag.getFieldYaw());}
+//            aprilTag.tagsTelemetry(telemetry);
             if (gamepad1.a && aprilTag.getDetectionID() == 16)
             {
-                autoBucket = new AutoBucket(new MecanumDrive(hardwareMap, new Pose2d(aprilTag.getFieldX(), aprilTag.getFieldY(), imu.getAngle())), slide, elbow, claw);
-                autoBucket.bucketRun(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians(imu.getAngle()));
+                autoBucket = new AutoBucket(new MecanumDrive(hardwareMap, new Pose2d(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians(aprilTag.getFieldYaw()))), slide, elbow, claw);
+                autoBucket.bucketRun(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians((aprilTag.getFieldYaw())));
             }
+            telemetry.update();
+
         }
 
 

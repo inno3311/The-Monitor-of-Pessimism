@@ -7,6 +7,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -216,7 +219,8 @@ public class AprilTagMaster
     {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         AprilTagDetection detection = currentDetections.get(0);
-        return detection.robotPose.getOrientation().getPitch(AngleUnit.RADIANS);
+        double headingUnmodified = detection.robotPose.getOrientation().getYaw(AngleUnit.DEGREES);
+        return ((headingUnmodified + 270)%360)+180;
     }
 
     public double getTagX()
@@ -297,9 +301,10 @@ public class AprilTagMaster
      */
     private void initAprilTag(HardwareMap hardwareMap)
     {
+        Position cameraPosition = new Position(DistanceUnit.INCH, 4.5, 0, 7.25, 0);
+        YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES, 0, -90, 0, 0);
         // Create the AprilTag processor by using a builder.
-        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
-
+        aprilTag = new AprilTagProcessor.Builder().setCameraPose(cameraPosition, cameraOrientation).build();
         // Create the vision portal the easy way.
         if (USE_WEBCAM)
         {

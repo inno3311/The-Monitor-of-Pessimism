@@ -36,12 +36,12 @@ public class AutoBucket
 
         TrajectoryActionBuilder mezTrajectory = drive.actionBuilder(new Pose2d(x,y, heading))
                 //.waitSeconds(1)
-                .afterTime(0,elbow.action(-2050, 1))
+                .afterTime(0,elbow.action(-2100, 1))
                 .afterTime(0,slide.action(-2175, 0.5))
                 .waitSeconds(3)
                 .turnTo(Math.toRadians(225))
-                .waitSeconds(2)
-                .strafeTo(new Vector2d(-55,-55))
+                .waitSeconds(1)
+                .strafeTo(new Vector2d(-48,-58))
                 //.splineToSplineHeading(new Pose2d(-55,-55, Math.toRadians(225)), Math.toRadians(225))
                 .afterTime(0,claw.action(0))
                 .waitSeconds(1);
