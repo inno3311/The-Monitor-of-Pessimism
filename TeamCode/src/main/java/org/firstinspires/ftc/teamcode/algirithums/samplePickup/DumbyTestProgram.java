@@ -3,39 +3,34 @@ package org.firstinspires.ftc.teamcode.algirithums.samplePickup;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.controller.MechanicalDriveBase;
-import org.firstinspires.ftc.teamcode.prototype.ProtoLinearSlide;
-import org.firstinspires.ftc.teamcode.prototype.ProtoSlideTheta;
+import org.firstinspires.ftc.teamcode.controller.DriveController;
+import org.firstinspires.ftc.teamcode.prototype.Elbow;
+import org.firstinspires.ftc.teamcode.prototype.Slide;
 import org.firstinspires.ftc.teamcode.vision.SampleDetection;
-import org.opencv.core.MatOfPoint;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+
 
 @Autonomous(name = "Failing")
 public class DumbyTestProgram extends LinearOpMode
 {
-    MechanicalDriveBase mechanicalDriveBase;
+    DriveController drive;
     SampleDetection sampleDetection;
     MotorTicksConversion motorTicksConversion;
     DeltaChange deltaChange;
-    ProtoLinearSlide linearSlide;
-    ProtoSlideTheta slideTheta;
+    Slide slide;
+    Elbow elbow;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
-        mechanicalDriveBase = new MechanicalDriveBase(hardwareMap);
+        drive = new DriveController(hardwareMap);
         sampleDetection = new SampleDetection(telemetry);
-        linearSlide = new ProtoLinearSlide(this);
-        slideTheta = new ProtoSlideTheta(this);
+        slide = new Slide(this);
+        elbow = new Elbow(this);
         motorTicksConversion = new MotorTicksConversion();
         deltaChange = new DeltaChange();
         initCamera();
@@ -71,7 +66,7 @@ public class DumbyTestProgram extends LinearOpMode
                     telemetry.update();
                     continue;
                 }
-                linearSlide.encoderControl((int) Math.round((1 * motorTicksConversion.linearSlideInCM() * deltaChange.armLength(object_z, 1))), 0.5);
+                slide.encoderControl((int) Math.round((1 * motorTicksConversion.linearSlideInCM() * deltaChange.armLength(object_z, 1))), 0.5);
                 /*
             }
 
