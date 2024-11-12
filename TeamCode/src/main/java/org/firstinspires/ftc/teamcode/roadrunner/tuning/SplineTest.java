@@ -3,21 +3,19 @@ package org.firstinspires.ftc.teamcode.roadrunner.tuning;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
-import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.prototype.ProtoSlideTheta;
+import org.firstinspires.ftc.teamcode.prototype.Elbow;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.TankDrive;
 
 public final class SplineTest extends LinearOpMode
 {
-    ProtoSlideTheta protoSlideTheta;
+    Elbow elbow;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
-        protoSlideTheta = new ProtoSlideTheta(this);
+        elbow = new Elbow(this);
         Pose2d beginPose = new Pose2d(0, 45, Math.toRadians(90));
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class))
         {
@@ -62,8 +60,10 @@ public final class SplineTest extends LinearOpMode
 //                            .splineTo(new Vector2d(30, 30), Math.PI / 2)
 //                            .splineTo(new Vector2d(0, 60), Math.PI)
 //                            .build());
+
         } else {
             throw new RuntimeException();
         }
     }
 }
+

@@ -25,7 +25,7 @@ public class DriveHippo
     IMUControl imuControl;
 
     /**
-     * Constructor for MechanicalDriveBase from the hardware map
+     * Constructor for DriveController from the hardware map
      *
      * @param hardwareMap the hardware map
      */

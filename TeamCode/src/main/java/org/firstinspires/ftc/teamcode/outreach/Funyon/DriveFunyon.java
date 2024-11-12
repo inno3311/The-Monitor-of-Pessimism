@@ -21,7 +21,7 @@ public class DriveFunyon
     public double speedFactor     = 0;
 
     /**
-     * Constructor for MechanicalDriveBase from the hardware map
+     * Constructor for DriveController from the hardware map
      *
      * @param hardwareMap the hardware map
      */

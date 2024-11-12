@@ -54,14 +54,14 @@ public class ServoParent
 
     protected void driveServo(double target)
     {
-        if (servo.getPosition() != target)
-        {
+//        if (servo.getPosition() != target)
+//        {
             servo.setPosition(target);
-        }
-        else
-        {
-            servo.setPosition(servo.getPosition());
-        }
+//        }
+//        else
+//        {
+//            servo.setPosition(servo.getPosition());
+//        }
     }
 
     protected void driveServo(double target, boolean argument)
@@ -76,15 +76,15 @@ public class ServoParent
     {
         return new Action()
         {
-            private boolean initialized = false;
+//            private boolean initialized = false;
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket)
             {
-                if (!initialized)
-                {
+//                if (!initialized)
+//                {
                     driveServo(target);
-                    initialized = true;
-                }
+//                    initialized = true;
+//                }
 
                 return false;
             }

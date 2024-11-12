@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.controller;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 
-public class MechanicalDriveBase
+public class DriveController
 {
     public DcMotor lf;
     public DcMotor lb;
@@ -19,16 +20,30 @@ public class MechanicalDriveBase
     public double leftPowerBack   = 0;
     public double speed = 0;
 
+    int driveDir = 1;
+    int strafeDir = 1;
+    int turnDir = 1;
+
     final double  COUNTS_PER_INCH = (8192 * 1) / (2 * 3.1415); // 1,303.835747254496
     private double heading = 0;
     IMUControl imuControl;
 
+
+    public DriveController(HardwareMap hardwareMap, int driveDir, int strafeDir, int turnDir)
+    {
+        this(hardwareMap);
+
+        this.driveDir = driveDir;
+        this.strafeDir = strafeDir;
+        this.turnDir = turnDir;
+    }
+
     /**
-     * Constructor for MechanicalDriveBase from the hardware map
+     * Constructor for DriveController from the hardware map
      *
      * @param hardwareMap the hardware map
      */
-    public MechanicalDriveBase(HardwareMap hardwareMap)
+    public DriveController(HardwareMap hardwareMap)
     {
         lf = hardwareMap.get(DcMotor.class, "lf");
         lb = hardwareMap.get(DcMotor.class, "lb");
@@ -87,9 +102,13 @@ public class MechanicalDriveBase
      */
     public void gamepadController(Gamepad gamepad)
     {
-          double drive = -gamepad.left_stick_y;
-          double turn = gamepad.right_stick_x;
-          double strafe = gamepad.left_stick_x;
+//          double drive = driveDir * -gamepad.left_stick_y;
+//          double turn = turnDir * gamepad.right_stick_x;
+//          double strafe = strafeDir * gamepad.left_stick_x;
+
+        double drive = driveDir * gamepad.left_stick_y;
+        double turn = turnDir * -gamepad.right_stick_x;
+        double strafe = strafeDir * -gamepad.left_stick_x;
           speed = 1 - (0.6 * gamepad.right_trigger);
           driveMotors(drive, turn, strafe, 0.5);
     }

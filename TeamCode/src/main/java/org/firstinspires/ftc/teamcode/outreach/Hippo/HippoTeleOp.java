@@ -1,19 +1,20 @@
 package org.firstinspires.ftc.teamcode.outreach.Hippo;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "Hippo Outreach", group = "outreach")
-public class HippoCommand extends LinearOpMode
+public class HippoTeleOp extends LinearOpMode
 {
     DriveHippo drive;
     HippoTrigger hippoTrigger;
     HippoShooter hippoShooter;
     HippoIntake hippoIntake;
+    HippoStomper hippoStomper;
     ElapsedTime time;
     double flag;
+    double interval = Double.MIN_VALUE;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -23,7 +24,9 @@ public class HippoCommand extends LinearOpMode
         hippoIntake = new HippoIntake(this);
         hippoShooter = new HippoShooter(this);
         hippoTrigger = new HippoTrigger(this);
+        hippoStomper = new HippoStomper(this);
         time = new ElapsedTime();
+        time.startTime();
 
         waitForStart();
 
@@ -32,6 +35,36 @@ public class HippoCommand extends LinearOpMode
 
         // intake method
         hippoIntake.simpleDrive(1, gamepad1.right_bumper, gamepad1.back);
+
+        telemetry.addData("", hippoIntake.getPower());
+
+        if (hippoIntake.getPower() != 0)
+        {
+            flag = time.seconds() + 5;
+        }
+
+        if (hippoIntake.getPower() == 0 && flag > time.seconds())
+        {
+
+            if (interval > time.seconds())
+            {
+                hippoStomper.driveServo(0.55);
+
+            }
+            else
+            {
+                hippoStomper.driveServo(0.9);
+            }
+            if (time.seconds() > interval + 0.5)
+            {
+                interval = time.seconds() + 0.5;
+            }
+        }
+        else
+        {
+            hippoStomper.driveServo(0.9);
+        }
+
 
         if (gamepad1.y)
         {
@@ -44,9 +77,9 @@ public class HippoCommand extends LinearOpMode
                 drive.stop();
                 hippoIntake.motorBreak();
                 //start the wheel
-                hippoShooter.run(1.5);
+                hippoShooter.run(14);
                 //execute 1 second into the loop
-                if (time.seconds() > flag + 1.5);
+                if (time.seconds() > flag + 1.5)
                 {
                     // moves the projectile toward the wheel
                     hippoTrigger.driveServo(1);
@@ -58,6 +91,7 @@ public class HippoCommand extends LinearOpMode
             hippoTrigger.driveServo(0);
         }
 
+        telemetry.update();
     }
 
 }

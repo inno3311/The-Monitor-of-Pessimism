@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.controller.MechanicalDriveBase;
+import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -37,29 +37,27 @@ public class AprilTagMaster
     private VisionPortal visionPortal;               // Used to manage the video source.
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
-    private MechanicalDriveBase mechanicalDriveBase;
+    private DriveController driveController;
     WebcamName webcamName;
     private double rangeError = 0 ;
     private double headingError = 0;
     private double yawError = 0;
 
-    public AprilTagMaster(MechanicalDriveBase mechanicalDriveBase, HardwareMap hardwareMap, AprilTagProcessor aprilTag)
+    public AprilTagMaster(DriveController driveController, HardwareMap hardwareMap, AprilTagProcessor aprilTag)
     {
-        this.mechanicalDriveBase = mechanicalDriveBase;
+        this.driveController = driveController;
         this.aprilTag = aprilTag;
     }
 
-    public AprilTagMaster(MechanicalDriveBase mechanicalDriveBase, HardwareMap hardwareMap)
+    public AprilTagMaster(DriveController driveController, HardwareMap hardwareMap)
     {
-        this.mechanicalDriveBase = mechanicalDriveBase;
+        this.driveController = driveController;
         initAprilTag(hardwareMap);
     }
 
-    public void tagsTelemetry(Telemetry telemetry)
+    public AprilTagMaster(HardwareMap hardwareMap)
     {
-        // Push telemetry to the Driver Station.
-        telemetryAprilTag(telemetry);
-        telemetry.update();
+        initAprilTag(hardwareMap);
     }
 
     public void findTag(double range, double yaw, int target, Telemetry telemetry)
@@ -121,8 +119,18 @@ public class AprilTagMaster
 //        telemetry.update();
 
         // Apply desired axes motions to the drivetrain.
-        mechanicalDriveBase.driveMotors(drive, -turn, strafe, 1);
+        driveController.driveMotors(drive, -turn, strafe, 1);
     }
+
+    public void tagsTelemetry(Telemetry telemetry)
+    {
+        // Push telemetry to the Driver Station.
+        telemetryAprilTag(telemetry);
+        telemetry.addData("*****************************************************************************************************************************", "");
+        telemetryAprilTagLocalization(telemetry);
+        telemetry.update();
+    }
+
 
     private void telemetryAprilTag(Telemetry telemetry)
     {
@@ -187,59 +195,65 @@ public class AprilTagMaster
 
     }   // end method telemetryAprilTag()
 
+    // These are getters for algorithms that are using apriltags Field give the robots position relative to the field (used in roadrunner) tag getters are the robot relative to the the apriltag (used in tag homing)
+    public double getFieldX()
+    {
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        AprilTagDetection detection = currentDetections.get(0);
+        return detection.robotPose.getPosition().x;
+    }
 
-    public double getX()
+    public double getFieldY()
+    {
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        AprilTagDetection detection = currentDetections.get(0);
+        return detection.robotPose.getPosition().y;
+    }
+
+    // Returns Radians
+    public double getFieldYaw()
+    {
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        AprilTagDetection detection = currentDetections.get(0);
+        return detection.robotPose.getOrientation().getPitch(AngleUnit.RADIANS);
+    }
+
+    public double getTagX()
     {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         AprilTagDetection detection = currentDetections.get(0);
         return detection.ftcPose.x;
     }
 
-    public double getY()
+    public double getTagY()
     {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         AprilTagDetection detection = currentDetections.get(0);
         return detection.ftcPose.x;
     }
 
-    // Shouldn't need Z
-
-    public double getPitch()
-    {
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        AprilTagDetection detection = currentDetections.get(0);
-        return detection.ftcPose.pitch;
-    }
-
-    public double getRoll()
-    {
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        AprilTagDetection detection = currentDetections.get(0);
-        return detection.ftcPose.roll;
-    }
-
-    public double getYaw()
+    public double getTagYaw()
     {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         AprilTagDetection detection = currentDetections.get(0);
         return detection.ftcPose.yaw;
     }
 
-    public double getBearing()
+    public double getTagBearing()
     {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         AprilTagDetection detection = currentDetections.get(0);
         return detection.ftcPose.bearing;
     }
 
-    public double getRange()
+    public double getTagRange()
     {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         AprilTagDetection detection = currentDetections.get(0);
         return detection.ftcPose.range;
     }
 
-    public double getElevation()
+    public double getTagElevation()
     {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         AprilTagDetection detection = currentDetections.get(0);
@@ -289,7 +303,7 @@ public class AprilTagMaster
         if (USE_WEBCAM)
         {
             visionPortal = VisionPortal.easyCreateWithDefaults(
-                    hardwareMap.get(WebcamName.class, "Top"), aprilTag);
+                    hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
         }
         else
         {
