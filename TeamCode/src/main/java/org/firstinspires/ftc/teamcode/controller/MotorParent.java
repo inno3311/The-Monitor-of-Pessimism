@@ -355,6 +355,11 @@ public class MotorParent
         }
     }
 
+    protected void automaticEncoderReset(boolean reset)
+    {
+        if (reset) {resetEncoder();}
+    }
+
     /**
      * for motors that just need to spin call break to stop
      * @param speed speed you want the motor to spin

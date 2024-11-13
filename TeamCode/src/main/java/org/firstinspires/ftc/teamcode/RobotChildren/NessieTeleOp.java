@@ -3,11 +3,13 @@ package org.firstinspires.ftc.teamcode.RobotChildren;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
+import org.firstinspires.ftc.teamcode.initialization.Initialization;
 
 @TeleOp(name = "Prototype", group = "proto")
 public class NessieTeleOp extends LinearOpMode
@@ -30,6 +32,10 @@ public class NessieTeleOp extends LinearOpMode
     TouchSensor slideLimit;
     TouchSensor elbowLimit;
 
+    //Other
+    ElapsedTime time;
+    Initialization initialization;
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -47,13 +53,22 @@ public class NessieTeleOp extends LinearOpMode
         slideLimit = hardwareMap.get(TouchSensor.class, "slideLimit");
         elbowLimit = hardwareMap.get(TouchSensor.class, "elbowLimit");
 
+        time = new ElapsedTime();
+        time.startTime();
+
+        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
+        initialization.initialization();
+
         waitForStart();
 
         while (opModeIsActive())
         {
-            //        centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2));
 
-            driveController.gamepadController(gamepad1);
+            centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), gamepad1.right_trigger,
+                    centricDrive.whichTurnMode(turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2),
+                            gamepad1.right_stick_x, gamepad1.back, time.seconds())
+            );
+//            driveController.gamepadController(gamepad1);
 
             if (gamepad2.dpad_up)
             {
@@ -102,6 +117,9 @@ public class NessieTeleOp extends LinearOpMode
             {
                 wrist.driveServo(0.3);
             }
+
+            slide.automaticEncoderReset(slideLimit.isPressed());
+            elbow.automaticEncoderReset(elbowLimit.isPressed());
 
             slide.telemetry();
             elbow.telemetry();

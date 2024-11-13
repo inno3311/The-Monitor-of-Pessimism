@@ -109,8 +109,8 @@ public class DriveController
         double drive = driveDir * gamepad.left_stick_y;
         double turn = turnDir * -gamepad.right_stick_x;
         double strafe = strafeDir * -gamepad.left_stick_x;
-          speed = 1 - (0.6 * gamepad.right_trigger);
-          driveMotors(drive, turn, strafe, speed);
+        speed = 1 - gamepad.right_trigger * 1.75;
+        driveMotors(drive, turn, strafe, speed);
     }
 
     /**

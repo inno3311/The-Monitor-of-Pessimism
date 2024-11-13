@@ -30,6 +30,9 @@ public class Elbow extends MotorParent
     public void initialize(TouchSensor sensor, int direction, double speed) {super.initialize(sensor, direction, speed);}
 
     @Override
+    protected void automaticEncoderReset(boolean reset) {super.automaticEncoderReset(reset);}
+
+    @Override
     public void resetEncoder() {super.resetEncoder();}
 
     public enum Presets
