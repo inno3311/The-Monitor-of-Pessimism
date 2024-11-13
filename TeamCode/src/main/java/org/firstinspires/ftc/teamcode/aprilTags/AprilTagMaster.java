@@ -7,6 +7,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -291,13 +294,29 @@ public class AprilTagMaster
 //        visionPortal.close();
     }
 
+    private Position cameraPosition = new Position(DistanceUnit.INCH,
+        0, 0, 0, 0);
+    private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,
+        0, -90, 0, 0);
+
     /**
      * Initialize the AprilTag processor.
      */
     private void initAprilTag(HardwareMap hardwareMap)
     {
         // Create the AprilTag processor by using a builder.
-        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+        aprilTag = new AprilTagProcessor.Builder()
+
+            .setCameraPose(cameraPosition, cameraOrientation)
+
+        // == CAMERA CALIBRATION ==
+        // If you do not manually specify calibration parameters, the SDK will attempt
+        // to load a predefined calibration for your camera.
+        .setLensIntrinsics(3358.01, 3358.01, 873.268, 563.507)
+        // ... these parameters are fx, fy, cx, cy.
+
+
+            .build();
 
         // Create the vision portal the easy way.
         if (USE_WEBCAM)
