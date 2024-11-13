@@ -3,10 +3,14 @@ package org.firstinspires.ftc.teamcode.algirithums.samplePickup;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.controller.DriveController;
+import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.prototype.Elbow;
 import org.firstinspires.ftc.teamcode.prototype.Slide;
+import org.firstinspires.ftc.teamcode.util.ImuHardware;
 import org.firstinspires.ftc.teamcode.vision.SampleDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -21,8 +25,11 @@ public class DumbyTestProgram extends LinearOpMode
     SampleDetection sampleDetection;
     MotorTicksConversion motorTicksConversion;
     DeltaChange deltaChange;
+    Initialization initialization;
     Slide slide;
+    TouchSensor slideLimit;
     Elbow elbow;
+    TouchSensor elbowLimit;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -30,16 +37,23 @@ public class DumbyTestProgram extends LinearOpMode
         drive = new DriveController(hardwareMap);
         sampleDetection = new SampleDetection(telemetry);
         slide = new Slide(this);
+        slideLimit = hardwareMap.get(TouchSensor.class, "slideLimit");
         elbow = new Elbow(this);
+        elbowLimit = hardwareMap.get(TouchSensor.class, "elbowLimit");
         motorTicksConversion = new MotorTicksConversion();
         deltaChange = new DeltaChange();
         initCamera();
+        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
+
+        initialization.initialization();
 
         waitForStart();
 
         while (opModeIsActive())
         {
-            //if (1==1)
+//            drive.gamepadController(gamepad1);
+            slide.analogControl(0.5, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
+            elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);            //if (1==1)
             if (gamepad1.a)
             {
                 ArrayList<ArrayList<Double>> object_distances = sampleDetection.object_distances();
@@ -60,13 +74,21 @@ public class DumbyTestProgram extends LinearOpMode
                 telemetry.addData("nearest X", Math.round(object_x));
                 telemetry.addData("nearest Y", Math.round(object_y));
                 telemetry.addData("nearest Z", Math.round(object_z));
-                telemetry.addData("motor", (int) Math.round((1 * motorTicksConversion.linearSlideInCM() * deltaChange.armLength(object_z, 1))));
+                telemetry.addData("motor", (int) Math.round((-1 * motorTicksConversion.linearSlideInCM() * deltaChange.armLength(object_z, 1))));
                 if (object_z < 0)
                 {
                     telemetry.update();
                     continue;
                 }
-                slide.encoderControl((int) Math.round((1 * motorTicksConversion.linearSlideInCM() * deltaChange.armLength(object_z, 1))), 0.5);
+                if (motorTicksConversion.linearSlideInCM() * deltaChange.armLength(object_z,1) < 2000)
+                {
+                    telemetry.addData("In Range?", "Inside");
+                    slide.encoderControl((int) Math.round((-1 * motorTicksConversion.linearSlideInCM() * deltaChange.armLength(object_z, 1))), 0.5);
+                    drive.strafe(object_x, (int)(object_x/(Math.abs(object_x))), 1);
+                } else
+                {
+                    telemetry.addData("In Range?", "Outside");
+                }
                 /*
             }
 

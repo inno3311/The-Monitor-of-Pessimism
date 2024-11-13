@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
+import org.firstinspires.ftc.teamcode.util.ImuHardware;
+import org.firstinspires.ftc.teamcode.util.Logging;
+import org.firstinspires.ftc.teamcode.util.PIDController;
 
 public class DriveController
 {
@@ -140,6 +143,47 @@ public class DriveController
           rb.setPower(rightPowerBack/maxAbsVal * speed);
 
       }
+
+    /**
+     * Drives the bot right or backward in a straight line.
+     * @param target distance in inches to travel.
+     * @param right indicates direction of travel.  1 is right -1 is left
+     * @param speed double value indicating the speed from 0 to 1.
+     */
+
+    public void strafe(double target, int right, double speed)
+    {
+        //reset the encoders
+        this.resetEncoders();
+        this.resetRunMode();
+
+        speed *= right;
+        int strafeTargetPos = this.rb.getCurrentPosition();
+        strafeTargetPos += target * 1303.0*3;
+
+        if ((Math.abs(this.rb.getCurrentPosition()) <= strafeTargetPos))
+        {
+            //if the number is positive the bot is slipping forward
+            //if the number is negative the bot is slipping backwards
+            //lf and rf are added because rf is reverse of lf direction.
+            int yDifference = ((this.lf.getCurrentPosition() + this.rf.getCurrentPosition()) / 2);
+
+            int direction = 1;
+            if (yDifference < 0)
+                direction = direction * -1;
+
+            // if the number is positive the bot strafed left
+            // if the number is negative the bot strafed right
+            int strafeDifference = this.rb.getCurrentPosition();
+
+            // Use PID with imu input to drive in a straight line.
+            // pos is right turn, neg is left turn
+
+            //this.driveMotors(0, (-headingError), speed, 1); // run with PID
+            this.driveMotors(0, (0), speed, 1); // run with PID
+        }
+        this.driveMotors(0, 0, 0, 0);
+    }
 
     /**
      * Returns the absolute maximum power on any drive motor.

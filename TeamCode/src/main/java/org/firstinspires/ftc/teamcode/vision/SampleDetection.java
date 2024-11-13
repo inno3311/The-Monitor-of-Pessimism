@@ -38,7 +38,7 @@ public class SampleDetection extends OpenCvPipeline
    double distance_minimum_camera = cam_placement.val[1];
    double camera_x_offset = cam_placement.val[2];
    double camera_z_offset = cam_placement.val[3];
-   double range_limiter = 8; //larger = farther range detection
+   double range_limiter = 9999; //larger = farther range detection
    double x_resolution = 320;
    double y_resolution = 180;
    double y_fov = 52.2;
@@ -53,8 +53,8 @@ public class SampleDetection extends OpenCvPipeline
    public Scalar lower = new Scalar(0, 171, 75);
    public Scalar upper = new Scalar(255, 255, 255);
    public Scalar blur = new Scalar(1, 1, 0, 0);
-   private Mat ycrcbMat       = new Mat();
-   private Mat binaryMat      = new Mat();
+   private Mat ycrcbMat = new Mat();
+   private Mat binaryMat = new Mat();
    private Mat maskedInputMat = new Mat();
    private double y_distance = 0;
    private ArrayList<Point> sample_points = new ArrayList<>();
@@ -124,7 +124,7 @@ public class SampleDetection extends OpenCvPipeline
          // Draw contour
          Imgproc.drawContours(input, contours, i, color);
          // Draw ellipse
-         //Imgproc.ellipse(input, minEllipse[i], color, 2);
+         // Imgproc.ellipse(input, minEllipse[i], color, 2);
          // Draw rotated rectangle
          Point[] rectPoints = new Point[4];
          minRect[i].points(rectPoints);

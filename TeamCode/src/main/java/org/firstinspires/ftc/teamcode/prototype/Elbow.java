@@ -15,7 +15,7 @@ public class Elbow extends MotorParent
     }
 
     @Override
-    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode, boolean lowerLimit, boolean upperLimit)
+    public void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode, boolean lowerLimit, boolean upperLimit)
     {
         super.analogControl(speedLimit, input, advanceBreak, slowMode, lowerLimit, upperLimit);
     }
