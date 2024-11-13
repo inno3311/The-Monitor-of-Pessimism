@@ -94,7 +94,7 @@ public class NessieTeleOp extends LinearOpMode
             }
             else
             {
-                slide.analogControl(0.75, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
+                slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
                 elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
             }
 
