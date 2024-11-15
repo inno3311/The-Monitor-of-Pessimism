@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.controller;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -49,10 +50,10 @@ public class DriveController
         rb = hardwareMap.get(DcMotor.class, "rb");
         rf = hardwareMap.get(DcMotor.class, "rf");
 
-        lf.setDirection(DcMotor.Direction.REVERSE);
-        rf.setDirection(DcMotor.Direction.FORWARD);
-        lb.setDirection(DcMotor.Direction.REVERSE);
-        rb.setDirection(DcMotor.Direction.FORWARD);
+        lf.setDirection(DcMotor.Direction.FORWARD);
+        rf.setDirection(DcMotor.Direction.REVERSE);
+        lb.setDirection(DcMotor.Direction.FORWARD);
+        rb.setDirection(DcMotor.Direction.REVERSE);
 
         // Run Without Encoders
         resetRunMode();
@@ -108,8 +109,8 @@ public class DriveController
         double drive = driveDir * gamepad.left_stick_y;
         double turn = turnDir * -gamepad.right_stick_x;
         double strafe = strafeDir * -gamepad.left_stick_x;
-          speed = 1 - (0.6 * gamepad.right_trigger);
-          driveMotors(drive, turn, strafe, speed);
+        speed = 1 - gamepad.right_trigger * 1.75;
+        driveMotors(drive, turn, strafe, speed);
     }
 
     /**

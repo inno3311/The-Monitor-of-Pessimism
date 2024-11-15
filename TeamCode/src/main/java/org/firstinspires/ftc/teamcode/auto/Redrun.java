@@ -5,14 +5,11 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.aprilTags.AprilTagMaster;
-import org.firstinspires.ftc.teamcode.prototype.Claw;
-import org.firstinspires.ftc.teamcode.prototype.Elbow;
-import org.firstinspires.ftc.teamcode.prototype.Wrist;
-import org.firstinspires.ftc.teamcode.prototype.Slide;
+import org.firstinspires.ftc.teamcode.RobotChildren.Claw;
+import org.firstinspires.ftc.teamcode.RobotChildren.Elbow;
+import org.firstinspires.ftc.teamcode.RobotChildren.Wrist;
+import org.firstinspires.ftc.teamcode.RobotChildren.Slide;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 

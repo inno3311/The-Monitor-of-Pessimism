@@ -7,7 +7,8 @@ public class CentricDrive
 {
     Telemetry telemetry;
     DriveController driveController;
-
+    private boolean flag;
+    private double lastChanged = 0;
 
     public CentricDrive(DriveController driveController, Telemetry telemetry)
     {
@@ -15,12 +16,31 @@ public class CentricDrive
         this.telemetry = telemetry;
     }
 
-    public void drive(double x,double y, double robot_heading, double turn)
+    public void drive(double x,double y, double robot_heading, double slowMo, double turn)
     {
+        double speed = 1 - slowMo * 1.5;
         double drive_y = y * Math.cos(Math.toRadians(robot_heading)) + x * Math.sin(Math.toRadians(robot_heading));
         double drive_x = -y * Math.sin(Math.toRadians(robot_heading)) + x * Math.cos(Math.toRadians(robot_heading));
-        driveController.driveMotors(drive_y, -turn, -drive_x,1);
+        driveController.driveMotors(drive_y, -turn, -drive_x, speed);
         telemetry.update();
+    }
+
+    public double whichTurnMode(double turnToHeading, double turnBasic, boolean whichTurn, double time)
+    {
+        if (whichTurn && lastChanged < time)
+        {
+            flag = !flag;
+            lastChanged = time + 0.25;
+        }
+
+        if (flag)
+        {
+            return turnToHeading;
+        }
+        else
+        {
+            return turnBasic;
+        }
     }
 
 

@@ -1,18 +1,19 @@
-package org.firstinspires.ftc.teamcode.prototype;
+package org.firstinspires.ftc.teamcode.RobotChildren;
 
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.controller.ServoParent;
 
-public class Claw extends ServoParent
+public class Wrist extends ServoParent
 {
-    public Claw(LinearOpMode opMode)
+
+    public Wrist(LinearOpMode opMode)
     {
-        super("claw", 0,1, opMode);
+        super("wrist", 0,1, opMode);
     }
 
     @Override
-    public void driveServo(double target)
+    protected void driveServo(double target)
     {
         super.driveServo(target);
     }

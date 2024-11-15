@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.prototype;
+package org.firstinspires.ftc.teamcode.RobotChildren;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-
+import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.AutoBucket;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 import org.firstinspires.ftc.teamcode.aprilTags.AprilTagMaster;
@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
+
 
 @TeleOp(name = "TeleOp", group = "proto")
 public class NessieTeleOp extends LinearOpMode
@@ -39,6 +40,10 @@ public class NessieTeleOp extends LinearOpMode
     Wrist wrist;
     Claw claw;
 
+    //Other
+    ElapsedTime time;
+
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -57,6 +62,9 @@ public class NessieTeleOp extends LinearOpMode
         wrist = new Wrist(this);
         claw = new Claw(this);
 
+        time = new ElapsedTime();
+        time.startTime();
+
         initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
         initialization.initialization();
 
@@ -64,10 +72,12 @@ public class NessieTeleOp extends LinearOpMode
 
         while (opModeIsActive())
         {
-            //        centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2));
-
             // Drive Code
-            driveController.gamepadController(gamepad1);
+            centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), gamepad1.right_trigger,
+                    centricDrive.whichTurnMode(turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2),
+                            gamepad1.right_stick_x, gamepad1.back, time.seconds())
+            );
+//            driveController.gamepadController(gamepad1);
 
             // Algorithms
             if (aprilTag.aprilTagDetected()) {telemetry.addData("Heading", aprilTag.getFieldYaw());}
@@ -102,12 +112,14 @@ public class NessieTeleOp extends LinearOpMode
             else if (gamepad2.dpad_right)
             {
                 slide.encoderPresets(Slide.Presets.BOTTOM_BUCKET);
+
+
                 elbow.encoderPresets(Elbow.Presets.BOTTOM_BUCKET);
             }
             else
             {
-                slide.analogControl(0.75, gamepad2.left_stick_y, true,false, 0,-2270);
-                elbow.analogControl(1, gamepad2.right_stick_y, true, false);
+                slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
+                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
             }
 
             hang.simpleDrive(1, gamepad2.y, gamepad2.a);
@@ -129,7 +141,9 @@ public class NessieTeleOp extends LinearOpMode
             {
                 wrist.driveServo(0);
             }
-
+            
+            slide.automaticEncoderReset(slideLimit.isPressed());
+            elbow.automaticEncoderReset(elbowLimit.isPressed());
 
             // telemetry
             slide.telemetry();
