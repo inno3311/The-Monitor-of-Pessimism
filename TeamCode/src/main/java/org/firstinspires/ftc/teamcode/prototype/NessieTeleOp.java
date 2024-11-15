@@ -74,7 +74,7 @@ public class NessieTeleOp extends LinearOpMode
 
             if (aprilTag.aprilTagDetected())
             {
-                if (gamepad1.a && aprilTag.getDetectionID() == 16)
+                if (gamepad1.a && (aprilTag.getDetectionID() == 16 || aprilTag.getDetectionID() == 15 || aprilTag.getDetectionID() == 14))
                 {
                     telemetry.addData("Entered", "if");
                     autoBucket = new AutoBucket(new MecanumDrive(hardwareMap, new Pose2d(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians(aprilTag.getFieldYaw()))), slide, elbow, wrist, claw);
