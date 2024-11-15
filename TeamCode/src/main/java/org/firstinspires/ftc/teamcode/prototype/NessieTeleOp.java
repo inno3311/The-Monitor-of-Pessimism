@@ -1,22 +1,36 @@
 package org.firstinspires.ftc.teamcode.prototype;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.AutoBucket;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
+import org.firstinspires.ftc.teamcode.aprilTags.AprilTagMaster;
 import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
+import org.firstinspires.ftc.teamcode.initialization.Initialization;
+import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
-@TeleOp(name = "Prototype", group = "proto")
+@TeleOp(name = "TeleOp", group = "proto")
 public class NessieTeleOp extends LinearOpMode
 {
-    private static final boolean USE_WEBCAM = false;  // true for webcam, false for phone camera
+    // Sensors
+    AprilTagMaster aprilTag;
+    IMUControl imu;
+    TouchSensor slideLimit;
+    TouchSensor elbowLimit;
+
+    // Algorithms
+    AutoBucket autoBucket;
+    Initialization initialization;
+
     // DriveBase
     DriveController driveController;
     TurnToHeading turnToHeading;
     CentricDrive centricDrive;
-    IMUControl imu;
 
     // Accessories
     Slide slide;
@@ -28,16 +42,23 @@ public class NessieTeleOp extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException
     {
-        driveController = new DriveController(hardwareMap);
+        aprilTag = new AprilTagMaster(hardwareMap);
         imu = new IMUControl(hardwareMap, telemetry);
+        slideLimit = hardwareMap.get(TouchSensor.class, "slideLimit");
+        elbowLimit = hardwareMap.get(TouchSensor.class, "elbowLimit");
+
+        driveController = new DriveController(hardwareMap);
         turnToHeading = new TurnToHeading(telemetry, driveController, imu);
         centricDrive = new CentricDrive(driveController, telemetry);
+
         slide = new Slide(this);
         elbow = new Elbow(this);
-
         hang = new Hang(this);
         wrist = new Wrist(this);
         claw = new Claw(this);
+
+        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
+        initialization.initialization();
 
         waitForStart();
 
@@ -45,8 +66,24 @@ public class NessieTeleOp extends LinearOpMode
         {
             //        centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2));
 
+            // Drive Code
             driveController.gamepadController(gamepad1);
 
+            // Algorithms
+            if (aprilTag.aprilTagDetected()) {telemetry.addData("Heading", aprilTag.getFieldYaw());}
+
+            if (aprilTag.aprilTagDetected())
+            {
+                if (gamepad1.a && aprilTag.getDetectionID() == 16)
+                {
+                    telemetry.addData("Entered", "if");
+                    autoBucket = new AutoBucket(new MecanumDrive(hardwareMap, new Pose2d(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians(aprilTag.getFieldYaw()))), slide, elbow, wrist, claw);
+                    autoBucket.bucketRun(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians((aprilTag.getFieldYaw())));
+                }
+            }
+
+
+            // Accessories
             if (gamepad2.dpad_up)
             {
                 slide.encoderPresets(Slide.Presets.TOP_CHAMBER);
@@ -90,9 +127,11 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (gamepad2.left_trigger > 0.2)
             {
-                wrist.driveServo(0.3);
+                wrist.driveServo(0);
             }
 
+
+            // telemetry
             slide.telemetry();
             elbow.telemetry();
             hang.telemetry();

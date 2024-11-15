@@ -11,7 +11,7 @@ public class Slide extends MotorParent
 
     public Slide(LinearOpMode opMode)
     {
-        super("slide", true, true, opMode);
+        super("slide", false, true, opMode);
     }
 
     @Override

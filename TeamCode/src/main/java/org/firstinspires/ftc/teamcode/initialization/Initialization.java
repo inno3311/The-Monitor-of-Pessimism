@@ -41,8 +41,8 @@ public class Initialization
 
     private void retract()
     {
-        slide.initialize(slideLimit, 1, 0.25);
-        theta.initialize(thetaLimit, 1, 0.5);
+        slide.initialize(slideLimit, 1, 0.5);
+        theta.initialize(thetaLimit, 1, 0.75);
     }
 
     private void fitTheBox()

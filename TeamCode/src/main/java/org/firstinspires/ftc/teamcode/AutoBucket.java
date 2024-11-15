@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import org.firstinspires.ftc.teamcode.prototype.Claw;
 import org.firstinspires.ftc.teamcode.prototype.Elbow;
 import org.firstinspires.ftc.teamcode.prototype.Slide;
+import org.firstinspires.ftc.teamcode.prototype.Wrist;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 public class AutoBucket
@@ -17,47 +18,48 @@ public class AutoBucket
     MecanumDrive drive;
     Slide slide;
     Elbow elbow;
+    Wrist wrist;
     Claw claw;
+    private double target_X;
+    private double target_Y;
+    private double target_heading;
 
-    public AutoBucket(MecanumDrive drive, Slide slide, Elbow elbow, Claw claw)
+    public AutoBucket(MecanumDrive drive, Slide slide, Elbow elbow, Wrist wrist, Claw claw)
     {
         this.drive = drive;
         this.slide = slide;
         this.elbow = elbow;
+        this.wrist = wrist;
         this.claw = claw;
     }
 
     public void bucketRun(double x, double y, double heading)
     {
-        TrajectoryActionBuilder bucket = drive.actionBuilder(new Pose2d(x,y,heading)).splineToSplineHeading(new Pose2d(-55,-55, Math.toRadians(225)), Math.toRadians(225));
+        target_X = -49;
+        target_Y = -56;
+        target_heading = 225;
 
-        TrajectoryActionBuilder waitTrajectory = drive.actionBuilder(new Pose2d(x,y,heading))
-                .waitSeconds(2);
-
-        TrajectoryActionBuilder mezTrajectory = drive.actionBuilder(new Pose2d(x,y, heading))
+        TrajectoryActionBuilder bucket = drive.actionBuilder(new Pose2d(x,y, heading))
                 //.waitSeconds(1)
-                .afterTime(0,elbow.action(-2100, 1))
-                .afterTime(0,slide.action(-2175, 0.5))
-                .waitSeconds(3)
-                .turnTo(Math.toRadians(225))
+                .afterTime(0, wrist.action(1))
+                .afterTime(0, elbow.action(-2500, 1))
+                .afterTime(0, slide.action(0, 0.5))
                 .waitSeconds(1)
-                .strafeTo(new Vector2d(-48,-58))
-                //.splineToSplineHeading(new Pose2d(-55,-55, Math.toRadians(225)), Math.toRadians(225))
-                .afterTime(0,claw.action(0))
-                .waitSeconds(1);
+                .turnTo(Math.toRadians(target_heading))
+                .waitSeconds(1)
+                .strafeTo(new Vector2d(target_X,target_Y))
+                .afterTime(0, slide.action(-2175, 1))
+                .waitSeconds(0.5)
+                .afterTime(0, elbow.action(-2400, 1))
+                .waitSeconds(0.5)
+                .afterTime(0, wrist.action(0))
+                .waitSeconds(0.5);
 
-        Action Mez = mezTrajectory.build();
 
+        Action bucketAction = bucket.build();
 
-        //Action wait = waitTrajectory.build();
+        Actions.runBlocking(bucketAction);
 
-        //Action bucketAction = bucket.build();
-
-        //Actions.runBlocking(new SequentialAction(elbow.action(-2050, 1), wait, slide.action(-2150, 0.5), wait, bucketAction));
-
-        Actions.runBlocking(Mez);
-
-        //claw.driveServo(0);
     }
 
 }

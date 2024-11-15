@@ -9,7 +9,7 @@ public class Wrist extends ServoParent
 
     public Wrist(LinearOpMode opMode)
     {
-        super("wrist", 0,0.5, opMode);
+        super("wrist", 0,1, opMode);
     }
 
     @Override
