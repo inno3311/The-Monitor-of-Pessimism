@@ -3,18 +3,16 @@ package org.firstinspires.ftc.teamcode.genericOpModes;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-
 import org.firstinspires.ftc.teamcode.AutoBucket;
-import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 import org.firstinspires.ftc.teamcode.aprilTags.AprilTagMaster;
 import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
-import org.firstinspires.ftc.teamcode.prototype.Claw;
-import org.firstinspires.ftc.teamcode.prototype.Elbow;
-import org.firstinspires.ftc.teamcode.prototype.Slide;
-import org.firstinspires.ftc.teamcode.prototype.Wrist;
+import org.firstinspires.ftc.teamcode.RobotChildren.Slide;
+import org.firstinspires.ftc.teamcode.RobotChildren.Elbow;
+import org.firstinspires.ftc.teamcode.RobotChildren.Hang;
+import org.firstinspires.ftc.teamcode.RobotChildren.Wrist;
+import org.firstinspires.ftc.teamcode.RobotChildren.Claw;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 @Autonomous(name = "dumbyOpMode")
