@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Action;
-//import com.acmerobotics.roadrunner.Actions;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.ftc.Actions;
-
-import org.firstinspires.ftc.teamcode.prototype.Claw;
-import org.firstinspires.ftc.teamcode.prototype.Elbow;
-import org.firstinspires.ftc.teamcode.prototype.Slide;
+import org.firstinspires.ftc.teamcode.RobotChildren.Slide;
+import org.firstinspires.ftc.teamcode.RobotChildren.Elbow;
+import org.firstinspires.ftc.teamcode.RobotChildren.Claw;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 public class AutoChamber

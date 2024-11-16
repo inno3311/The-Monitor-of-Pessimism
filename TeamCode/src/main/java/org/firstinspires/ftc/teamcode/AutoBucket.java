@@ -32,20 +32,28 @@ public class AutoBucket
         this.claw = claw;
     }
 
-    public void bucketRun(double x, double y, double heading)
+    public void bucketRun(double x, double y, double heading, int tag)
     {
-        target_X = -49;
-        target_Y = -56;
-        target_heading = 225;
+        if (tag == 16 || tag == 15 || tag == 14)
+        {
+            target_X = -51;
+            target_Y = -56;
+            target_heading = 225;
+        }
+        else
+        {
+            target_X = 51;
+            target_Y = 56;
+            target_heading = 45;
+        }
 
         TrajectoryActionBuilder bucket = drive.actionBuilder(new Pose2d(x,y, heading))
                 //.waitSeconds(1)
                 .afterTime(0, wrist.action(1))
                 .afterTime(0, elbow.action(-2500, 1))
                 .afterTime(0, slide.action(0, 0.5))
-                .waitSeconds(1)
+                .strafeTo(new Vector2d(target_X + 5, target_Y + 5))
                 .turnTo(Math.toRadians(target_heading))
-                .waitSeconds(1)
                 .strafeTo(new Vector2d(target_X,target_Y))
                 .afterTime(0, slide.action(-2175, 1))
                 .waitSeconds(0.5)

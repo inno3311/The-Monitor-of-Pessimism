@@ -72,11 +72,11 @@ public class NessieTeleOp extends LinearOpMode
         while (opModeIsActive())
         {
             // Drive Code
-            centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), gamepad1.right_trigger,
-                    centricDrive.whichTurnMode(turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2),
-                            gamepad1.right_stick_x, gamepad1.back, time.seconds())
-            );
-//            driveController.gamepadController(gamepad1);
+//            centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), gamepad1.right_trigger,
+//                    centricDrive.whichTurnMode(turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2),
+//                            gamepad1.right_stick_x, gamepad1.back, time.seconds())
+//            );
+            drive.gamepadController(gamepad1);
 
 
             // Algorithms
@@ -84,11 +84,11 @@ public class NessieTeleOp extends LinearOpMode
 
             if (aprilTag.aprilTagDetected())
             {
-                if (gamepad1.a && (aprilTag.getDetectionID() == 16 || aprilTag.getDetectionID() == 15 || aprilTag.getDetectionID() == 14))
+                if (gamepad1.a && aprilTag.getDetectionID() != -1)
                 {
                     telemetry.addData("Entered", "if");
                     autoBucket = new AutoBucket(new MecanumDrive(hardwareMap, new Pose2d(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians(aprilTag.getFieldYaw()))), slide, elbow, wrist, claw);
-                    autoBucket.bucketRun(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians((aprilTag.getFieldYaw())));
+                    autoBucket.bucketRun(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians((aprilTag.getFieldYaw())), aprilTag.getDetectionID());
                 }
             }
 

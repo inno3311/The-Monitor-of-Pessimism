@@ -22,7 +22,7 @@ public class CentricDrive
         double speed = 1 - slowMo * 1.5;
         double drive_y = y * Math.cos(Math.toRadians(robot_heading)) + x * Math.sin(Math.toRadians(robot_heading));
         double drive_x = -y * Math.sin(Math.toRadians(robot_heading)) + x * Math.cos(Math.toRadians(robot_heading));
-        driveController.driveMotors(drive_y, -turn, -drive_x, speed);
+        driveController.driveMotors(-drive_y, turn, drive_x, speed);
         telemetry.update();
     }
 
