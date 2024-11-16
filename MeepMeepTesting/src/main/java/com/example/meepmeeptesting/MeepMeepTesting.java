@@ -33,12 +33,6 @@ public class MeepMeepTesting {
               .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
               .build();
 
-      RoadRunnerBotEntity myBotDaniel = new DefaultBotBuilder(meepMeep)
-              // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-              .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
-              .build();
-
-
 
        RoadRunnerBotEntity myRedHang = new DefaultBotBuilder(meepMeep)
            // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -96,128 +90,119 @@ public class MeepMeepTesting {
               .waitSeconds(3)
               .build());
 
-      myBotDaniel.runAction(myBotDaniel.getDrive().actionBuilder(new Pose2d(0,-55, Math.toRadians(90)))
-              .splineToConstantHeading(new Vector2d(a, b), Math.toRadians(90))
-              .waitSeconds(1) //space for program to hook specimen on bar
-              .setReversed(true)
-              .splineToSplineHeading(new Pose2d(0, -50, Math.toRadians(90)), Math.toRadians(270))
-          .setTangent(Math.toRadians(360))
-          .setReversed(false)
-          .splineToSplineHeading(new Pose2d(30, -36, Math.toRadians(360)), Math.toRadians(360))
-          .setTangent(Math.toRadians(45))
-          .splineToSplineHeading(new Pose2d(32, -12,Math.toRadians(315)), Math.toRadians(45))
-          .splineToSplineHeading(new Pose2d( x, y, Math.toRadians(270)), Math.toRadians(270))
-//              .setTangent(Math.toRadians(360))
-//              .splineToSplineHeading(new Pose2d(30, -36, Math.toRadians(360)), Math.toRadians(360))
-//                  .setTangent(Math.toRadians(45))
-//                  .splineToSplineHeading(new Pose2d(38, -20,Math.toRadians(315)), Math.toRadians(45))
-//                  .splineToSplineHeading(new Pose2d( x, y, Math.toRadians(270)), Math.toRadians(270))
-//              .setReversed(true)
-//              .setTangent(Math.toRadians(90))
-//              .splineToSplineHeading(new Pose2d(42, -10, Math.toRadians(270)), Math.toRadians(90))
-//              .splineToConstantHeading(new Vector2d(46, -20), Math.toRadians(270))
-//              .splineToConstantHeading(new Vector2d(x, y), Math.toRadians(270))
-//              .waitSeconds(1) //space for program that obtains specimen
-//              .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
-//              .splineToSplineHeading(new Pose2d(a+1, b, Math.toRadians(90)), Math.toRadians(90)) //end of first lap
 
-//              .waitSeconds(1) //space for program to hook specimen on bar
-//              .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
-//              .splineToSplineHeading(new Pose2d(54, -10, Math.toRadians(270)), Math.toRadians(360))
-//              .splineToConstantHeading(new Vector2d(56, -20), Math.toRadians(270))
-//              .splineToConstantHeading(new Vector2d(x, y), Math.toRadians(270))
-//              .waitSeconds(1) //space for program that obtains specimen
-//              .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
-//              .splineToSplineHeading(new Pose2d(a+2, b, Math.toRadians(90)), Math.toRadians(90)) //end of second lap
-//
-//              .waitSeconds(1) //space for program to hook specimen on bar
-//              .splineToSplineHeading(new Pose2d(30, -40, Math.toRadians(270)), Math.toRadians(360))
-//              .splineToSplineHeading(new Pose2d(58, -10, Math.toRadians(270)), Math.toRadians(360))
-//              .splineToConstantHeading(new Vector2d(61, -20), Math.toRadians(270))
-//              .splineToConstantHeading(new Vector2d(61, y), Math.toRadians(270)) //this line may not be necessary if robot can catch the sample on its side
-//              .splineToConstantHeading(new Vector2d(x,y), Math.toRadians(180))
-//              .waitSeconds(1) //space for program that obtains specimen
-//              .splineToConstantHeading(new Vector2d(x, y+3), Math.toRadians(90))
-//              .splineToSplineHeading(new Pose2d(a+2, b, Math.toRadians(90)), Math.toRadians(90)) //end of second lap
-//              .waitSeconds(1) //space for program to hook specimen on bar
-//              .splineToConstantHeading(new Vector2d(53, -58), Math.toRadians(270)) //parking
-              .build());
-
-
-       RoadRunnerBotEntity myBot2ChamberMesloh1 = new DefaultBotBuilder(meepMeep)
+       RoadRunnerBotEntity testPath1 = new DefaultBotBuilder(meepMeep)
            // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
            .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
            .build();
 
-       myBot2ChamberMesloh1.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(0,-55, Math.toRadians(90)))
-//           .afterTime(0,claw.action(1)) //close claw
-//           .afterTime(0, protoSlideTheta.action( -1165, 0.5))
-//           .afterTime(0, protoLinearSlide.action(-1100, 0.5))
+       testPath1.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(0,-30, Math.toRadians(90)))
+               .waitSeconds(1)
+               .setReversed(true)
+               //.setTangent(Math.toRadians(240))
+           .splineToSplineHeading(new Pose2d(45, -45, Math.toRadians(270)), Math.toRadians(270))//back away from the submersible
+           .build());
+
+       RoadRunnerBotEntity testPath2 = new DefaultBotBuilder(meepMeep)
+           // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+           .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+           .build();
+
+       testPath2.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(0,-30, Math.toRadians(90)))
            .waitSeconds(1)
-           .splineToConstantHeading(new Vector2d( 0,-29), Math.toRadians(90)) //move to chamber
-//           .afterTime(0, claw.action(0)) //begins when the action after it begins
-           .waitSeconds(.1)
-           .setTangent(Math.toRadians(0))
-           .splineToSplineHeading(new Pose2d(19, -30, Math.toRadians(180)), Math.toRadians(0))  //head right while rotating
-//           .afterTime(0, protoSlideTheta.action( 0, 0.5))
-//           .afterTime(0, protoLinearSlide.action(0, 0.5))
-           //.waitSeconds(.1)
-           .splineToSplineHeading(new Pose2d(36, -30, Math.toRadians(270)), Math.toRadians(360))//.setReversed(true)
-           //.setTangent(Math.toRadians(90))
-           .splineToConstantHeading(new Vector2d(42, -12), Math.toRadians(90))//.setReversed(true)
-        //   .splineToConstantHeading(new Vector2d( 48, -10), Math.toRadians(90))
-//           .afterTime(0, protoSlideTheta.action( -300, .75))
-//           .afterTime(0, protoLinearSlide.action( -300, 0.75))
-        //   .waitSeconds(.1)
-          // .setTangent(Math.toRadians(270))
-           .splineToConstantHeading(new Vector2d(46, -40), Math.toRadians(270), new TranslationalVelConstraint(100))  //push sample
-             .splineToConstantHeading(new Vector2d(46, -50), Math.toRadians(270), new TranslationalVelConstraint(10)) //slow down for pickup
-//           .afterTime(0, claw.action(1))
-//           .afterTime(0, protoSlideTheta.action( -1165, 0.5))
-//                .afterTime(0, protoLinearSlide.action( -1100, 0.5))
-           .waitSeconds(.1)
-           .setTangent(Math.toRadians(45))
-//                .setReversed(true)
-//                .splineToSplineHeading(new Pose2d(0, -51, Math.toRadians(180)), Math.toRadians(180))
-                .setReversed(true)
-           .splineToSplineHeading(new Pose2d(0,-29, Math.toRadians(90)), Math.toRadians(90)) //move to chamber
-           //  .strafeToLinearHeading(new Vector2d(0, -27), Math.toRadians(90.1)) //alternate to chamber
-//           .afterTime(0, claw.action(0))
-//           .afterTime(0, protoSlideTheta.action( 0, 0.5))
-//           .afterTime(0, protoLinearSlide.action(0, 0.5))
-           .waitSeconds(.1)
+           .setReversed(true)
+           //.setTangent(Math.toRadians(240))
+           .splineToSplineHeading(new Pose2d(20, -35, Math.toRadians(270)), Math.toRadians(0))//back away from the submersible
+           .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270)) //go to pick up the second specimen from the wall
            .build());
 
 
 
 
-//
-//                       .afterTime(0,claw.action(1)) //close claw
-//           .afterTime(0, protoSlideTheta.action( -1165, 0.5))
-//           .afterTime(0, protoLinearSlide.action(-1100, 0.5))
-//           .waitSeconds(1)
-//           .splineToConstantHeading(new Vector2d( 0,-29), Math.toRadians(90)) //move to chamber
-//           .afterTime(0, claw.action(0)) //begins when the action after it begins
-//           .waitSeconds(.1)
-//           .setTangent(Math.toRadians(360))
-//           .splineToSplineHeading(new Pose2d(19, -30, Math.toRadians(180)), Math.toRadians(360))
-//           .afterTime(0, protoSlideTheta.action( 0, 0.5))
-//           .afterTime(0, protoLinearSlide.action(0, 0.5))
-//           .waitSeconds(.1)
-//           .splineToSplineHeading(new Pose2d(36, -30, Math.toRadians(270)), Math.toRadians(360))
-//           .setTangent(Math.toRadians(90))
-//           .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))
-//           .splineToConstantHeading(new Vector2d( 48, -8), Math.toRadians(90))
-//           .afterTime(0, protoSlideTheta.action( -300, .75))
-//           .afterTime(0, protoLinearSlide.action( -300, 0.75))
-//           .waitSeconds(.1)
-////                .splineToSplineHeading(new Pose2d(42, -35, Math.toRadians(360)), Math.toRadians(90))
-////                .splineToSplineHeading(new Pose2d(40, -12, Math.toRadians(315)), Math.toRadians(360)) //sample floor location
-////                .afterTime(0, protoSlideTheta.action( -300, .75))
-////                .afterTime(0, protoLinearSlide.action( -300, 0.75))
-////                .waitSeconds(.5)
-//           .setTangent(Math.toRadians(270))
-//           .splineToConstantHeading(new Vector2d(44, -52), Math.toRadians(270))
+
+
+       RoadRunnerBotEntity myBotRedHang = new DefaultBotBuilder(meepMeep)
+           // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+           .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+           .build();
+
+       myBotRedHang.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(0,-55, Math.toRadians(90)))
+//            .afterTime(0,claw.action(1)) //close claw
+//                .afterTime(0, elbow.action(-1165, 0.5))
+//                .afterTime(0, slide.action(-1100, 0.5))
+                .waitSeconds(1)
+                .splineToConstantHeading(new Vector2d( 10,-29), Math.toRadians(90)) //move to chamber
+//                .afterTime(0, claw.action(0))
+//                .afterTime(0.3, elbow.action(0, 0.5))
+//                .afterTime(0, slide.action(0, 0.5))
+                .waitSeconds(.1)
+                .setTangent(Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(30, -30, Math.toRadians(270)), Math.toRadians(360))//back away from the submersible
+                .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))// move around the leg of the submersible
+                .splineToConstantHeading(new Vector2d(48, -12), Math.toRadians(0))// move to centered on teh left sample
+                .splineToConstantHeading(new Vector2d(48, -40), Math.toRadians(270), new TranslationalVelConstraint(25)) //slow down for pickup
+                .splineToConstantHeading(new Vector2d(48, -10), Math.toRadians(90), new TranslationalVelConstraint(25)) //go fetch center sample
+                .splineToConstantHeading(new Vector2d(60, -10), Math.toRadians(270), new TranslationalVelConstraint(25)) //move centered to center sample
+//                .afterTime(0, elbow.action( -300, .75))
+//                .afterTime(0, slide.action( -400, 0.75)) //raise and extend the arm to the position of the specimen on the wall
+                .splineToConstantHeading(new Vector2d(50, -38), Math.toRadians(270), new TranslationalVelConstraint(25)) //push center sample
+                .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270), new TranslationalVelConstraint(20)) //slow down for sample drop off and run into the specimen on the wall
+//                .afterTime(0, claw.action(1))
+//                .waitSeconds(1)
+//                .afterTime(0, elbow.action( -1165, 0.5))
+//                .waitSeconds(1)
+//                .afterTime(.5, slide.action( -1100, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(10,-27, Math.toRadians(90)), Math.toRadians(90)) //move to chamber
+//                .afterTime(0, claw.action(0)) //open claw to release the specimen that is on the bar
+//                .waitSeconds(1)
+               .setReversed(true)
+           .splineToSplineHeading(new Pose2d(20, -35, Math.toRadians(270)), Math.toRadians(360))//back away from the submersible
+           .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270)) //go to pick up the second specimen from the wall
+//           .afterTime(0, elbow.action( -300, .75))
+//                .afterTime(0, slide.action( -400, 0.75)) //raise and extend the arm to the position of the specimen on the wall
+           .build());
+
+
+
+
+
+
+
+       RoadRunnerBotEntity myYellowDrop = new DefaultBotBuilder(meepMeep)
+           // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+           .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+           .build();
+
+
+
+
+       myYellowDrop.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(-40, -55, Math.toRadians(90)))
+           .splineToSplineHeading(new Pose2d(-50, -50, Math.toRadians(225)), Math.toRadians(180))
+           .waitSeconds(1)//extend the arm to drop yellow sample in the bucket
+           .setReversed(true) //lower the arm to the height that will pick up the sample off the floor
+           .splineToSplineHeading(new Pose2d(-45, -50, Math.toRadians(90)), Math.toRadians(0)) //go to the position of the right side yellow sample on the floor
+           .waitSeconds(1) //extend the arm the pick the yellow sample off of the floor and lift the arm to bucket height
+           .splineToSplineHeading(new Pose2d(-50, -50, Math.toRadians(225)),  Math.toRadians(225)) //go to bucket
+           .waitSeconds(1) //drop the sample in the bucket
+           .setReversed(true)
+           .splineToSplineHeading(new Pose2d(-58, -50, Math.toRadians(90)), Math.toRadians(180)) //go to the position of the center yellow sample on the floor
+           .waitSeconds(1) //pick up center sample and lift arm
+           .setReversed(true)
+           .splineToSplineHeading(new Pose2d(-50, -50, Math.toRadians(225)), Math.toRadians(315)) //go to bucket
+           .waitSeconds(1) //drop the sample in the bucket
+           .splineToSplineHeading(new Pose2d(-58, -50, Math.toRadians(100)), Math.toRadians(150)) //go to the left yellow sample
+           .waitSeconds(1) //pick up the left sample and lift arm
+           .splineToSplineHeading(new Pose2d(-50, -50, Math.toRadians(225)), Math.toRadians(0)) //go to the bucket
+
+           .waitSeconds(1) //drop the sample
+           .setReversed(true)
+           .splineToSplineHeading(new Pose2d(-40, -30, Math.toRadians(270)), Math.toRadians(90)) //parking approach
+           .splineToConstantHeading(new Vector2d(-20, -12), Math.toRadians(0)) //park
+
+           .build());
+
+
 
 
        RoadRunnerBotEntity myBotYellowMesloh1 = new DefaultBotBuilder(meepMeep)
@@ -243,8 +228,10 @@ public class MeepMeepTesting {
       meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_LIGHT)
               .setDarkMode(true)
               .setBackgroundAlpha(0.95f)
-             // .addEntity(myBotDaniel)
-              .addEntity(myBot2ChamberMesloh1)
+
+              //.addEntity(myBotRedHang)
+              .addEntity(myYellowDrop)
+//          .addEntity(testPath2)
               .start();
    }
 }
