@@ -4,7 +4,11 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.controller.ServoParent;
 
+<<<<<<< Updated upstream:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/RobotChildren/Wrist.java
 public class Wrist extends ServoParent
+=======
+public class ProtoWrist extends ServoParent
+>>>>>>> Stashed changes:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/prototype/ProtoWrist.java
 {
 
     public Wrist(LinearOpMode opMode)

@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.outreach.Hippo;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+<<<<<<< Updated upstream
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.controller.MotorParent;
+=======
+>>>>>>> Stashed changes
 import org.firstinspires.ftc.teamcode.controller.ServoParent;
 
 public class HippoStomper extends ServoParent

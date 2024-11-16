@@ -2,11 +2,17 @@ package org.firstinspires.ftc.teamcode.RobotChildren;
 
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+<<<<<<< Updated upstream:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/RobotChildren/Elbow.java
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.controller.MotorParent;
 
 public class Elbow extends MotorParent
+=======
+import org.firstinspires.ftc.teamcode.controller.MotorParent;
+
+public class ProtoSlideTheta extends MotorParent
+>>>>>>> Stashed changes:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/prototype/ProtoSlideTheta.java
 {
 
     public Elbow(LinearOpMode opMode)
