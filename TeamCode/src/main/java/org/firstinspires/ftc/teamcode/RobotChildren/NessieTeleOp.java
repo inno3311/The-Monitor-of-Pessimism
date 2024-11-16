@@ -76,10 +76,12 @@ public class NessieTeleOp extends LinearOpMode
                             gamepad1.right_stick_x, gamepad1.back, time.seconds())
             );
 //            drive.gamepadController(gamepad1);
+            
             if (gamepad1.left_bumper && gamepad1.left_trigger > 0.25 && gamepad1.right_bumper && gamepad1.right_trigger > 0.25)
             {
                 imu.resetAngle();
             }
+
 
 
             // Algorithms
