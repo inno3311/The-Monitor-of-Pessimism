@@ -35,10 +35,12 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.DriveCommandMessage;
@@ -54,6 +56,16 @@ import java.util.List;
 @Config
 public final class MecanumDrive
 {
+
+    private double leftPowerFront  = 0;
+    private double rightPowerFront = 0;
+    private double rightPowerBack  = 0;
+    private double leftPowerBack   = 0;
+    private double speed = 0;
+
+    private int driveDir = 1;
+    private int strafeDir = 1;
+    private int turnDir = 1;
 
     public static class Params {
         // IMU orientation
@@ -282,7 +294,10 @@ public final class MecanumDrive
         // TODO: reverse motor directions if needed
         // jrm done.  Had to reverse left side of bot.
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
+
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
@@ -541,4 +556,72 @@ public final class MecanumDrive
                 defaultVelConstraint, defaultAccelConstraint
         );
     }
+
+    /**
+     * Standard controls from a gamepad
+     *
+     * @param gamepad - the gamepad you want to control the drive base
+     */
+    public void gamepadController(Gamepad gamepad)
+    {
+        double drive = driveDir * -gamepad.left_stick_y;
+        double turn = turnDir * gamepad.right_stick_x;
+        double strafe = strafeDir * gamepad.left_stick_x;
+        speed = 1 - (0.6 * gamepad.right_trigger);
+        driveMotors(drive, turn, strafe, speed);
+    }
+
+    /**
+     * Drive the motors according to drive, turn, strafe inputs.
+     *
+     * @param drive forward / backward (-1 to 1)
+     * @param turn how much to turn left or right (heading) (-1 to 1)
+     * @param strafe strafe (left or right = -1 to 1)
+     * @param speed scale factor that is applied to all motor powers (0 to 1)
+     */
+    public void driveMotors(double drive, double turn, double strafe, double speed)
+    {
+        leftPowerFront  = (drive + turn + strafe);
+        rightPowerFront = (drive - turn - strafe);
+        leftPowerBack   = (drive + turn - strafe);
+        rightPowerBack  = (drive - turn + strafe);
+
+        // This code is awful.
+        double maxAbsVal = maxAbsVal(leftPowerFront, leftPowerBack,
+                rightPowerFront, rightPowerBack);
+
+        maxAbsVal = Math.max(1.0, maxAbsVal);
+
+        leftFront.setPower(leftPowerFront/maxAbsVal * speed);
+        rightFront.setPower(rightPowerFront/maxAbsVal * speed);
+        leftBack.setPower(leftPowerBack/maxAbsVal * speed);
+        rightBack.setPower(rightPowerBack/maxAbsVal * speed);
+
+    }
+
+    /**
+     * maxAbsVal returns the maximum absolute value among an arbitrary number of arguments.
+     *
+     * @param values an arbitrary number of values.
+     * @return the maximum absolute value among the numbers.
+     */
+    public static double maxAbsVal(double ... values){
+        double mav = Double.NEGATIVE_INFINITY;
+        for (double val: values) {
+            mav = Math.max(mav, Math.abs(val));
+        }
+        return mav;
+    }
+
+    /**
+     * report drivebase telemetry
+     *
+     * @param telemetry the telemetry object we're reporting to.
+     */
+    public void driveBaseTelemetry(Telemetry telemetry)
+    {
+        telemetry.addData("Motors", "lf: %.2f rf: %.2f lb: %.2f rb: %.2f", leftPowerFront, rightPowerFront, leftPowerBack, rightPowerBack);
+        telemetry.addData("Speed control", speed);
+    }
+
 }

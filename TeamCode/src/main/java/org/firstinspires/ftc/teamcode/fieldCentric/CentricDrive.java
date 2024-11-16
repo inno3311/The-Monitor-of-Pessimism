@@ -2,15 +2,16 @@ package org.firstinspires.ftc.teamcode.fieldCentric;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.controller.DriveController;
+import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 public class CentricDrive
 {
     Telemetry telemetry;
-    DriveController driveController;
+    MecanumDrive driveController;
     private boolean flag;
     private double lastChanged = 0;
 
-    public CentricDrive(DriveController driveController, Telemetry telemetry)
+    public CentricDrive(MecanumDrive driveController, Telemetry telemetry)
     {
         this.driveController = driveController;
         this.telemetry = telemetry;

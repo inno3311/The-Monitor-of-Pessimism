@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.AutoBucket;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 import org.firstinspires.ftc.teamcode.aprilTags.AprilTagMaster;
-import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
@@ -29,7 +28,7 @@ public class NessieTeleOp extends LinearOpMode
     Initialization initialization;
 
     // DriveBase
-    DriveController driveController;
+    MecanumDrive drive;
     TurnToHeading turnToHeading;
     CentricDrive centricDrive;
 
@@ -52,9 +51,9 @@ public class NessieTeleOp extends LinearOpMode
         slideLimit = hardwareMap.get(TouchSensor.class, "slideLimit");
         elbowLimit = hardwareMap.get(TouchSensor.class, "elbowLimit");
 
-        driveController = new DriveController(hardwareMap);
-        turnToHeading = new TurnToHeading(telemetry, driveController, imu);
-        centricDrive = new CentricDrive(driveController, telemetry);
+        drive = new MecanumDrive(hardwareMap, null);
+        turnToHeading = new TurnToHeading(telemetry, drive, imu);
+        centricDrive = new CentricDrive(drive, telemetry);
 
         slide = new Slide(this);
         elbow = new Elbow(this);
@@ -79,12 +78,13 @@ public class NessieTeleOp extends LinearOpMode
             );
 //            driveController.gamepadController(gamepad1);
 
+
             // Algorithms
             if (aprilTag.aprilTagDetected()) {telemetry.addData("Heading", aprilTag.getFieldYaw());}
 
             if (aprilTag.aprilTagDetected())
             {
-                if (gamepad1.a && aprilTag.getDetectionID() == 16)
+                if (gamepad1.a && (aprilTag.getDetectionID() == 16 || aprilTag.getDetectionID() == 15 || aprilTag.getDetectionID() == 14))
                 {
                     telemetry.addData("Entered", "if");
                     autoBucket = new AutoBucket(new MecanumDrive(hardwareMap, new Pose2d(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians(aprilTag.getFieldYaw()))), slide, elbow, wrist, claw);
