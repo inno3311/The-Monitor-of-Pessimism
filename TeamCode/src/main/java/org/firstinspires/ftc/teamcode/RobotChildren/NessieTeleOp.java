@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
-
 @TeleOp(name = "TeleOp", group = "proto")
 public class NessieTeleOp extends LinearOpMode
 {

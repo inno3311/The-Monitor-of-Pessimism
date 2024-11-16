@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode.RobotChildren;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.teamcode.controller.MotorParent;
 
-<<<<<<< Updated upstream:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/RobotChildren/Hang.java
 public class Hang extends MotorParent
-=======
-public class ProtoHang extends MotorParent
->>>>>>> Stashed changes:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/prototype/ProtoHang.java
 {
 
     public Hang(LinearOpMode opMode)

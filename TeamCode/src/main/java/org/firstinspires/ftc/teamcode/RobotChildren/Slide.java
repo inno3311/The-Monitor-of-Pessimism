@@ -2,17 +2,11 @@ package org.firstinspires.ftc.teamcode.RobotChildren;
 
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-<<<<<<< Updated upstream:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/RobotChildren/Slide.java
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.controller.MotorParent;
 
 public class Slide extends MotorParent
-=======
-import org.firstinspires.ftc.teamcode.controller.MotorParent;
-
-public class ProtoLinearSlide extends MotorParent
->>>>>>> Stashed changes:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/prototype/ProtoLinearSlide.java
 {
 
     public Slide(LinearOpMode opMode)
