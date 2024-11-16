@@ -3,16 +3,16 @@ package org.firstinspires.ftc.teamcode.genericOpModes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
+import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.PIDController;
 
 @TeleOp(name = "Centric Command *Don't run this one*", group = "FieldCentric")
 public class CentricCommand extends OpMode
 {
-    DriveController driveController;
+    MecanumDrive drive;
     TurnToHeading turnToHeading;
     CentricDrive centricDrive;
     IMUControl imu;
@@ -22,10 +22,10 @@ public class CentricCommand extends OpMode
     @Override
     public void init()
     {
-        driveController = new DriveController(hardwareMap);
+        drive = new MecanumDrive(hardwareMap, null);
         imu = new IMUControl(hardwareMap, telemetry);
-        turnToHeading = new TurnToHeading(telemetry, driveController, imu);
-        centricDrive = new CentricDrive(driveController, telemetry);
+        turnToHeading = new TurnToHeading(telemetry, drive, imu);
+        centricDrive = new CentricDrive(drive, telemetry);
     }
 
     @Override

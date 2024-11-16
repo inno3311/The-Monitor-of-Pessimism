@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.teamcode.AutoBucket;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 import org.firstinspires.ftc.teamcode.aprilTags.AprilTagMaster;
-import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
@@ -28,7 +27,7 @@ public class NessieTeleOp extends LinearOpMode
     Initialization initialization;
 
     // DriveBase
-    DriveController driveController;
+    MecanumDrive drive;
     TurnToHeading turnToHeading;
     CentricDrive centricDrive;
 
@@ -47,9 +46,9 @@ public class NessieTeleOp extends LinearOpMode
         slideLimit = hardwareMap.get(TouchSensor.class, "slideLimit");
         elbowLimit = hardwareMap.get(TouchSensor.class, "elbowLimit");
 
-        driveController = new DriveController(hardwareMap);
-        turnToHeading = new TurnToHeading(telemetry, driveController, imu);
-        centricDrive = new CentricDrive(driveController, telemetry);
+        drive = new MecanumDrive(hardwareMap, null);
+        turnToHeading = new TurnToHeading(telemetry, drive, imu);
+        centricDrive = new CentricDrive(drive, telemetry);
 
         slide = new Slide(this);
         elbow = new Elbow(this);
@@ -67,7 +66,7 @@ public class NessieTeleOp extends LinearOpMode
             //        centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2));
 
             // Drive Code
-            driveController.gamepadController(gamepad1);
+            drive.gamepadController(gamepad1);
 
             // Algorithms
             if (aprilTag.aprilTagDetected()) {telemetry.addData("Heading", aprilTag.getFieldYaw());}

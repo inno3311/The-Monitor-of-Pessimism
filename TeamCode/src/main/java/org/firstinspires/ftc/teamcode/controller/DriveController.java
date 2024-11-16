@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 
+// Do not use
 public class DriveController
 {
     public DcMotor lf;
@@ -95,6 +96,7 @@ public class DriveController
         lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
+
     /**
      * Standard controls from a gamepad
      *
@@ -102,13 +104,9 @@ public class DriveController
      */
     public void gamepadController(Gamepad gamepad)
     {
-//          double drive = driveDir * -gamepad.left_stick_y;
-//          double turn = turnDir * gamepad.right_stick_x;
-//          double strafe = strafeDir * gamepad.left_stick_x;
-
-        double drive = driveDir * gamepad.left_stick_y;
-        double turn = turnDir * -gamepad.right_stick_x;
-        double strafe = strafeDir * -gamepad.left_stick_x;
+        double drive = driveDir * -gamepad.left_stick_y;
+        double turn = turnDir * gamepad.right_stick_x;
+        double strafe = strafeDir * gamepad.left_stick_x;
           speed = 1 - (0.6 * gamepad.right_trigger);
           driveMotors(drive, turn, strafe, speed);
     }

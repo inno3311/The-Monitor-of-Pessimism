@@ -3,17 +3,18 @@ package org.firstinspires.ftc.teamcode.fieldCentric;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
+import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 public class TurnToHeading
 {
     Telemetry telemetry;
-    DriveController driveController;
+    MecanumDrive driveController;
     IMUControl imu;
 
 //    PIDController pid;
     private double target;
 
-    public TurnToHeading(Telemetry telemetry, DriveController driveController, IMUControl imu)
+    public TurnToHeading(Telemetry telemetry, MecanumDrive driveController, IMUControl imu)
     {
         this.telemetry = telemetry;
         this.driveController = driveController;
