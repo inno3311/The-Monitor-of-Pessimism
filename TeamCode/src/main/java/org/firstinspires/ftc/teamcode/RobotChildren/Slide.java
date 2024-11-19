@@ -15,7 +15,7 @@ public class Slide extends MotorParent
     }
 
     @Override
-    protected void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode, boolean lowerLimit, int upperLimit, boolean swapBounds)
+    public void analogControl(double speedLimit, double input, boolean advanceBreak, boolean slowMode, boolean lowerLimit, int upperLimit, boolean swapBounds)
     {
         super.analogControl(speedLimit, input, advanceBreak, slowMode, lowerLimit, upperLimit, swapBounds);
     }
