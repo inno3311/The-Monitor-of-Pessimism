@@ -4,19 +4,16 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
-import org.firstinspires.ftc.teamcode.prototype.Elbow;
-import org.firstinspires.ftc.teamcode.prototype.Slide;
-import org.firstinspires.ftc.teamcode.util.ImuHardware;
+import org.firstinspires.ftc.teamcode.RobotChildren.Elbow;
+import org.firstinspires.ftc.teamcode.RobotChildren.Slide;
 import org.firstinspires.ftc.teamcode.vision.SampleDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
-
 
 @Autonomous(name = "Failing")
 public class DumbyTestProgram extends LinearOpMode
