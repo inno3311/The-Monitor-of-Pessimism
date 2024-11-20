@@ -35,6 +35,9 @@ public class Elbow extends MotorParent
     @Override
     public void resetEncoder() {super.resetEncoder();}
 
+    @Override
+    protected int getMotorPosition() {return super.getMotorPosition();}
+
     public enum Presets
     {
         TOP_CHAMBER,
