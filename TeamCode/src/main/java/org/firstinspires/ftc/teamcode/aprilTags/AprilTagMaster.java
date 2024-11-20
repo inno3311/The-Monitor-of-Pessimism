@@ -312,12 +312,12 @@ public class AprilTagMaster
 
         aprilTag = new AprilTagProcessor.Builder()
 
-            .setCameraPose(cameraPosition, cameraOrientation)
+        //    .setCameraPose(cameraPosition, cameraOrientation)
 
         // == CAMERA CALIBRATION ==
         // If you do not manually specify calibration parameters, the SDK will attempt
         // to load a predefined calibration for your camera.
-        .setLensIntrinsics(3358.01, 3358.01, 873.268, 563.507)
+        //.setLensIntrinsics(3358.01, 3358.01, 873.268, 563.507)
         // ... these parameters are fx, fy, cx, cy.
             .build();
 

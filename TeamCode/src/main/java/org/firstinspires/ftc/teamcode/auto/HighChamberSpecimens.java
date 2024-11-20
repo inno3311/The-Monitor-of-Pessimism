@@ -53,29 +53,27 @@ public final class HighChamberSpecimens extends LinearOpMode {
             waitForStart();
 
 
-                int x = 44;
-                int y = -48;
-            //Mesloh attempt to use afterDisp to hang a specs.
             TrajectoryActionBuilder trajectoryActionBuilderTwoChamberRun= drive.actionBuilder(beginPose)
                 .afterTime(0,claw.action(1)) //close claw
                 .afterTime(0, elbow.action(-1165, 0.5))
                 .afterTime(0, slide.action(-1100, 0.5))
-                .waitSeconds(1)
-                .splineToConstantHeading(new Vector2d( 10,-29), Math.toRadians(90)) //move to chamber
-                .afterTime(0, claw.action(0))
+                .waitSeconds(1)  //TODO trim down this number
+                .splineToConstantHeading(new Vector2d( 10,-28.5), Math.toRadians(90)) //move to chamber, hang #1 specimen
+                .afterTime(0, claw.action(0)) //open claw
                 .afterTime(0.3, elbow.action(0, 0.5))
                 .afterTime(0, slide.action(0, 0.5))
                 .waitSeconds(.1)
-                .setTangent(Math.toRadians(0))
+                .setTangent(Math.toRadians(0))  //TODO  should we be doing this?
                 .splineToSplineHeading(new Pose2d(30, -30, Math.toRadians(270)), Math.toRadians(360))//back away from the submersible
-                .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))//.setReversed(true)
-                .splineToConstantHeading(new Vector2d(48, -12), Math.toRadians(0))//.setReversed(true)
+                .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(48, -12), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(48, -40), Math.toRadians(270), new TranslationalVelConstraint(25)) //slow down for sample drop off
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(48, -10), Math.toRadians(90), new TranslationalVelConstraint(25)) //go fetch center sample
                 .splineToConstantHeading(new Vector2d(60, -10), Math.toRadians(270), new TranslationalVelConstraint(25)) //move centered to center sample
                 .afterTime(0, elbow.action( -300, .75))
                 .afterTime(0, slide.action( -400, 0.75)) //raise and extend the arm to the position of the specimen on the wall
+                .afterTime(0, wrist.action(0.7))
                 .splineToConstantHeading(new Vector2d(50, -38), Math.toRadians(270), new TranslationalVelConstraint(25)) //push center sample
                 .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270), new TranslationalVelConstraint(20)) //slow down for sample drop off and run into the specimen on the wall
                 .afterTime(0, claw.action(1)) //close claw
@@ -101,53 +99,6 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 .afterTime(0, claw.action(0)) //open claw to release the specimen that is on the bar
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270)) //park
-
-
-
-
-
-
-
-
-
-//                .afterTime(0,claw.action(1)) //close claw
-//                .afterTime(0, elbow.action( -1165, 0.5))
-//                .afterTime(0, slide.action(-1100, 0.5))
-//                .waitSeconds(1)
-//                .splineToConstantHeading(new Vector2d( 0,-29), Math.toRadians(90)) //move to chamber
-//                .afterTime(0, claw.action(0)) //begins when the action after it begins
-//                .waitSeconds(.1)
-//                .setTangent(Math.toRadians(360))
-//                .splineToSplineHeading(new Pose2d(19, -30, Math.toRadians(180)), Math.toRadians(360))
-//                .afterTime(0, elbow.action( 0, 0.5))
-//                .afterTime(0, slide.action(0, 0.5))
-//                //.waitSeconds(.1)
-//                .splineToSplineHeading(new Pose2d(36, -30, Math.toRadians(270)), Math.toRadians(360))
-//                .setTangent(Math.toRadians(90))
-//                .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))
-//                .splineToConstantHeading(new Vector2d( 48, -10), Math.toRadians(90))
-//                .afterTime(0, elbow.action( -300, .75))
-//                .afterTime(0, slide.action( -300, 0.75))
-//                .waitSeconds(.1)
-//                .setTangent(Math.toRadians(270))
-//                .splineToConstantHeading(new Vector2d(45, -50), Math.toRadians(270), new TranslationalVelConstraint(10)) //pickup from wall
-//                .afterTime(0, claw.action(1))
-//                .waitSeconds(.5)
-//                .afterTime(0, elbow.action( -1165, 0.5))
-////                .afterTime(0, slide.action( -1100, 0.5))
-//                .setTangent(Math.toRadians(45))
-//                .afterTime(0, slide.action(-1100, 0.5))
-//                .setTangent(Math.toRadians(45))
-//
-//
-////                .setReversed(true)
-////                .splineToSplineHeading(new Pose2d(0, -51, Math.toRadians(180)), Math.toRadians(180))
-////                .splineToSplineHeading(new Pose2d(0,-29, Math.toRadians(180)), Math.toRadians(45)) //move to chamber
-//                .strafeToLinearHeading(new Vector2d(0, -27), Math.toRadians(90.1))
-//                .afterTime(0, claw.action(0))
-//                .afterTime(0, elbow.action( 0, 0.5))
-//                .afterTime(0, slide.action(0, 0.5))
-//                .waitSeconds(1)
                 ;
 
 
