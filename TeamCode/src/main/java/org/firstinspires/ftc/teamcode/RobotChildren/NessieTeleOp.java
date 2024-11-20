@@ -76,12 +76,11 @@ public class NessieTeleOp extends LinearOpMode
                             gamepad1.right_stick_x, gamepad1.back, time.seconds())
             );
 //            drive.gamepadController(gamepad1);
-            
+
             if (gamepad1.left_bumper && gamepad1.left_trigger > 0.25 && gamepad1.right_bumper && gamepad1.right_trigger > 0.25)
             {
                 imu.resetAngle();
             }
-
 
 
             // Algorithms
@@ -138,13 +137,27 @@ public class NessieTeleOp extends LinearOpMode
                 claw.driveServo(1);
             }
 
-            if (gamepad2.left_bumper)
+            if (gamepad2.left_bumper) // Back
             {
-                wrist.driveServo(1);
+                if (elbow.getMotorPosition() > -900)
+                {
+                    wrist.driveServo(0.7);
+                }
+                else
+                {
+                    wrist.driveServo(1);
+                }
             }
-            else if (gamepad2.left_trigger > 0.2)
+            else if (gamepad2.left_trigger > 0.2) // Up
             {
-                wrist.driveServo(0);
+                if (elbow.getMotorPosition() > -900)
+                {
+                    wrist.driveServo(0.2);
+                }
+                else
+                {
+                    wrist.driveServo(0);
+                }
             }
             
             slide.automaticEncoderReset(slideLimit.isPressed());

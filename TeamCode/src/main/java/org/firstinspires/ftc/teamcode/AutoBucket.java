@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 public class AutoBucket
 {
-
     MecanumDrive drive;
     Slide slide;
     Elbow elbow;
