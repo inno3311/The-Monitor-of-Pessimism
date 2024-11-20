@@ -157,17 +157,38 @@ public class MeepMeepTesting {
 //                .afterTime(0, claw.action(0)) //open claw to release the specimen that is on the bar
 //                .waitSeconds(1)
                .setReversed(true)
-           .splineToSplineHeading(new Pose2d(20, -35, Math.toRadians(270)), Math.toRadians(360))//back away from the submersible
+           .setTangent(Math.toRadians(0))
+           .splineToSplineHeading(new Pose2d(30, -30, Math.toRadians(270)), Math.toRadians(360))//back away from the submersible
+           //.splineToSplineHeading(new Pose2d(20, -35, Math.toRadians(270)), Math.toRadians(270))//back away from the submersible
            .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270)) //go to pick up the second specimen from the wall
 //           .afterTime(0, elbow.action( -300, .75))
 //                .afterTime(0, slide.action( -400, 0.75)) //raise and extend the arm to the position of the specimen on the wall
            .build());
 
 
+       RoadRunnerBotEntity chamberCycle = new DefaultBotBuilder(meepMeep)
+           // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+           .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+           .build();
 
+       chamberCycle.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(10,-55, Math.toRadians(90)))
+           .splineToConstantHeading(new Vector2d( 10,-29), Math.toRadians(90)) //move to chamber
+           .setReversed(true)
+               //.setTangent(Math.toRadians(200))
+               .splineToConstantHeading(new Vector2d( 10,-32), Math.toRadians(270)) //move to chamber
+           .setReversed(true)
+               .splineToSplineHeading(new Pose2d(40, -45, Math.toRadians(270)),Math.toRadians(0))
+                   .setReversed(true)
+               .setTangent(Math.toRadians(0))
+               //.splineToConstantHeading(new Vector2d( 50,-55), Math.toRadians(270))
+           .splineToSplineHeading(new Pose2d(50, -55, Math.toRadians(270)),Math.toRadians(0))
 
+                   //.splineTo(new Vector2d( 40,-55), Math.toRadians(270))
+               //.splineTo(new Vector2d( 30,-40),Math.toRadians(0))
 
-
+               //.setReversed(true)
+           //.splineTo(new Vector2d( 40,-60),Math.toRadians(270))
+           .build());
 
        RoadRunnerBotEntity myYellowDrop = new DefaultBotBuilder(meepMeep)
            // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -228,9 +249,9 @@ public class MeepMeepTesting {
       meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_LIGHT)
               .setDarkMode(true)
               .setBackgroundAlpha(0.95f)
-
-              //.addEntity(myBotRedHang)
-              .addEntity(myYellowDrop)
+          .addEntity(chamberCycle)
+         //     .addEntity(myBotRedHang)
+              //.addEntity(myYellowDrop)
 //          .addEntity(testPath2)
               .start();
    }
