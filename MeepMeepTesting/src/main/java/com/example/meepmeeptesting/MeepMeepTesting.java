@@ -2,14 +2,19 @@ package com.example.meepmeeptesting;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.AngularVelConstraint;
+import com.acmerobotics.roadrunner.Arclength;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Pose2dDual;
+import com.acmerobotics.roadrunner.PosePath;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.VelConstraint;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
+
+import org.jetbrains.annotations.NotNull;
 
 public class MeepMeepTesting {
    public static void main(String[] args) {
@@ -179,7 +184,7 @@ public class MeepMeepTesting {
            .setReversed(true)
                .splineToSplineHeading(new Pose2d(40, -45, Math.toRadians(270)),Math.toRadians(0))
                    .setReversed(true)
-               .setTangent(Math.toRadians(0))
+         //      .setTangent(Math.toRadians(0))
                //.splineToConstantHeading(new Vector2d( 50,-55), Math.toRadians(270))
            .splineToSplineHeading(new Pose2d(50, -55, Math.toRadians(270)),Math.toRadians(0))
 
@@ -190,7 +195,29 @@ public class MeepMeepTesting {
            //.splineTo(new Vector2d( 40,-60),Math.toRadians(270))
            .build());
 
-       RoadRunnerBotEntity myYellowDrop = new DefaultBotBuilder(meepMeep)
+      RoadRunnerBotEntity chamberCycle2 = new DefaultBotBuilder(meepMeep)
+            // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+            .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+            .build();
+
+      chamberCycle2.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(10,-55, Math.toRadians(90)))
+            .waitSeconds(2)
+            .splineToConstantHeading(new Vector2d( 10,-29), Math.toRadians(90)) //move to chamber
+            .setTangent(Math.toRadians(0))
+            .setReversed(true)
+            .strafeToLinearHeading(new Vector2d(40, -55), Math.toRadians(270), new TranslationalVelConstraint(100))
+            .splineToConstantHeading(new Vector2d( 40,-58), Math.toRadians(270))
+            //.waitSeconds(2)
+            .strafeToLinearHeading(new Vector2d(0, -29),Math.toRadians(89.99))
+            .build());
+
+
+
+
+
+
+
+            RoadRunnerBotEntity myYellowDrop = new DefaultBotBuilder(meepMeep)
            // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
            .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
            .build();
@@ -246,10 +273,11 @@ public class MeepMeepTesting {
                .build());
 
 
-      meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_LIGHT)
+      meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
               .setDarkMode(true)
               .setBackgroundAlpha(0.95f)
-          .addEntity(chamberCycle)
+          //.addEntity(chamberCycle)
+            .addEntity(chamberCycle2)
          //     .addEntity(myBotRedHang)
               //.addEntity(myYellowDrop)
 //          .addEntity(testPath2)
