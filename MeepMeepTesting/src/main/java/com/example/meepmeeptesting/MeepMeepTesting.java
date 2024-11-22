@@ -277,8 +277,8 @@ public class MeepMeepTesting {
               .setDarkMode(true)
               .setBackgroundAlpha(0.95f)
           //.addEntity(chamberCycle)
-            .addEntity(chamberCycle2)
-         //     .addEntity(myBotRedHang)
+  //          .addEntity(chamberCycle2)
+              .addEntity(myBotRedHang)
               //.addEntity(myYellowDrop)
 //          .addEntity(testPath2)
               .start();
