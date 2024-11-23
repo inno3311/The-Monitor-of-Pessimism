@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.Pose2dDual;
 import com.acmerobotics.roadrunner.PosePath;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
+import com.acmerobotics.roadrunner.TurnConstraints;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.VelConstraint;
 import com.noahbres.meepmeep.MeepMeep;
@@ -35,7 +36,7 @@ public class MeepMeepTesting {
 
       RoadRunnerBotEntity myBotSam = new DefaultBotBuilder(meepMeep)
               // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-              .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+              .setConstraints(60, 60, Math.toRadians(360), Math.toRadians(360), 15)
               .build();
 
 
@@ -213,7 +214,47 @@ public class MeepMeepTesting {
 
 
 
+      RoadRunnerBotEntity chamberCycle3 = new DefaultBotBuilder(meepMeep)
+            // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+            .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+            .build();
 
+      chamberCycle3.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(10,-55, Math.toRadians(90)))
+
+            .splineToConstantHeading(new Vector2d( 10,-29), Math.toRadians(90)) //move to chamber
+            .waitSeconds(.5)
+
+            .setTangent(Math.toRadians(0))
+            .splineToSplineHeading(new Pose2d(30, -30, Math.toRadians(270)), Math.toRadians(360))//back away from the submersible
+            .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))// move around the leg of the submersible
+            .splineToConstantHeading(new Vector2d(48, -12), Math.toRadians(0))// move to centered on teh left sample
+            .splineToConstantHeading(new Vector2d(48, -40), Math.toRadians(270), new TranslationalVelConstraint(25)) //slow down for pickup
+            .splineToConstantHeading(new Vector2d(48, -10), Math.toRadians(90), new TranslationalVelConstraint(25)) //go fetch center sample
+            .splineToConstantHeading(new Vector2d(60, -10), Math.toRadians(270), new TranslationalVelConstraint(25)) //move centered to center sample
+
+
+
+     //       .turnTo(Math.toRadians(300))
+            .splineTo(new Vector2d(40, -55), Math.toRadians(270))
+            .waitSeconds(1)
+            .turnTo(Math.toRadians(180))
+            .splineTo(new Vector2d(10,-29), Math.toRadians(90))
+
+            .waitSeconds(.5)
+            .turnTo(Math.toRadians(300))
+            .splineTo(new Vector2d(40, -55), Math.toRadians(270))
+            .waitSeconds(1)
+            .turnTo(Math.toRadians(180))
+            .splineTo(new Vector2d(10,-29), Math.toRadians(90))
+
+            .waitSeconds(.5)
+            .turnTo(Math.toRadians(300))
+            .splineTo(new Vector2d(40, -55), Math.toRadians(270))
+            .waitSeconds(1)
+            .turnTo(Math.toRadians(180))
+            .splineTo(new Vector2d(10,-29), Math.toRadians(90))
+
+            .build());
 
 
 
@@ -277,8 +318,9 @@ public class MeepMeepTesting {
               .setDarkMode(true)
               .setBackgroundAlpha(0.95f)
           //.addEntity(chamberCycle)
-  //          .addEntity(chamberCycle2)
-              .addEntity(myBotRedHang)
+            .addEntity(chamberCycle2)
+            .addEntity(chamberCycle3)
+          //    .addEntity(myBotRedHang)
               //.addEntity(myYellowDrop)
 //          .addEntity(testPath2)
               .start();
