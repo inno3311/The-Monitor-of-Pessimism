@@ -16,7 +16,7 @@ public class MotorTicksConversion
      * Yellow Jacket Planetary Gear Motor 435 rpm. Ticks per revolution = 384.5 with a 28:1 gear ratio
      * @return
      */
-    public double ThetaInDegrees()
+    public double elbowInDegrees()
     {
         double ticksToDegrees = (384.5 * 28) / 360; // 29.91
         return ticksToDegrees;
@@ -26,7 +26,7 @@ public class MotorTicksConversion
      * Yellow Jacket Planetary Gear Motor 435 rpm. Ticks per revolution = 384.5 with a 28:1 gear ratio
      * @return
      */
-    public double ThetaInRadians()
+    public double elbowInRadians()
     {
         double ticksToRadians = Math.toRadians((384.5 * 28) / 360); // ???
         return ticksToRadians;

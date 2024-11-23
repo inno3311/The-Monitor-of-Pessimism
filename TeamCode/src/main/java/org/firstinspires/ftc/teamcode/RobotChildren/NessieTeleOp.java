@@ -1,17 +1,23 @@
 package org.firstinspires.ftc.teamcode.RobotChildren;
 
+import android.content.Context;
+
 import com.acmerobotics.roadrunner.Pose2d;
+import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.AutoBucket;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
+import org.firstinspires.ftc.teamcode.algirithums.samplePickup.MotorTicksConversion;
 import org.firstinspires.ftc.teamcode.aprilTags.AprilTagMaster;
 import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
+
+import java.io.File;
 
 @TeleOp(name = "TeleOp", group = "proto")
 public class NessieTeleOp extends LinearOpMode
@@ -40,7 +46,8 @@ public class NessieTeleOp extends LinearOpMode
 
     //Other
     ElapsedTime time;
-
+    MotorTicksConversion ticksConversion;
+    int soundID = -1;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -63,8 +70,15 @@ public class NessieTeleOp extends LinearOpMode
         time = new ElapsedTime();
         time.startTime();
 
+        ticksConversion = new MotorTicksConversion();
+
         initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
         initialization.initialization();
+
+        if (new File("/sdcard/FIRST/blocks/sounds/second.wav").exists())
+        {
+            SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, new File("/sdcard/FIRST/blocks/sounds/second.wav"));
+        }
 
         waitForStart();
 
@@ -88,9 +102,8 @@ public class NessieTeleOp extends LinearOpMode
 
             if (aprilTag.aprilTagDetected())
             {
-                if (gamepad1.a && aprilTag.getDetectionID() != -1)
+                if (gamepad1.a && (aprilTag.getDetectionID() == 16  || aprilTag.getDetectionID()== 13) && !gamepad1.start)
                 {
-                    telemetry.addData("Entered", "if");
                     autoBucket = new AutoBucket(new MecanumDrive(hardwareMap, new Pose2d(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians(aprilTag.getFieldYaw()))), slide, elbow, wrist, claw);
                     autoBucket.bucketRun(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians((aprilTag.getFieldYaw())), aprilTag.getDetectionID());
                 }
@@ -120,6 +133,10 @@ public class NessieTeleOp extends LinearOpMode
 
                 elbow.encoderPresets(Elbow.Presets.BOTTOM_BUCKET);
             }
+            else if (slide.getMotorPosition() > 100 + (int) Math.sin(1 + Math.abs(ticksConversion.elbowInRadians() * elbow.getMotorPosition())) * -1328)
+            {
+                slide.;
+            }
             else
             {
                 slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
@@ -134,7 +151,7 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (gamepad2.right_trigger > 0.2) //open
             {
-                claw.driveServo(1);
+                claw.driveServo(0.4);
             }
 
             if (gamepad2.left_bumper) // Back
@@ -150,18 +167,12 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (gamepad2.left_trigger > 0.2) // Up
             {
-                if (elbow.getMotorPosition() > -900)
-                {
-                    wrist.driveServo(0.2);
-                }
-                else
-                {
-                    wrist.driveServo(0);
-                }
+                wrist.driveServo(0);
             }
             
             slide.automaticEncoderReset(slideLimit.isPressed());
             elbow.automaticEncoderReset(elbowLimit.isPressed());
+
 
             // telemetry
             slide.telemetry();

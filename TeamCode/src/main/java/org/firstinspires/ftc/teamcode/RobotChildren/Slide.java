@@ -34,6 +34,12 @@ public class Slide extends MotorParent
     @Override
     public void resetEncoder() {super.resetEncoder();}
 
+    @Override
+    public int getMotorPosition()
+    {
+        return super.getMotorPosition();
+    }
+
     public enum Presets
     {
         TOP_CHAMBER,

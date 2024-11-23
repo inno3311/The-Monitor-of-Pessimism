@@ -40,16 +40,16 @@ public class AutoBucket
 
         if (tag == 16 || tag == 15 || tag == 14)
         {
-            target_X = -60;
-            target_Y = -60;
+            target_X = -58;
+            target_Y = -58;
             targetWaypoint_X = -45;
             targetWaypoint_Y = -45;
             target_heading = Math.toRadians(225);
         }
         else
         {
-            target_X = 60;
-            target_Y = 60;
+            target_X = 58;
+            target_Y = 58;
             targetWaypoint_X = 45;
             targetWaypoint_Y = 45;
             target_heading = Math.toRadians(45);
@@ -58,16 +58,17 @@ public class AutoBucket
         TrajectoryActionBuilder bucket = drive.actionBuilder(new Pose2d(x,y, heading))
                 //.waitSeconds(1)
                 .afterTime(0, wrist.action(1))
-                .afterTime(0, elbow.action(-2500, 1))
+                .afterTime(0, elbow.action(-2700, 1))
                 .afterTime(0, slide.action(0, 0.5))
+                .waitSeconds(1)
+//                .splineTo(new Vector2d(targetWaypoint_X, targetWaypoint_Y), target_heading, new TranslationalVelConstraint(50))
 //                .strafeTo(new Vector2d(targetWaypoint_X, targetWaypoint_Y),new TranslationalVelConstraint(100))
 //               .splineToConstantHeading(new Vector2d(targetWaypoint_X, targetWaypoint_Y), target_heading - 45, new TranslationalVelConstraint(100))
                 .splineToSplineHeading(new Pose2d(targetWaypoint_X, targetWaypoint_Y, target_heading), target_heading, new TranslationalVelConstraint(50))
-                .waitSeconds(0.25)
-                .splineToConstantHeading(new Vector2d(target_X,target_Y), target_heading)
                 .afterTime(0, slide.action(-2175, 1))
                 .afterTime(0, elbow.action(-2400, 1))
                 .waitSeconds(0.5)
+                .splineToConstantHeading(new Vector2d(target_X,target_Y), target_heading)
                 .afterTime(0, wrist.action(0))
                 .waitSeconds(0.1);
 

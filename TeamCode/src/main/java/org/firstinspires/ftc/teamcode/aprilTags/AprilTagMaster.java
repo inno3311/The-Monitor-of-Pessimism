@@ -306,13 +306,12 @@ public class AprilTagMaster
      */
     private void initAprilTag(HardwareMap hardwareMap)
     {
-        Position cameraPosition = new Position(DistanceUnit.INCH, 4.5, 0, 7.25, 0);
+        Position cameraPosition = new Position(DistanceUnit.INCH, 6, 7.5, 7.5, 0);
         YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES, 0, -90, 0, 0);
         // Create the AprilTag processor by using a builder.
 
         aprilTag = new AprilTagProcessor.Builder()
-
-        //    .setCameraPose(cameraPosition, cameraOrientation)
+            .setCameraPose(cameraPosition, cameraOrientation)
 
         // == CAMERA CALIBRATION ==
         // If you do not manually specify calibration parameters, the SDK will attempt
@@ -321,17 +320,22 @@ public class AprilTagMaster
         // ... these parameters are fx, fy, cx, cy.
             .build();
 
+
+
         // Create the vision portal the easy way.
         if (USE_WEBCAM)
         {
             visionPortal = VisionPortal.easyCreateWithDefaults(
                     hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
+
         }
         else
         {
             visionPortal = VisionPortal.easyCreateWithDefaults(
                     BuiltinCameraDirection.BACK, aprilTag);
         }
+
+
     }
 
 }
