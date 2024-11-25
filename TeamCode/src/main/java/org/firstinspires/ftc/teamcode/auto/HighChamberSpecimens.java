@@ -64,7 +64,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 .afterTime(0, elbow.action(-1165, 0.5))
                 .afterTime(0, slide.action(-1100, 0.5))
                 .waitSeconds(1)  //TODO trim down this number
-                .splineToConstantHeading(new Vector2d( 10,-27.5), Math.toRadians(90)) //move to chamber, hang #1 specimen
+                .splineToConstantHeading(new Vector2d( 10,-26), Math.toRadians(90)) //move to chamber, hang #1 specimen
                 .afterTime(0, claw.action(CLAW_OPEN)) //open claw
                 .afterTime(0.3, elbow.action(0, 0.5))
                 .afterTime(0, slide.action(0, 0.5))

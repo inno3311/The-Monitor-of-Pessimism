@@ -133,15 +133,16 @@ public class NessieTeleOp extends LinearOpMode
 
                 elbow.encoderPresets(Elbow.Presets.BOTTOM_BUCKET);
             }
-            else if (slide.getMotorPosition() > 100 + (int) Math.sin(1 + Math.abs(ticksConversion.elbowInRadians() * elbow.getMotorPosition())) * -1328)
+            else if (slide.getMotorPosition() > 50 + (int) Math.sin(1 + Math.abs(ticksConversion.elbowInRadians() * elbow.getMotorPosition())) * -1328)
             {
-                slide.;
+                slide.encoderControl(60 + (int) Math.sin(1 + Math.abs(ticksConversion.elbowInRadians() * elbow.getMotorPosition())) * -1328, 0.5);
             }
             else
             {
                 slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
                 elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
             }
+            telemetry.addData("Slide Restrict", 60 + (int) Math.sin(1 + Math.abs(ticksConversion.elbowInRadians() * elbow.getMotorPosition())) * -1328);
 
             hang.simpleDrive(1, gamepad2.y, gamepad2.a);
 
