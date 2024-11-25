@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Pose2dDual;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -118,6 +119,11 @@ public final class HighChamberSpecimens extends LinearOpMode {
 
             Action redRun = trajectoryActionBuilderTwoChamberRun
                 .build();
+
+
+            Action actionFliped = drive.actionBuilder(beginPose, p -> new Pose2dDual<>(p.position.x.unaryMinus(), p.position.y.unaryMinus(), p.heading.plus(Math.PI)))
+                  // builds the action pose mapped to be rotated to the opposite alliance
+                  .build();
 
             TrajectoryActionBuilder chamberCycle = drive.actionBuilder(beginPose)
                 .waitSeconds(.5)
