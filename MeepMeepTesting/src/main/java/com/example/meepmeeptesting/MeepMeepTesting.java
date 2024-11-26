@@ -31,7 +31,7 @@ public class MeepMeepTesting {
 
       RoadRunnerBotEntity myBot2 = new DefaultBotBuilder(meepMeep)
               // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-              .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+              .setConstraints(80, 80, Math.toRadians(180), Math.toRadians(180), 15)
               .build();
 
       RoadRunnerBotEntity myBotSam = new DefaultBotBuilder(meepMeep)
@@ -314,14 +314,65 @@ public class MeepMeepTesting {
                .build());
 
 
+      RoadRunnerBotEntity myBotMesloh2 = new DefaultBotBuilder(meepMeep)
+            // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+            .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+            .build();
+
+      myBotMesloh2.runAction(myBot2.getDrive().actionBuilder(new Pose2d(24,-50, Math.toRadians(270)))
+            .setReversed(true)
+            .strafeTo(new Vector2d(48,-10))
+            .strafeTo(new Vector2d(48,-50))
+
+            .setReversed(true)
+            .strafeTo(new Vector2d(48,-10))
+            .strafeTo(new Vector2d(55,-50))
+
+//            .setReversed(true)
+//            .strafeTo(new Vector2d(60,-10))
+//            .strafeTo(new Vector2d(60,-50))
+
+            .strafeTo(new Vector2d(60,-60),new TranslationalVelConstraint(10))
+            //close claw
+            .setReversed(true)
+            .splineToSplineHeading(new Pose2d(10,-26,Math.toRadians(90)),Math.toRadians(90))
+            .waitSeconds(1)
+
+            .setReversed(true)
+            .splineToSplineHeading(new Pose2d(50,-60,Math.toRadians(270)),Math.toRadians(270))
+            .waitSeconds(1)
+            .setReversed(true)
+            .splineToSplineHeading(new Pose2d(5,-26,Math.toRadians(90)),Math.toRadians(90))
+
+
+
+            .waitSeconds(1)
+            .setReversed(true)
+            .splineToSplineHeading(new Pose2d(50,-60,Math.toRadians(270)),Math.toRadians(270))
+            .waitSeconds(1)
+            .setReversed(true)
+            .splineToSplineHeading(new Pose2d(5,-26,Math.toRadians(90)),Math.toRadians(90))
+
+
+//            .strafeTo(new Vector2d(-55,-60))
+//            .waitSeconds(1)
+//            .setTangent(Math.toRadians(90))
+//            .splineToSplineHeading(new Pose2d(-50,-30,Math.toRadians(90)),Math.toRadians(90))
+            //.splineTo(new Vector2d(-48,-30),Math.toRadians(90))
+            //.strafeTo(new Vector2d(-30,30))
+            //drop sample
+            //.waitSeconds(3)
+            .build());
+
+
       meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
               .setDarkMode(true)
               .setBackgroundAlpha(0.95f)
           //.addEntity(chamberCycle)
-            .addEntity(chamberCycle2)
-            .addEntity(chamberCycle3)
+   //         .addEntity(chamberCycle2)
+   //         .addEntity(chamberCycle3)
           //    .addEntity(myBotRedHang)
-              //.addEntity(myYellowDrop)
+              .addEntity(myBotMesloh2)
 //          .addEntity(testPath2)
               .start();
    }
