@@ -103,7 +103,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 .splineToSplineHeading(new Pose2d(30, -35, Math.toRadians(270)), Math.toRadians(0))//back away from the submersible
                 .splineToConstantHeading(new Vector2d(50, -38), Math.toRadians(270)) //go to pick up the second specimen from the wall
                 .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270), new TranslationalVelConstraint(20)) //slow down run into the specimen on the wall
-
+                //.turnTo(Math.toRadians(270))
                 .afterTime(0, claw.action(CLAW_CLOSE)) //close claw
                 .waitSeconds(.5)
                 .setReversed(true)

@@ -40,6 +40,12 @@ public class Slide extends MotorParent
         return super.getMotorPosition();
     }
 
+    @Override
+    protected void motorBreak()
+    {
+        super.motorBreak();
+    }
+
     public enum Presets
     {
         TOP_CHAMBER,
@@ -64,7 +70,7 @@ public class Slide extends MotorParent
                 super.encoderControl(-2150,1);
                 break;
             case BOTTOM_BUCKET:
-                super.encoderControl(-1 * 920,1);
+                super.encoderControl(-920,1);
                 break;
             case PICKUP_FLOOR:
                 super.encoderControl(0,1);

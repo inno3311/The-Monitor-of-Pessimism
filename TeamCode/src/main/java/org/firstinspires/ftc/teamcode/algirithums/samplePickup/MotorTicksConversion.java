@@ -28,7 +28,7 @@ public class MotorTicksConversion
      */
     public double elbowInRadians()
     {
-        double ticksToRadians = Math.toRadians((384.5 * 28) / 360); // ???
+        double ticksToRadians = Math.toRadians(elbowInDegrees()); // ???
         return ticksToRadians;
     }
 

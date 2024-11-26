@@ -47,7 +47,7 @@ public class NessieTeleOp extends LinearOpMode
     //Other
     ElapsedTime time;
     MotorTicksConversion ticksConversion;
-    int soundID = -1;
+
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -111,6 +111,29 @@ public class NessieTeleOp extends LinearOpMode
 
 
             // Accessories
+
+            boolean runAnalog = true;
+            if (Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInDegrees()) < 50 && slide.getMotorPosition() <= -1200)
+            {
+                runAnalog = false;
+                slide.encoderControl(-1200, 0.5);
+            }
+
+            // This code sucks Don't delete
+//            if (-2150 > 50 + (int) ((1 + (-1300 / (Math.abs(Math.sin(Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInRadians()))))))))
+//            {
+//                slide.motorBreak();
+//            }
+//            else if (slide.getMotorPosition() < 50 + (int) (-1300 / (Math.abs(Math.sin(Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInRadians()))))))
+//            {
+//                runAnalog = false;
+//                slide.encoderControl(60 + (int) (-1300 / (Math.abs(Math.sin(Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInRadians()))))), 0.5);
+//            }
+//
+//            telemetry.addData("Slide Restrict", 50 + (int) (1+(Math.abs(Math.sin(elbow.getMotorPosition() / ticksConversion.elbowInRadians()))) * -1300));
+//            telemetry.addData("Slide Restrict", Math.abs(Math.sin(elbow.getMotorPosition() / ticksConversion.elbowInRadians())));
+            telemetry.addData("Elbow angle", elbow.getMotorPosition() / ticksConversion.elbowInDegrees());
+
             if (gamepad2.dpad_up)
             {
                 slide.encoderPresets(Slide.Presets.TOP_CHAMBER);
@@ -129,20 +152,18 @@ public class NessieTeleOp extends LinearOpMode
             else if (gamepad2.dpad_right)
             {
                 slide.encoderPresets(Slide.Presets.BOTTOM_BUCKET);
-
-
                 elbow.encoderPresets(Elbow.Presets.BOTTOM_BUCKET);
             }
-            else if (slide.getMotorPosition() > 50 + (int) Math.sin(1 + Math.abs(ticksConversion.elbowInRadians() * elbow.getMotorPosition())) * -1328)
-            {
-                slide.encoderControl(60 + (int) Math.sin(1 + Math.abs(ticksConversion.elbowInRadians() * elbow.getMotorPosition())) * -1328, 0.5);
-            }
-            else
+            else if (runAnalog)
             {
                 slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
                 elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
             }
-            telemetry.addData("Slide Restrict", 60 + (int) Math.sin(1 + Math.abs(ticksConversion.elbowInRadians() * elbow.getMotorPosition())) * -1328);
+            else
+            {
+                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
+            }
+
 
             hang.simpleDrive(1, gamepad2.y, gamepad2.a);
 
