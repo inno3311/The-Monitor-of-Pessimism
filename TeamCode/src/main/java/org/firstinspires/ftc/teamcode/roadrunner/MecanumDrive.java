@@ -584,7 +584,7 @@ public final class MecanumDrive
         double drive = driveDir * -gamepad.left_stick_y;
         double turn = turnDir * gamepad.right_stick_x;
         double strafe = strafeDir * gamepad.left_stick_x;
-        speed = 1 - (0.6 * gamepad.right_trigger);
+        speed = 1 - (1.5 * gamepad.right_trigger);
         driveMotors(drive, turn, strafe, speed);
     }
 
