@@ -112,11 +112,19 @@ public class NessieTeleOp extends LinearOpMode
 
             // Accessories
 
-            boolean runAnalog = true;
-            if (Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInDegrees()) < 50 && slide.getMotorPosition() <= -1200)
+
+            boolean runElbow = false;
+            if (Math.abs(elbow.getMotorPosition()) / ticksConversion.elbowInDegrees() > 2800) // THe less then half is where the limit will kick in
             {
-                runAnalog = false;
-                slide.encoderControl(-1200, 0.5);
+                runElbow = true;
+                elbow.encoderControl(-2700,1);
+            }
+
+            boolean runSlide = false;
+            if (Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInDegrees()) < 50 && slide.getMotorPosition() <= -1200) // The Greater then half is where the limit will kick in
+            {
+                runSlide = true;
+                slide.encoderControl(-1200, 1);
             }
 
             // This code sucks Don't delete
@@ -154,13 +162,17 @@ public class NessieTeleOp extends LinearOpMode
                 slide.encoderPresets(Slide.Presets.BOTTOM_BUCKET);
                 elbow.encoderPresets(Elbow.Presets.BOTTOM_BUCKET);
             }
-            else if (runAnalog)
+            else if (runSlide)
+            {
+                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
+            }
+            else if (runElbow)
             {
                 slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
-                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
             }
             else
             {
+                slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
                 elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
             }
 
