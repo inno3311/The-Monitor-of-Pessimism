@@ -9,17 +9,18 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+
 import org.firstinspires.ftc.teamcode.RobotChildren.Claw;
 import org.firstinspires.ftc.teamcode.RobotChildren.Elbow;
-import org.firstinspires.ftc.teamcode.RobotChildren.Wrist;
 import org.firstinspires.ftc.teamcode.RobotChildren.Slide;
-import com.qualcomm.robotcore.hardware.TouchSensor;
+import org.firstinspires.ftc.teamcode.RobotChildren.Wrist;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 
-@Autonomous(name="SpecimenRun2", group="Linear OpMode")
-public final class HighChamberSpecimens extends LinearOpMode {
+@Autonomous(name="BlueSpecimenRun", group="Linear OpMode")
+public final class BlueHighChamberSpecimens extends LinearOpMode {
 
     Initialization initialization;
 
@@ -32,7 +33,8 @@ public final class HighChamberSpecimens extends LinearOpMode {
 
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException
+    {
 
         slide = new Slide(this);
         elbow = new Elbow(this);
@@ -43,7 +45,6 @@ public final class HighChamberSpecimens extends LinearOpMode {
         int CLAW_CLOSE = 0;
 
         int ELBOW_TO_WALL = -260;
-        int SLIDE_TO_WALL = -400;
         int ELBOW_HIGH_CHAMBER = -1265;
         int SLIDE_HIGH_CHAMBER = -1100;
 
@@ -62,14 +63,14 @@ public final class HighChamberSpecimens extends LinearOpMode {
             waitForStart();
 
 
-            TrajectoryActionBuilder trajectoryActionBuilderTwoChamberRun = drive.actionBuilder(beginPose)
+            TrajectoryActionBuilder trajectoryActionBuilderTwoChamberRun = drive.actionBuilder(beginPose, p -> new Pose2dDual<>(p.position.x.unaryMinus(), p.position.y.unaryMinus(), p.heading.plus(Math.PI)))
 
                 ////////////////////////////////////////////////////////////////////////////////////
                 /// Hang Specimen #1
 
                 .afterTime(0,claw.action(CLAW_CLOSE)) //close claw
                 .afterTime(0, elbow.action(ELBOW_HIGH_CHAMBER, 0.5)) //TODO can we speed this up?
-                .afterTime(0, slide.action(SLIDE_HIGH_CHAMBER, 0.5)) //TODO can we speed this up?
+                .afterTime(0, slide.action(-1100, 0.5)) //TODO can we speed this up?
                 .waitSeconds(1)  //TODO trim down this number
                 .splineToConstantHeading(new Vector2d( 10,-26), Math.toRadians(90)) //move to chamber, hang #1 specimen
 
@@ -93,7 +94,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(48, -10), Math.toRadians(90), new TranslationalVelConstraint(25)) //go fetch center sample
                 .splineToConstantHeading(new Vector2d(62, -10), Math.toRadians(270), new TranslationalVelConstraint(25)) //move centered to center sample
                 .afterTime(0, elbow.action( ELBOW_TO_WALL, .75))
-                .afterTime(0, slide.action( SLIDE_TO_WALL, 0.75)) //raise and extend the arm to the position of the specimen on the wall
+                .afterTime(0, slide.action( -400, 0.75)) //raise and extend the arm to the position of the specimen on the wall
                 .afterTime(0, wrist.action(0.7))
                 .splineToConstantHeading(new Vector2d(50, -38), Math.toRadians(270), new TranslationalVelConstraint(25)) //push center sample
 
@@ -106,7 +107,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 .afterTime(0, wrist.action(1))
                 .afterTime(0, elbow.action( ELBOW_HIGH_CHAMBER, 0.5))
                 .waitSeconds(.5)
-                .afterTime(.5, slide.action( SLIDE_HIGH_CHAMBER, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
+                .afterTime(.5, slide.action( -1100, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
                 .setReversed(true)
                 .afterTime(0, claw.action(CLAW_CLOSE)) //close claw
                 .splineToSplineHeading(new Pose2d(8,-22, Math.toRadians(90)), Math.toRadians(90)) //move to chamber and hang spec
@@ -118,7 +119,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 .afterTime(0.0, slide.action( 0, 1)) //raise and extend the arm to the position of the specimen on the wall
                 .waitSeconds(1)
                 .setReversed(true)
-                .afterTime(.5, slide.action( SLIDE_TO_WALL, 1)) //lower and extend the arm to the position of the specimen on the wall
+                .afterTime(.5, slide.action( -400, 1)) //lower and extend the arm to the position of the specimen on the wall
                 .afterTime(0, wrist.action(0.7))
                 .afterTime(0.2, elbow.action( ELBOW_TO_WALL, .75))
 
@@ -135,7 +136,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 .afterTime(0, wrist.action(1))
                 .afterTime(0, elbow.action( ELBOW_HIGH_CHAMBER, 0.5))
                 .afterTime(0, claw.action(CLAW_CLOSE)) //close claw
-                .afterTime(.5, slide.action( SLIDE_HIGH_CHAMBER, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
+                .afterTime(.5, slide.action( -1100, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
                 .splineToSplineHeading(new Pose2d(6,-22, Math.toRadians(90)), Math.toRadians(90)) //move to chamber
                 .afterTime(0, claw.action(CLAW_OPEN)) //open claw to release the specimen that is hooked on the bar
 
@@ -147,15 +148,14 @@ public final class HighChamberSpecimens extends LinearOpMode {
 //                .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270)) //park
                 ;
 
-
             Action redRun = trajectoryActionBuilderTwoChamberRun
                 .build();
 
-
             Actions.runBlocking(redRun);
 
-
-        }  else {
+        }
+        else
+        {
             throw new RuntimeException();
         }
     }
@@ -163,34 +163,6 @@ public final class HighChamberSpecimens extends LinearOpMode {
 
 
 
-
-
-
-//TrajectoryActionBuilder chamberCycle = drive.actionBuilder(beginPose)
-//      .waitSeconds(.5)
-//      .afterTime(0, claw.action(CLAW_CLOSE))
-//      .afterTime(0, elbow.action(ELBOW_HIGH_CHAMBER, 1))
-//      .afterTime(0, slide.action(-1100, 1))
-//      .splineToConstantHeading(new Vector2d( 10,-29), Math.toRadians(90)) //move to chamber
-//      .setTangent(Math.toRadians(0))
-//      .setReversed(true)
-//      .afterTime(0,claw.action(CLAW_OPEN))
-//      .afterTime(0, wrist.action(0.7))
-//      .afterTime(0.2, elbow.action( ELBOW_TO_WALL, .75))
-//      .afterTime(0.2, slide.action( -200, 0.75)) //raise and extend the arm to the position of the specimen on the wall
-//      .strafeToLinearHeading(new Vector2d(40, -45), Math.toRadians(270), new TranslationalVelConstraint(100))
-//      .waitSeconds(0.5)
-//      .splineToConstantHeading(new Vector2d( 40,-53), Math.toRadians(270))
-//      .afterTime(0,claw.action(CLAW_CLOSE))
-//      .waitSeconds(0.5)
-//      //.afterTime(.5, elbow.action( 0, 1))
-//      //.afterTime(.5, slide.action( 0, 1)) //raise and extend the arm to the height of the upper bar on the submersible
-//      .afterTime(0, elbow.action( /*-1165*/ELBOW_HIGH_CHAMBER, 1))
-//      .afterTime(.5, slide.action( -1200, 1)) //raise and extend the arm to the height of the upper bar on the submersible
-//      .strafeToLinearHeading(new Vector2d(0, -42),Math.toRadians(89.99))
-//      .splineToConstantHeading(new Vector2d( 0,-28), Math.toRadians(90),new TranslationalVelConstraint(100)) //move to chamber
-//
-//      ;
 
 
 

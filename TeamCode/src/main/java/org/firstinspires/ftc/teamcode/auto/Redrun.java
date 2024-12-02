@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 
 
-@Autonomous(name="SpecimenRun", group="Linear OpMode")
+//@Autonomous(name="SpecimenRun", group="Linear OpMode")
 public final class Redrun extends LinearOpMode {
 
 
