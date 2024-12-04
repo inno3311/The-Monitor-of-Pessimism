@@ -143,6 +143,8 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 /// Park
 
                 .setReversed(true)
+                .afterTime(0.2, slide.action( 0, 0.5))
+                .afterTime(0.2, elbow.action( 0, 0.5))
                 .splineToSplineHeading(new Pose2d(50, -48, Math.toRadians(180)), Math.toRadians(270))
 //                .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270)) //park
                 ;

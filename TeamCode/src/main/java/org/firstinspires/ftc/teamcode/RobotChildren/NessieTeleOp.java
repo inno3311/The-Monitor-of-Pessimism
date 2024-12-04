@@ -72,8 +72,8 @@ public class NessieTeleOp extends LinearOpMode
 
         ticksConversion = new MotorTicksConversion();
 
-        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
-        initialization.initialization();
+//        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
+//        initialization.initialization();
 
         if (new File("/sdcard/FIRST/blocks/sounds/second.wav").exists())
         {

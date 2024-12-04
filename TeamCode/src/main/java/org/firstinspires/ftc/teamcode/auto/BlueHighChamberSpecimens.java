@@ -54,7 +54,7 @@ public final class BlueHighChamberSpecimens extends LinearOpMode {
 
         initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
 
-        Pose2d beginPose = new Pose2d(10, -55, Math.toRadians(90));
+        Pose2d beginPose = new Pose2d(-10, 55, Math.toRadians(270));
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
             MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
