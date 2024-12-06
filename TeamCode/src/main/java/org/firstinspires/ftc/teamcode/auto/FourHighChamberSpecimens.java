@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 
-@Autonomous(name="BlueSpecimenRun", group="Linear OpMode")
-public final class BlueHighChamberSpecimens extends LinearOpMode {
+//@Autonomous(name="FOUR_SpecimenRun", group="Linear OpMode")
+public final class FourHighChamberSpecimens extends LinearOpMode {
 
     Initialization initialization;
 
