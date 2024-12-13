@@ -48,6 +48,7 @@ public class TurnToHeading
             }
         }
         delta_heading = delta_heading/90;
+        /*
         telemetry.addData("cur heading", current_heading);
         telemetry.addData("target heading", target_heading);
         telemetry.addData("delta heading", delta_heading);
@@ -55,6 +56,7 @@ public class TurnToHeading
         telemetry.addData("x", x);
         telemetry.addData("y", y);
         telemetry.update();
+        */
         return (delta_heading);
     }
 /*

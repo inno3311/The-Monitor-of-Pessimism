@@ -19,27 +19,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SampleViewer extends OpenCvPipeline
+public class SampleSeeker extends OpenCvPipeline
 {
    Telemetry telemetry;
+    public double get_horizontal_fov(double x_resolution, double y_resolution, double diagonal_fov)
+    {
+        // Source: https://medium.com/insights-on-virtual-reality/converting-diagonal-field-of-view-and-aspect-ratio-to-horizontal-and-vertical-field-of-view-13bcc1d8600c#:~:text=We%20use%20this%20to%20convert%20between%20field-of-view%20space,space%20and%20then%20converted%20back%20into%20FOV%20space.
+        double diagonal_aspect = Math.sqrt(Math.pow(x_resolution, 2) + Math.pow(y_resolution, 2));
+        double horizontal_FOV = Math.atan(Math.tan(Math.toRadians(diagonal_fov/2)) * (x_resolution/diagonal_aspect)) * 2;
+        horizontal_FOV = Math.toDegrees(horizontal_FOV);
+        return(horizontal_FOV);
+    }
 
+    public double get_vertical_fov(double x_resolution, double y_resolution, double diagonal_fov)
+    {
+        // Source: https://medium.com/insights-on-virtual-reality/converting-diagonal-field-of-view-and-aspect-ratio-to-horizontal-and-vertical-field-of-view-13bcc1d8600c#:~:text=We%20use%20this%20to%20convert%20between%20field-of-view%20space,space%20and%20then%20converted%20back%20into%20FOV%20space.
+        double diagonal_aspect = Math.sqrt(Math.pow(x_resolution, 2) + Math.pow(y_resolution, 2));
+        double vertical_FOV = Math.atan(Math.tan(Math.toRadians(diagonal_fov/2)) * (y_resolution/diagonal_aspect)) * 2;
+        vertical_FOV = Math.toDegrees(vertical_FOV);
+        return(vertical_FOV);
+    }
 
+    public double calculate_distance(double x_distance,double y_distance)
+    {
+        return(Math.sqrt(Math.pow(x_distance, 2) + Math.pow(y_distance, 2)));
+    }
 
 
    public Scalar lower = new Scalar(0, 178, 75);
    public Scalar upper = new Scalar(255, 255, 255);
    public double threshold;
-   //public int blur = 0;
-
-   Mat grey = new Mat();
-
-   static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(40,20);
-   static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(145,0);
-   static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(240,20);
-   static final int REGION_WIDTH = 20;
-   static final int REGION_HEIGHT = 35;
-
-
+   public double max_size_threshold = 5000; //pixels
+   public double x_resolution = 640;
+   public double y_resolution = 480;
+   public double diagonal_fov = 78;
+   public double x_fov = get_horizontal_fov(x_resolution, y_resolution, diagonal_fov);
+   public double y_fov = get_vertical_fov(x_resolution, y_resolution, diagonal_fov);
+   public double x_degrees_per_pixel = x_fov/x_resolution;
+   public double y_degrees_per_pixel = y_fov/y_resolution;
+   public double max_pickup_angle = 30;
+   public double camera_x_offset = 0;
+   public double camera_y_offset  = 0;
+   public double camera_height = 7.6; //inches
    /*
     * A good practice when typing EOCV pipelines is
     * declaring the Mats you will use here at the top
@@ -65,10 +86,9 @@ public class SampleViewer extends OpenCvPipeline
 
 
 
-   public SampleViewer(Telemetry telemetry) {
+   public SampleSeeker(Telemetry telemetry) {
       this.telemetry = telemetry;
    }
-
    /*
     * This function takes the RGB frame, converts to YCrCb,
     * and extracts the Cb channel to the 'Cb' variable
@@ -206,21 +226,17 @@ if (forceRetrunYcrcbMat)
       //contoursPolyList.get(1).
 
       Scalar color1 = new Scalar(111, 222, 111);
-      Scalar color2 = new Scalar(0, 222, 222);
-
+      Scalar cyan = new Scalar(0, 222, 222);
+      Scalar red = new Scalar(255, 0, 0);
+      Scalar yellow = new Scalar(255, 255, 0);
+/*
       for (int i = 0; i < contours.size(); i++) {
-
-         //Imgproc.drawContours(drawing, contoursPolyList, i, color1);
-         //Imgproc.rectangle(drawing, boundRect[i].tl(), boundRect[i].br(), color1, 2);
-         //Imgproc.circle(drawing, centers[i], (int) radius[i][0], color1, 2);
+         Imgproc.drawContours(drawing, contoursPolyList, i, color1);
+         Imgproc.rectangle(drawing, boundRect[i].tl(), boundRect[i].br(), color1, 2);
+         Imgproc.circle(drawing, centers[i], (int) radius[i][0], color1, 2);
       }
 
-  //    if (displayDrawing)
-  //       return drawing;
-
-
-
-
+ */
 
 
       RotatedRect[] minRect = new RotatedRect[contours.size()];
@@ -232,58 +248,110 @@ if (forceRetrunYcrcbMat)
             minEllipse[i] = Imgproc.fitEllipse(new MatOfPoint2f(contours.get(i).toArray()));
          }
       }
+/*
       drawing = Mat.zeros(cannyOutput.size(), CvType.CV_8UC3);
       for (int i = 0; i < contours.size(); i++) {
          Scalar color = new Scalar(34, 111, 56);
          // contour
-         //Imgproc.drawContours(drawing, contours, i, color);
+         Imgproc.drawContours(drawing, contours, i, color);
          // ellipse
-         Imgproc.ellipse(input, minEllipse[i], color, 2);
+           Imgproc.ellipse(input, minEllipse[i], color, 2);
          // rotated rectangle
          Point[] rectPoints = new Point[4];
          minRect[i].points(rectPoints);
-         for (int j = 0; j < 4; j++) {
-            //Imgproc.line(drawing, rectPoints[j], rectPoints[(j+1) % 4], color);
+         for (int j = 0; j < 4; j++)
+         {
+            Imgproc.line(drawing, rectPoints[j], rectPoints[(j+1) % 4], color);
          }
       }
 
+ */
 
-//          if (displayDrawing)
-//             return drawing;
-
-
-
-
-
-
-
-      double maxVal = 0;
-      int maxValIdx = 0;
-      for (int contourIdx = 0; contourIdx < contours.size(); contourIdx++)
-      {
-         double contourArea = Imgproc.contourArea(contours.get(contourIdx));
-         if (maxVal < contourArea)
-         {
+/*
+    double maxVal = 0;
+    int maxValIdx = 0;
+    for (int contourIdx = 0; contourIdx < contours.size(); contourIdx++)
+    {
+        double contourArea = Imgproc.contourArea(contours.get(contourIdx));
+        if (maxVal < contourArea)
+        {
             maxVal = contourArea;
             maxValIdx = contourIdx;
-         }
-      }
+        }
+    }
+*/
+    if (contours.size() == 0)
+        {
+            return input;
+        }
+    //Imgproc.drawContours(input, contoursPolyList, maxValIdx, cyan);
+    //Imgproc.rectangle(input, boundRect[maxValIdx].tl(), boundRect[maxValIdx].br(), color1, 2);
+    double absolute_center_x = x_resolution/2;
+    double absolute_center_y = y_resolution/2;
+    Point absolute_center_point = new Point(absolute_center_x, absolute_center_y);
+    Imgproc.circle(input, absolute_center_point,1, yellow, 6);
+    //Imgproc.line(input, new Point(0, absolute_center_y), new Point(x_resolution, absolute_center_y), yellow, 5);
+    //Imgproc.line(input, new Point(absolute_center_x, 0), new Point(absolute_center_x, y_resolution), yellow, 5);
+    int nearest_point_ID = 0;
+    double nearest_point_distance = x_resolution*y_resolution; // this is just to ensure that this is the MAXIMUM value possible and so that we can always find something smaller
+    for (int j = 0; j < contours.size(); j++)
+       {
+           double area = minEllipse[j].size.area();
+           if (area < max_size_threshold)
+           {
+               continue;
+           }
+           double angle = minEllipse[j].angle;
+           if (angle > 90)
+           {
+               angle = Math.abs(angle-180);
+           }
+           if (angle >= max_pickup_angle)
+           {
+               continue;
+           }
+           double x_distance = absolute_center_x - minEllipse[j].center.x;
+           double y_distance = absolute_center_y -minEllipse[j].center.y;
+           if (nearest_point_distance > calculate_distance(x_distance, y_distance))
+           {
+               nearest_point_distance = calculate_distance(x_distance, y_distance);
+               nearest_point_ID = j;
+           }
 
-      if (contours.size() == 0)
-         return input;
-      Imgproc.drawContours(input, contoursPolyList, maxValIdx, color2);
-      Imgproc.rectangle(input, boundRect[maxValIdx].tl(), boundRect[maxValIdx].br(), color1, 2);
+           Imgproc.ellipse(input, minEllipse[j], cyan, 2);
+           Imgproc.circle(input, minEllipse[j].center, 1, cyan, 2);
 
+       }
 
+      telemetry.addData("Center", absolute_center_point);
+      telemetry.addData("nearest_point_distance:", nearest_point_distance);
+      telemetry.addData("Nearest Point", minEllipse[nearest_point_ID].center);
+      telemetry.addData("nearest point ID:", nearest_point_ID);
+      Imgproc.circle(input, minEllipse[nearest_point_ID].center, 1, red, 2);
+      Imgproc.circle(input, new Point(0, 0), 1, red, 2);
 
-      telemetry.addData("contours.size() ", contours.size());
-      telemetry.addData("X:", boundRect[maxValIdx].x);
-      telemetry.addData("Y:", boundRect[maxValIdx].y);
+      double delta_distance_x = (minEllipse[nearest_point_ID].center.x) - absolute_center_x;
+      double delta_distance_y = (absolute_center_y - minEllipse[nearest_point_ID].center.y);
+      double x_angle = Math.toRadians(delta_distance_x * x_degrees_per_pixel);
+      double y_angle = Math.toRadians(delta_distance_y * y_degrees_per_pixel);
+      double distance_x = (Math.tan(x_angle)*camera_height) - camera_x_offset;
+      double distance_y = (Math.tan(y_angle)*camera_height) - camera_y_offset;
+
+      telemetry.addData("xFOV", x_fov);
+      telemetry.addData("yFOV", y_fov);
+      telemetry.addData("deltaX", delta_distance_x);
+      telemetry.addData("deltaY", delta_distance_y);
+      telemetry.addData("angleX", x_angle);
+      telemetry.addData("angleY", y_angle);
+      telemetry.addData("distance_x", distance_x);
+      telemetry.addData("distance_y", distance_y);
+   /*
       telemetry.addData("angle: ",minEllipse[maxValIdx].angle);
       telemetry.addData("center x: ",minEllipse[maxValIdx].center.x);
       telemetry.addData("center y: ",minEllipse[maxValIdx].center.y);
       telemetry.addData("hight: ",minEllipse[maxValIdx].size.height);
       telemetry.addData("width: ",minEllipse[maxValIdx].size.width);
+      */
 
       telemetry.update();
 
