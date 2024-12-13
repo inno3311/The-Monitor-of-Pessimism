@@ -22,7 +22,7 @@ import java.util.List;
 public class SampleSeeker extends OpenCvPipeline
 {
    Telemetry telemetry;
-    public double get_horizontal_fov(double x_resolution, double y_resolution, double diagonal_fov)
+    private double get_horizontal_fov(double x_resolution, double y_resolution, double diagonal_fov)
     {
         // Source: https://medium.com/insights-on-virtual-reality/converting-diagonal-field-of-view-and-aspect-ratio-to-horizontal-and-vertical-field-of-view-13bcc1d8600c#:~:text=We%20use%20this%20to%20convert%20between%20field-of-view%20space,space%20and%20then%20converted%20back%20into%20FOV%20space.
         double diagonal_aspect = Math.sqrt(Math.pow(x_resolution, 2) + Math.pow(y_resolution, 2));
@@ -31,7 +31,7 @@ public class SampleSeeker extends OpenCvPipeline
         return(horizontal_FOV);
     }
 
-    public double get_vertical_fov(double x_resolution, double y_resolution, double diagonal_fov)
+    private double get_vertical_fov(double x_resolution, double y_resolution, double diagonal_fov)
     {
         // Source: https://medium.com/insights-on-virtual-reality/converting-diagonal-field-of-view-and-aspect-ratio-to-horizontal-and-vertical-field-of-view-13bcc1d8600c#:~:text=We%20use%20this%20to%20convert%20between%20field-of-view%20space,space%20and%20then%20converted%20back%20into%20FOV%20space.
         double diagonal_aspect = Math.sqrt(Math.pow(x_resolution, 2) + Math.pow(y_resolution, 2));
@@ -40,27 +40,27 @@ public class SampleSeeker extends OpenCvPipeline
         return(vertical_FOV);
     }
 
-    public double calculate_distance(double x_distance,double y_distance)
+    private double calculate_distance(double x_distance,double y_distance)
     {
         return(Math.sqrt(Math.pow(x_distance, 2) + Math.pow(y_distance, 2)));
     }
 
 
-   public Scalar lower = new Scalar(0, 178, 75);
-   public Scalar upper = new Scalar(255, 255, 255);
-   public double threshold;
-   public double max_size_threshold = 5000; //pixels
-   public double x_resolution = 640;
-   public double y_resolution = 480;
-   public double diagonal_fov = 78;
-   public double x_fov = get_horizontal_fov(x_resolution, y_resolution, diagonal_fov);
-   public double y_fov = get_vertical_fov(x_resolution, y_resolution, diagonal_fov);
-   public double x_degrees_per_pixel = x_fov/x_resolution;
-   public double y_degrees_per_pixel = y_fov/y_resolution;
-   public double max_pickup_angle = 30;
-   public double camera_x_offset = 0;
-   public double camera_y_offset  = 0;
-   public double camera_height = 7.6; //inches
+   private Scalar lower = new Scalar(0, 178, 75);
+   private Scalar upper = new Scalar(255, 255, 255);
+   private double threshold;
+   private double max_size_threshold = 5000; //pixels
+   private double x_resolution = 640;
+   private double y_resolution = 480;
+   private double diagonal_fov = 78;
+   private double x_fov = get_horizontal_fov(x_resolution, y_resolution, diagonal_fov);
+   private double y_fov = get_vertical_fov(x_resolution, y_resolution, diagonal_fov);
+   private double x_degrees_per_pixel = x_fov/x_resolution;
+   private double y_degrees_per_pixel = y_fov/y_resolution;
+   private double max_pickup_angle = 30;
+   private double camera_x_offset = 0;
+   private double camera_y_offset  = 0;
+   private double camera_height = 7.6; //inches
    /*
     * A good practice when typing EOCV pipelines is
     * declaring the Mats you will use here at the top
@@ -293,6 +293,7 @@ if (forceRetrunYcrcbMat)
     //Imgproc.line(input, new Point(0, absolute_center_y), new Point(x_resolution, absolute_center_y), yellow, 5);
     //Imgproc.line(input, new Point(absolute_center_x, 0), new Point(absolute_center_x, y_resolution), yellow, 5);
     int nearest_point_ID = 0;
+    boolean object_found = false;
     double nearest_point_distance = x_resolution*y_resolution; // this is just to ensure that this is the MAXIMUM value possible and so that we can always find something smaller
     for (int j = 0; j < contours.size(); j++)
        {
@@ -314,6 +315,7 @@ if (forceRetrunYcrcbMat)
            double y_distance = absolute_center_y -minEllipse[j].center.y;
            if (nearest_point_distance > calculate_distance(x_distance, y_distance))
            {
+               object_found = true;
                nearest_point_distance = calculate_distance(x_distance, y_distance);
                nearest_point_ID = j;
            }
@@ -336,7 +338,7 @@ if (forceRetrunYcrcbMat)
       double y_angle = Math.toRadians(delta_distance_y * y_degrees_per_pixel);
       double distance_x = (Math.tan(x_angle)*camera_height) - camera_x_offset;
       double distance_y = (Math.tan(y_angle)*camera_height) - camera_y_offset;
-
+      telemetry.addData("Object found?", object_found);
       telemetry.addData("xFOV", x_fov);
       telemetry.addData("yFOV", y_fov);
       telemetry.addData("deltaX", delta_distance_x);
