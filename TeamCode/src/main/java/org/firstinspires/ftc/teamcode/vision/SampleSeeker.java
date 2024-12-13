@@ -22,6 +22,11 @@ import java.util.List;
 public class SampleSeeker extends OpenCvPipeline
 {
    Telemetry telemetry;
+
+   private boolean object_found = false;
+   private double distance_x = 0;
+   private double distance_y = 0;
+
     private double get_horizontal_fov(double x_resolution, double y_resolution, double diagonal_fov)
     {
         // Source: https://medium.com/insights-on-virtual-reality/converting-diagonal-field-of-view-and-aspect-ratio-to-horizontal-and-vertical-field-of-view-13bcc1d8600c#:~:text=We%20use%20this%20to%20convert%20between%20field-of-view%20space,space%20and%20then%20converted%20back%20into%20FOV%20space.
@@ -347,6 +352,9 @@ if (forceRetrunYcrcbMat)
       telemetry.addData("angleY", y_angle);
       telemetry.addData("distance_x", distance_x);
       telemetry.addData("distance_y", distance_y);
+      this.object_found = object_found;
+      this.distance_x = distance_x;
+      this.distance_y = distance_y;
    /*
       telemetry.addData("angle: ",minEllipse[maxValIdx].angle);
       telemetry.addData("center x: ",minEllipse[maxValIdx].center.x);
