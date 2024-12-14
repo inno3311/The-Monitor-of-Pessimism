@@ -68,19 +68,17 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
                 /// Hang Specimen #1
 
                 .afterTime(0,claw.action(CLAW_CLOSE)) //close claw
-                .afterTime(0, elbow.action(ELBOW_HIGH_CHAMBER, 1)) //TODO can we speed this up?
-                .afterTime(0, slide.action(SLIDE_HIGH_CHAMBER, 1)) //TODO can we speed this up?
-                //.waitSeconds(1)  //TODO trim down this number
+                .afterTime(0, elbow.action(ELBOW_HIGH_CHAMBER, 1))
+                .afterTime(0, slide.action(SLIDE_HIGH_CHAMBER, 1))
                 .splineToConstantHeading(new Vector2d( 10,-26), Math.toRadians(90)) //move to chamber, hang #1 specimen
 
                 ////////////////////////////////////////////////////////////////////////////////////
-                /// Push Left Floor Sample
+                /// Move to Left Floor Sample to Observation zone
 
                 .afterTime(0, claw.action(CLAW_OPEN)) //open claw
                 .afterTime(0, slide.action(0, 1))
                 .afterTime(0.3, elbow.action(0, 1))
 
-                //.waitSeconds(.1)
                 .setTangent(Math.toRadians(0))  //TODO  should we be doing this?
                 .splineToSplineHeading(new Pose2d(30, -30, Math.toRadians(270)), Math.toRadians(360))//back away from the submersible
                 .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))  //move around submersible to
@@ -88,7 +86,8 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(48, -43), Math.toRadians(270), new TranslationalVelConstraint(25)) //slow down for sample drop off
 
                 ////////////////////////////////////////////////////////////////////////////////////
-                /// Push Center Floor Sample
+                /// Push Center Floor Sample Observation zone
+                /// Wall to Center Sample back to wall
 
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(48, -10), Math.toRadians(90), new TranslationalVelConstraint(25)) //go fetch center sample
