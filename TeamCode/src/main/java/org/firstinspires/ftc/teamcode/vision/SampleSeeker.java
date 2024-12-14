@@ -23,9 +23,9 @@ public class SampleSeeker extends OpenCvPipeline
 {
    Telemetry telemetry;
 
-   private boolean object_found = false;
-   private double distance_x = 0;
-   private double distance_y = 0;
+   public boolean object_found = false;
+   public double distance_x = 0;
+   public double distance_y = 0;
 
     private double get_horizontal_fov(double x_resolution, double y_resolution, double diagonal_fov)
     {
