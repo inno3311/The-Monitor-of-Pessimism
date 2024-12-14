@@ -54,25 +54,25 @@ public class Elbow extends MotorParent
         switch (preset)
         {
             case TOP_CHAMBER:
-                super.encoderControl(-1165,1);
+                super.encoderControl(-1350,1);
                 break;
             case BOTTOM_CHAMBER:
-                super.encoderControl(-525,1);
+                super.encoderControl(-925,1);
                 break;
             case TOP_BUCKET:
-                super.encoderControl(-2050,1);
+                super.encoderControl(-2400,1);
                 break;
             case BOTTOM_BUCKET:
-                super.encoderControl(-2030,1);
+                super.encoderControl(-2430,1);
                 break;
             case PICKUP_FLOOR:
                 super.encoderControl(0,1);
                 break;
             case PICKUP_WALL:
-                super.encoderControl(10,1);
+                super.encoderControl(-230, 1);
                 break;
             case INITIALIZATION:
-                super.encoderControl(-1175,1);
+                super.encoderControl(-1575,1);
             default:
                 break;
         }

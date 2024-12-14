@@ -76,7 +76,7 @@ public class Slide extends MotorParent
                 super.encoderControl(0,1);
                 break;
             case PICKUP_WALL:
-                super.encoderControl(1,1);
+                super.encoderControl(0,1);
                 break;
             default:
                 break;

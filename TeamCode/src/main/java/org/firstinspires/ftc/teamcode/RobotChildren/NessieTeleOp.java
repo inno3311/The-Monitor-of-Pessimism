@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
+import org.firstinspires.ftc.teamcode.vision.SampleSeeker;
 
 import java.io.File;
 
@@ -29,6 +30,7 @@ public class NessieTeleOp extends LinearOpMode
     TouchSensor elbowLimit;
 
     // Algorithms
+    SampleSeeker seeker;
     AutoBucket autoBucket;
     Initialization initialization;
 
@@ -70,6 +72,7 @@ public class NessieTeleOp extends LinearOpMode
         time = new ElapsedTime();
         time.startTime();
 
+        seeker = new SampleSeeker(telemetry);
         ticksConversion = new MotorTicksConversion();
 
 //        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
@@ -109,10 +112,16 @@ public class NessieTeleOp extends LinearOpMode
                 }
             }
 
+            telemetry.addData("Object detected?", seeker.isObject_detected());
+
+            if (seeker.isObject_detected() && gamepad1.b && !gamepad1.start)
+            {
+                telemetry.addData("Entered", "");
+                drive.forward(seeker.getDistance_y(),1,1);
+            }
+
 
             // Accessories
-
-
             boolean runElbow = false;
             if (Math.abs(elbow.getMotorPosition()) / ticksConversion.elbowInDegrees() > 2800) // THe less then half is where the limit will kick in
             {
@@ -159,8 +168,9 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (gamepad2.dpad_right)
             {
-                slide.encoderPresets(Slide.Presets.BOTTOM_BUCKET);
-                elbow.encoderPresets(Elbow.Presets.BOTTOM_BUCKET);
+                slide.encoderPresets(Slide.Presets.PICKUP_WALL);
+                elbow.encoderPresets(Elbow.Presets.PICKUP_WALL);
+                wrist.driveServo(0.7);
             }
             else if (runSlide)
             {

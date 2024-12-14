@@ -617,6 +617,49 @@ public final class MecanumDrive
     }
 
     /**
+     * Drives the bot right or backward in a straight line.
+     * @param target distance in inches to travel.
+     * @param right indicates direction of travel.  1 is right -1 is left
+     * @param power double value indicating the power from 0 to 1.
+     */
+
+    public void strafe(double target, int right, double power)
+    {
+        //reset the encoders
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        power *= right;
+        int targetPos = rightBack.getCurrentPosition();
+        targetPos += target * PARAMS.inPerTick;
+
+        if ((Math.abs(rightBack.getCurrentPosition()) <= targetPos))
+        {
+            this.driveMotors(0, 0, power, 1); // run with PID
+        }
+        this.driveMotors(0, 0, 0, 0);
+    }
+
+    public void forward(double target, int right, double power)
+    {
+        //reset the encoders
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        power *= right;
+        int targetPos = rightBack.getCurrentPosition();
+        targetPos += target * PARAMS.inPerTick;
+
+        if ((Math.abs(rightBack.getCurrentPosition()) <= targetPos))
+        {
+            this.driveMotors(power, 0, 0, 1); // run with PID
+        }
+        this.driveMotors(0, 0, 0, 0);
+    }
+
+    /**
      * maxAbsVal returns the maximum absolute value among an arbitrary number of arguments.
      *
      * @param values an arbitrary number of values.

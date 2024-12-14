@@ -368,7 +368,7 @@ if (forceRetrunYcrcbMat)
       return input;
    }
 
-   public double getDistance_x()
+    public double getDistance_x()
    {
         return distance_x;
    }

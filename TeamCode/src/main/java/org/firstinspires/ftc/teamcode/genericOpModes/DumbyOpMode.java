@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.genericOpModes;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.teamcode.AutoBucket;
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.teamcode.RobotChildren.Claw;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 @Autonomous(name = "dumbyOpMode")
+@Disabled
 public class DumbyOpMode extends LinearOpMode
 {
     DriveController driveController;
