@@ -126,10 +126,26 @@ public class NessieTeleOp extends LinearOpMode
 
             telemetry.addData("Object detected?", seeker.isObject_detected());
 
-            if (seeker.isObject_detected() && gamepad1.b && !gamepad1.start)
+            if (seeker.isObject_detected())
             {
-                drive.strafe(seeker.getDistance_x(),1,1);
+                telemetry.addData("object x", seeker.getDistance_x());
+                telemetry.addData("object y", seeker.getDistance_y());
+                if (gamepad1.b && !gamepad1.start)
+                    {
+                        autoPickup = new AutoPickup(new MecanumDrive(hardwareMap,new Pose2d(0, 0, Math.toRadians(90))));
+//                        autoPickup.align(seeker.getDistance_x(), seeker.getDistance_y());
+                        autoPickup.align(seeker.getDistance_x(), seeker.getDistance_y());
+                    }
             }
+//            if (seeker.isObject_detected())
+//            {
+//                telemetry.addData("object x", seeker.getDistance_x());
+//                telemetry.addData("object y", seeker.getDistance_y());
+//                if (gamepad1.b && !gamepad1.start)
+//                {
+//                    centricDrive.drive(0, 0, 0, 0, autoPickup.align_angle(seeker.getDistance_x(), ticksConversion.linearSlideInCM()*slide.getMotorPosition()));
+//                }
+//            }
 
 
             // Accessories
