@@ -109,7 +109,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 .afterTime(.5, slide.action( SLIDE_HIGH_CHAMBER, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
                 .setReversed(true)
                 .afterTime(0, claw.action(CLAW_CLOSE)) //close claw
-                .splineToSplineHeading(new Pose2d(8,-22, Math.toRadians(90)), Math.toRadians(90)) //move to chamber and hang spec
+                .splineToSplineHeading(new Pose2d(8,-21, Math.toRadians(90)), Math.toRadians(90)) //move to chamber and hang spec
                 .afterTime(0, claw.action(CLAW_OPEN)) //open claw to release the specimen that is on the bar
 
                 ////////////////////////////////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ public final class HighChamberSpecimens extends LinearOpMode {
                 .afterTime(0, elbow.action( ELBOW_HIGH_CHAMBER, 0.5))
                 .afterTime(0, claw.action(CLAW_CLOSE)) //close claw
                 .afterTime(.5, slide.action( SLIDE_HIGH_CHAMBER, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
-                .splineToSplineHeading(new Pose2d(6,-22, Math.toRadians(90)), Math.toRadians(90)) //move to chamber
+                .splineToSplineHeading(new Pose2d(6,-21, Math.toRadians(90)), Math.toRadians(90)) //move to chamber
                 .afterTime(0, claw.action(CLAW_OPEN)) //open claw to release the specimen that is hooked on the bar
 
                 ////////////////////////////////////////////////////////////////////////////////////
