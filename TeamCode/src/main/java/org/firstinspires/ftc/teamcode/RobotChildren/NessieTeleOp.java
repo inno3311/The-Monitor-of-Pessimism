@@ -2,13 +2,17 @@ package org.firstinspires.ftc.teamcode.RobotChildren;
 
 import android.content.Context;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.AutoBucket;
+import org.firstinspires.ftc.teamcode.AutoPickup;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
 import org.firstinspires.ftc.teamcode.algirithums.samplePickup.MotorTicksConversion;
 import org.firstinspires.ftc.teamcode.aprilTags.AprilTagMaster;
@@ -16,7 +20,11 @@ import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
+import org.firstinspires.ftc.teamcode.vision.SampleDetection;
 import org.firstinspires.ftc.teamcode.vision.SampleSeeker;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.io.File;
 
@@ -31,6 +39,7 @@ public class NessieTeleOp extends LinearOpMode
 
     // Algorithms
     SampleSeeker seeker;
+    AutoPickup autoPickup;
     AutoBucket autoBucket;
     Initialization initialization;
 
@@ -73,8 +82,11 @@ public class NessieTeleOp extends LinearOpMode
         time.startTime();
 
         seeker = new SampleSeeker(telemetry);
+        autoPickup = new AutoPickup(drive);
+
         ticksConversion = new MotorTicksConversion();
 
+        initCamera();
 //        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
 //        initialization.initialization();
 
@@ -116,8 +128,7 @@ public class NessieTeleOp extends LinearOpMode
 
             if (seeker.isObject_detected() && gamepad1.b && !gamepad1.start)
             {
-                telemetry.addData("Entered", "");
-                drive.forward(seeker.getDistance_y(),1,1);
+                drive.strafe(seeker.getDistance_x(),1,1);
             }
 
 
@@ -226,5 +237,30 @@ public class NessieTeleOp extends LinearOpMode
         }
 
     }
-
+    private void initCamera()
+    {
+        //https://github.com/OpenFTC/EasyOpenCV/blob/master/doc/user_docs/camera_initialization_overview.md
+        String camera_name = "Webcam 2";
+        //OpenCvCamera camera = OpenCvCameraFactory.getInstance().createInternalCamera2(OpenCvInternalCamera2.CameraDirection.BACK);
+        WebcamName webcamName = hardwareMap.get(WebcamName.class, camera_name);
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
+        seeker = new SampleSeeker(telemetry);
+        FtcDashboard.getInstance().startCameraStream(camera,0);
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                camera.setViewportRenderer(OpenCvCamera.ViewportRenderer.GPU_ACCELERATED);
+                camera.startStreaming(320, 180, OpenCvCameraRotation.UPRIGHT);
+                camera.setPipeline(seeker);
+            }
+            @Override
+            public void onError(int errorCode)
+            {
+                telemetry.addData("Camera Failed","");
+                telemetry.update();
+            }
+        });
+    }
 }

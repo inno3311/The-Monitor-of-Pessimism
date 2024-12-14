@@ -59,6 +59,7 @@ public class AutoBucket
             .afterTime(0, wrist.action(1))
             .afterTime(0, elbow.action(-2700, 1))
             .afterTime(1, slide.action(0, 1))
+
             //.waitSeconds(1)
             .splineToSplineHeading(new Pose2d(targetWaypoint_X, targetWaypoint_Y, target_heading), target_heading, new TranslationalVelConstraint(50))
             .afterTime(0, slide.action(-2175, 1))

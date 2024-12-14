@@ -631,24 +631,23 @@ public final class MecanumDrive
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         power *= right;
-        int targetPos = rightBack.getCurrentPosition();
+        int targetPos = rightFront.getCurrentPosition();
         targetPos += target * PARAMS.inPerTick;
 
-        if ((Math.abs(rightBack.getCurrentPosition()) <= targetPos))
+        if ((Math.abs(rightFront.getCurrentPosition()) <= targetPos))
         {
             this.driveMotors(0, 0, power, 1); // run with PID
         }
-        this.driveMotors(0, 0, 0, 0);
     }
 
-    public void forward(double target, int right, double power)
+    public void forward(double target, int forward, double power)
     {
         //reset the encoders
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        power *= right;
+        power *= forward;
         int targetPos = rightBack.getCurrentPosition();
         targetPos += target * PARAMS.inPerTick;
 
@@ -656,7 +655,6 @@ public final class MecanumDrive
         {
             this.driveMotors(power, 0, 0, 1); // run with PID
         }
-        this.driveMotors(0, 0, 0, 0);
     }
 
     /**
