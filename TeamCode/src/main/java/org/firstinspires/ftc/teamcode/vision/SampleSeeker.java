@@ -24,8 +24,8 @@ public class SampleSeeker extends OpenCvPipeline
    Telemetry telemetry;
 
    public boolean object_found = false;
-   public double distance_x = 0;
-   public double distance_y = 0;
+   public double angle_x = 0;
+   public double angle_y = 0;
 
     private double get_horizontal_fov(double x_resolution, double y_resolution, double diagonal_fov)
     {
@@ -341,8 +341,6 @@ if (forceRetrunYcrcbMat)
       double delta_distance_y = (absolute_center_y - minEllipse[nearest_point_ID].center.y);
       double x_angle = Math.toRadians(delta_distance_x * x_degrees_per_pixel);
       double y_angle = Math.toRadians(delta_distance_y * y_degrees_per_pixel);
-      double distance_x = (Math.tan(x_angle)*camera_height) + camera_x_offset;
-      double distance_y = (Math.tan(y_angle)*camera_height) + camera_y_offset;
       telemetry.addData("Object found?", object_found);
       telemetry.addData("xFOV", x_fov);
       telemetry.addData("yFOV", y_fov);
@@ -350,11 +348,11 @@ if (forceRetrunYcrcbMat)
       telemetry.addData("deltaY", delta_distance_y);
       telemetry.addData("angleX", x_angle);
       telemetry.addData("angleY", y_angle);
-      telemetry.addData("distance_x", distance_x);
-      telemetry.addData("distance_y", distance_y);
+      this.camera_y_offset = camera_y_offset;
+      this.camera_x_offset = camera_x_offset;
       this.object_found = object_found;
-      this.distance_x = distance_x;
-      this.distance_y = distance_y;
+      this.angle_x = x_angle;
+      this.angle_y = y_angle;
    /*
       telemetry.addData("angle: ",minEllipse[maxValIdx].angle);
       telemetry.addData("center x: ",minEllipse[maxValIdx].center.x);
@@ -367,13 +365,13 @@ if (forceRetrunYcrcbMat)
       return input;
    }
 
-    public double getDistance_x()
+    public double getAngle_x()
    {
-        return distance_x;
+        return angle_x;
    }
-    public double getDistance_y()
+    public double getAngle_y()
     {
-        return distance_y;
+        return angle_y;
     }
     public boolean isObject_detected()
     {
