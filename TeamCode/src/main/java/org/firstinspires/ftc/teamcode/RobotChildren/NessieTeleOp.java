@@ -129,9 +129,11 @@ public class NessieTeleOp extends LinearOpMode
             if (seeker.isObject_detected())
             {
 
-                double camera_height = calculate_camera_height((elbow.getMotorPosition() / ticksConversion.elbowInDegrees()), (slide.getMotorPosition() * ticksConversion.linearSlideInCM() * 2.54), 16);
+                double camera_height = calculate_camera_height(-(elbow.getMotorPosition() / ticksConversion.elbowInDegrees()), -(slide.getMotorPosition() /(ticksConversion.linearSlideInCM() * 2.54)), 16, 1.725);
                 double object_x_distance = calculate_x_distance(seeker.getAngle_x(), camera_height, 0);
                 double object_y_distance = calculate_y_distance(seeker.getAngle_y(), camera_height, 2.5);
+                telemetry.addData("arm length", -(slide.getMotorPosition() /(ticksConversion.linearSlideInCM() * 2.54)));
+                telemetry.addData("camera height", camera_height);
                 telemetry.addData("object x", object_x_distance);
                 telemetry.addData("object y", object_y_distance);
                 if (gamepad1.b && !gamepad1.start)
@@ -284,9 +286,9 @@ public class NessieTeleOp extends LinearOpMode
         });
     }
 
-    private double calculate_camera_height(double arm_angle, double arm_length, double camera_length_offset)
+    private double calculate_camera_height(double arm_angle, double arm_length, double camera_length_offset, double height_offset)
     {
-        double height = Math.sin(Math.toRadians(arm_angle)) * (arm_length + camera_length_offset);
+        double height = (Math.sin(Math.toRadians(arm_angle)) * (arm_length + camera_length_offset)) + height_offset;
         return(height);
     }
 

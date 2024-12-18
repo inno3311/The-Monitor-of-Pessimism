@@ -54,7 +54,7 @@ public class SampleSeeker extends OpenCvPipeline
    private Scalar lower = new Scalar(0, 178, 75);
    private Scalar upper = new Scalar(255, 255, 255);
    private double threshold;
-   private double max_size_threshold = 5000; //pixels
+   private double max_size_threshold = 2500; //pixels
    private double x_resolution = 320;
    private double y_resolution = 180;
    private double diagonal_fov = 78;
