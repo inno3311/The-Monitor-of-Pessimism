@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "Hippo Outreach", group = "outreach")
-@Disabled
+//@Disabled
 public class HippoTeleOp extends LinearOpMode
 {
     DriveHippo drive;
@@ -17,6 +17,8 @@ public class HippoTeleOp extends LinearOpMode
     ElapsedTime time;
     double flag;
     double interval = Double.MIN_VALUE;
+    double firepower = 0.5;
+    double flag2 = 0;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -69,6 +71,24 @@ public class HippoTeleOp extends LinearOpMode
                 hippoStomper.driveServo(0.9);
             }
 
+            if (gamepad1.dpad_up)
+            {
+                if (time.seconds() > flag2 + 0.25)
+                {
+                    flag2 = time.seconds();
+                    firepower += 0.1;
+                }
+            }
+            else if (gamepad1.dpad_down)
+            {
+                if (time.seconds() > flag2 + 0.25)
+                {
+                    flag2 = time.seconds();
+                    firepower -= 0.1;
+                }
+            }
+            telemetry.addData("firepower", firepower);
+
 
             if (gamepad1.y)
             {
@@ -81,7 +101,7 @@ public class HippoTeleOp extends LinearOpMode
                     drive.stop();
                     hippoIntake.motorBreak();
                     //start the wheel
-                    hippoShooter.run(14);
+                    hippoShooter.run(firepower);
                     //execute 1 second into the loop
                     if (time.seconds() > flag + 1.5)
                     {
