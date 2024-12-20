@@ -128,7 +128,7 @@ public class NessieTeleOp extends LinearOpMode
 
             if (seeker.isObject_detected() && gamepad1.b && !gamepad1.start)
             {
-                drive.strafe(seeker.getDistance_x(),1,1);
+                autoPickup.align(seeker.distance_x);
             }
 
 
@@ -185,7 +185,7 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (runSlide)
             {
-                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
+                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), -2500, false);
             }
             else if (runElbow)
             {
@@ -194,7 +194,7 @@ public class NessieTeleOp extends LinearOpMode
             else
             {
                 slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
-                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
+                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), -2500, false);
             }
 
 

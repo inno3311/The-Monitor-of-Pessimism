@@ -266,28 +266,31 @@ public class MeepMeepTesting {
 
 
 
-       myYellowDrop.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(-40, -55, Math.toRadians(90)))
-           .splineToSplineHeading(new Pose2d(-50, -50, Math.toRadians(225)), Math.toRadians(180))
-           .waitSeconds(1)//extend the arm to drop yellow sample in the bucket
-           .setReversed(true) //lower the arm to the height that will pick up the sample off the floor
-           .splineToSplineHeading(new Pose2d(-45, -50, Math.toRadians(90)), Math.toRadians(0)) //go to the position of the right side yellow sample on the floor
-           .waitSeconds(1) //extend the arm the pick the yellow sample off of the floor and lift the arm to bucket height
-           .splineToSplineHeading(new Pose2d(-50, -50, Math.toRadians(225)),  Math.toRadians(225)) //go to bucket
-           .waitSeconds(1) //drop the sample in the bucket
-           .setReversed(true)
-           .splineToSplineHeading(new Pose2d(-58, -50, Math.toRadians(90)), Math.toRadians(180)) //go to the position of the center yellow sample on the floor
-           .waitSeconds(1) //pick up center sample and lift arm
-           .setReversed(true)
-           .splineToSplineHeading(new Pose2d(-50, -50, Math.toRadians(225)), Math.toRadians(315)) //go to bucket
-           .waitSeconds(1) //drop the sample in the bucket
-           .splineToSplineHeading(new Pose2d(-58, -50, Math.toRadians(100)), Math.toRadians(150)) //go to the left yellow sample
-           .waitSeconds(1) //pick up the left sample and lift arm
-           .splineToSplineHeading(new Pose2d(-50, -50, Math.toRadians(225)), Math.toRadians(0)) //go to the bucket
+       myYellowDrop.runAction(myBotSam.getDrive().actionBuilder(new Pose2d(-35, -60, Math.toRadians(180)))
 
-           .waitSeconds(1) //drop the sample
-           .setReversed(true)
-           .splineToSplineHeading(new Pose2d(-40, -30, Math.toRadians(270)), Math.toRadians(90)) //parking approach
-           .splineToConstantHeading(new Vector2d(-20, -12), Math.toRadians(0)) //park
+           .strafeToLinearHeading(new Vector2d(-44, -44), Math.toRadians(225), new TranslationalVelConstraint(30))
+           .waitSeconds(2)
+//           .splineToSplineHeading(new Pose2d(-50, -50, Math.toRadians(225)), Math.toRadians(180))
+//           .waitSeconds(1)//extend the arm to drop yellow sample in the bucket
+//           .setReversed(true) //lower the arm to the height that will pick up the sample off the floor
+//           .splineToSplineHeading(new Pose2d(-45, -50, Math.toRadians(90)), Math.toRadians(0)) //go to the position of the right side yellow sample on the floor
+//           .waitSeconds(1) //extend the arm the pick the yellow sample off of the floor and lift the arm to bucket height
+//           .splineToSplineHeading(new Pose2d(-50, -50, Math.toRadians(225)),  Math.toRadians(225)) //go to bucket
+//           .waitSeconds(1) //drop the sample in the bucket
+//           .setReversed(true)
+//           .splineToSplineHeading(new Pose2d(-58, -50, Math.toRadians(90)), Math.toRadians(180)) //go to the position of the center yellow sample on the floor
+//           .waitSeconds(1) //pick up center sample and lift arm
+//           .setReversed(true)
+//           .splineToSplineHeading(new Pose2d(-50, -50, Math.toRadians(225)), Math.toRadians(315)) //go to bucket
+//           .waitSeconds(1) //drop the sample in the bucket
+//           .splineToSplineHeading(new Pose2d(-58, -50, Math.toRadians(100)), Math.toRadians(150)) //go to the left yellow sample
+//           .waitSeconds(1) //pick up the left sample and lift arm
+//           .splineToSplineHeading(new Pose2d(-50, -50, Math.toRadians(225)), Math.toRadians(0)) //go to the bucket
+//
+//           .waitSeconds(1) //drop the sample
+//           .setReversed(true)
+//           .splineToSplineHeading(new Pose2d(-40, -30, Math.toRadians(270)), Math.toRadians(90)) //parking approach
+//           .splineToConstantHeading(new Vector2d(-20, -12), Math.toRadians(0)) //park
 
            .build());
 
@@ -419,6 +422,9 @@ public class MeepMeepTesting {
             .splineToConstantHeading(new Vector2d(40, -48), Math.toRadians(270), new TranslationalVelConstraint(10)) //slow down for sample drop off and run into the specimen on the wall
          //   .splineTo(new Vector2d(50,-48),Math.toRadians(0))
             .waitSeconds(.2) //todo was .5
+
+          .splineToSplineHeading(new Pose2d(6,-30, Math.toRadians(90)), Math.toRadians(90)) //move to chamber
+          .splineToSplineHeading(new Pose2d(6,-21, Math.toRadians(90)), Math.toRadians(90)) //move to chamber
             .build());
 
       meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
@@ -430,7 +436,7 @@ public class MeepMeepTesting {
           //    .addEntity(myBotRedHang)
        //       .addEntity(myBotMesloh3)
        //     .addEntity(myBotMesloh4)
-            .addEntity(myBotMesloh5)
+            .addEntity(myYellowDrop)
 //          .addEntity(testPath2)
               .start();
    }

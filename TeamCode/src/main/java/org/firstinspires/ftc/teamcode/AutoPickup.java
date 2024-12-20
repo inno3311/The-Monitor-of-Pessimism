@@ -26,13 +26,19 @@ public class AutoPickup
 //        this.elbow = elbow;
 //        this.wrist = wrist;
 //        this.claw = claw;
+
+
+
+
     }
 
     public void align(double target)
     {
+        drive.updatePoseEstimate();
 
-        TrajectoryActionBuilder pickup = drive.actionBuilder(drive.pose/*new Pose2d(0,0, Math.toRadians(90))*/)
-                .strafeTo(new Vector2d(drive.pose.position.x,drive.pose.position.y+target));
+        TrajectoryActionBuilder pickup = drive.actionBuilder(new Pose2d(0,0,0))
+            .strafeTo(new Vector2d(0,2));
+            //.strafeTo(new Vector2d(drive.pose.position.x,drive.pose.position.y+target));
 
 
 

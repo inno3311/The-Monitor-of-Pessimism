@@ -52,7 +52,6 @@ public class DumbyTestProgram extends LinearOpMode
         {
 //            drive.gamepadController(gamepad1);
             slide.analogControl(0.5, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
-            elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);            //if (1==1)
             if (gamepad1.a)
             {
                 ArrayList<ArrayList<Double>> object_distances = sampleDetection.object_distances();
