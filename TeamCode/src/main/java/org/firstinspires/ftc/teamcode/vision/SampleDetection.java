@@ -124,7 +124,7 @@ public class SampleDetection extends OpenCvPipeline
          // Draw contour
          Imgproc.drawContours(input, contours, i, color);
          // Draw ellipse
-         // Imgproc.ellipse(input, minEllipse[i], color, 2);
+          Imgproc.ellipse(input, minEllipse[i], color, 2);
          // Draw rotated rectangle
          Point[] rectPoints = new Point[4];
          minRect[i].points(rectPoints);

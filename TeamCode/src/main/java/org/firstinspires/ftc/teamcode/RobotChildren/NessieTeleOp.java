@@ -128,19 +128,23 @@ public class NessieTeleOp extends LinearOpMode
 
             if (seeker.isObject_detected())
             {
-
-                double camera_height = calculate_camera_height(-(elbow.getMotorPosition() / ticksConversion.elbowInDegrees()), -(slide.getMotorPosition() /(ticksConversion.linearSlideInCM() * 2.54)), 16, 1.725);
-                double object_x_distance = calculate_x_distance(seeker.getAngle_x(), camera_height, 0);
-                double object_y_distance = calculate_y_distance(seeker.getAngle_y(), camera_height, 2.5);
-                telemetry.addData("arm length", -(slide.getMotorPosition() /(ticksConversion.linearSlideInCM() * 2.54)));
-                telemetry.addData("camera height", camera_height);
-                telemetry.addData("object x", object_x_distance);
-                telemetry.addData("object y", object_y_distance);
+                double object_x_speed = calculate_x_speed(seeker.getAngle_x());
+                double object_y_speed = calculate_y_speed(seeker.getAngle_y());
+                double x_offset = 0;
+                double y_offset = 0;
+                telemetry.addData("angle x", seeker.getAngle_x());
+                telemetry.addData("angle y", seeker.getAngle_y());
+                telemetry.addData("object x speed", object_x_speed);
+                telemetry.addData("object y speed", object_y_speed);
                 if (gamepad1.b && !gamepad1.start)
                     {
-                        autoPickup = new AutoPickup(new MecanumDrive(hardwareMap,new Pose2d(0, 0, Math.toRadians(90))));
+                        if (Math.abs(seeker.getAngle_x()) <= 0.2 && Math.abs(seeker.getAngle_y()) <= 0.2)
+                        {
+                            autoPickup = new AutoPickup(new MecanumDrive(hardwareMap,new Pose2d(0, 0, Math.toRadians(90))));
 //                        autoPickup.align(seeker.getDistance_x(), seeker.getDistance_y());
-                        autoPickup.align(object_x_distance, object_y_distance);
+                            autoPickup.align(x_offset, y_offset);
+                        }
+                        centricDrive.drive(object_x_speed, object_y_speed, imu.getAngle(), 0, 0);
                     }
             }
 //            if (seeker.isObject_detected())
@@ -302,6 +306,19 @@ public class NessieTeleOp extends LinearOpMode
     {
         double distance_y = (Math.tan(y_angle)*camera_height) + camera_y_offset;
         return(distance_y);
+    }
+
+
+    private double calculate_x_speed(double x_angle)
+    {
+        double x_speed = (Math.tan(x_angle));
+        return(x_speed);
+    }
+
+    private double calculate_y_speed(double y_angle)
+    {
+        double y_speed = (Math.tan(y_angle));
+        return(y_speed);
     }
 
 }

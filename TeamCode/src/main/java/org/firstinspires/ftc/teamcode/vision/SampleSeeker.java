@@ -12,6 +12,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
@@ -51,12 +52,12 @@ public class SampleSeeker extends OpenCvPipeline
     }
 
 
-   private Scalar lower = new Scalar(0, 178, 75);
-   private Scalar upper = new Scalar(255, 255, 255);
+   public Scalar lower = new Scalar(0, 146, 153);
+   public Scalar upper = new Scalar(255, 255, 255);
    private double threshold;
-   private double max_size_threshold = 2500; //pixels
-   private double x_resolution = 320;
-   private double y_resolution = 180;
+   private double max_size_threshold = 500; //pixels
+   private double x_resolution = 640;
+   private double y_resolution = 480;
    private double diagonal_fov = 78;
    private double x_fov = get_horizontal_fov(x_resolution, y_resolution, diagonal_fov);
    private double y_fov = get_vertical_fov(x_resolution, y_resolution, diagonal_fov);
@@ -126,7 +127,7 @@ public class SampleSeeker extends OpenCvPipeline
    boolean forceReturnBinaryMat = false;
    boolean displayMaskedInputMat = false;
    boolean displayCannyOutput = false;
-   boolean displayDrawing = true;
+   boolean displayDrawing = false;
 
    @Override
    public Mat processFrame(Mat input)
@@ -196,7 +197,7 @@ if (forceRetrunYcrcbMat)
        * the threshold range.
        */
      // org.opencv.core.Size size = Size.;
-      //Imgproc.blur(binaryMat, binaryMat, new Size(5,5));
+      // Imgproc.blur(binaryMat, binaryMat, new Size(4,4));
 
       Mat cannyOutput = new Mat();
       Imgproc.Canny(binaryMat, cannyOutput, threshold, threshold * 2);
@@ -329,30 +330,30 @@ if (forceRetrunYcrcbMat)
            Imgproc.circle(input, minEllipse[j].center, 1, cyan, 2);
 
        }
-
-      telemetry.addData("Center", absolute_center_point);
-      telemetry.addData("nearest_point_distance:", nearest_point_distance);
-      telemetry.addData("Nearest Point", minEllipse[nearest_point_ID].center);
-      telemetry.addData("nearest point ID:", nearest_point_ID);
-      Imgproc.circle(input, minEllipse[nearest_point_ID].center, 1, red, 2);
-      Imgproc.circle(input, new Point(0, 0), 1, red, 2);
-
-      double delta_distance_x = (minEllipse[nearest_point_ID].center.x) - absolute_center_x;
-      double delta_distance_y = (absolute_center_y - minEllipse[nearest_point_ID].center.y);
-      double x_angle = Math.toRadians(delta_distance_x * x_degrees_per_pixel);
-      double y_angle = Math.toRadians(delta_distance_y * y_degrees_per_pixel);
-      telemetry.addData("Object found?", object_found);
-      telemetry.addData("xFOV", x_fov);
-      telemetry.addData("yFOV", y_fov);
-      telemetry.addData("deltaX", delta_distance_x);
-      telemetry.addData("deltaY", delta_distance_y);
-      telemetry.addData("angleX", x_angle);
-      telemetry.addData("angleY", y_angle);
-      this.camera_y_offset = camera_y_offset;
-      this.camera_x_offset = camera_x_offset;
-      this.object_found = object_found;
-      this.angle_x = x_angle;
-      this.angle_y = y_angle;
+        telemetry.addData("contours", contours.size());
+//      telemetry.addData("Center", absolute_center_point);
+//      telemetry.addData("nearest_point_distance:", nearest_point_distance);
+//      telemetry.addData("Nearest Point", minEllipse[nearest_point_ID].center);
+//      telemetry.addData("nearest point ID:", nearest_point_ID);
+//      Imgproc.circle(input, minEllipse[nearest_point_ID].center, 1, red, 2);
+//      Imgproc.circle(input, new Point(0, 0), 1, red, 2);
+//
+//      double delta_distance_x = (minEllipse[nearest_point_ID].center.x) - absolute_center_x;
+//      double delta_distance_y = (absolute_center_y - minEllipse[nearest_point_ID].center.y);
+//      double x_angle = Math.toRadians(delta_distance_x * x_degrees_per_pixel);
+//      double y_angle = Math.toRadians(delta_distance_y * y_degrees_per_pixel);
+//      telemetry.addData("Object found?", object_found);
+//      telemetry.addData("xFOV", x_fov);
+//      telemetry.addData("yFOV", y_fov);
+//      telemetry.addData("deltaX", delta_distance_x);
+//      telemetry.addData("deltaY", delta_distance_y);
+//      telemetry.addData("angleX", x_angle);
+//      telemetry.addData("angleY", y_angle);
+//      this.camera_y_offset = camera_y_offset;
+//      this.camera_x_offset = camera_x_offset;
+//      this.object_found = object_found;
+//      this.angle_x = x_angle;
+//      this.angle_y = y_angle;
    /*
       telemetry.addData("angle: ",minEllipse[maxValIdx].angle);
       telemetry.addData("center x: ",minEllipse[maxValIdx].center.x);
