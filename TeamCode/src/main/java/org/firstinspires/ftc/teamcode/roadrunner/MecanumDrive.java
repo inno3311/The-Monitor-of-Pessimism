@@ -631,7 +631,7 @@ public final class MecanumDrive
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         power *= right;
-        int targetPos = rightFront.getCurrentPosition();
+        double targetPos = rightFront.getCurrentPosition();
         targetPos += target * PARAMS.inPerTick;
 
         if ((Math.abs(rightFront.getCurrentPosition()) <= targetPos))
