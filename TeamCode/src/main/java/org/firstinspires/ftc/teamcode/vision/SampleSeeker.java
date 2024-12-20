@@ -24,8 +24,8 @@ public class SampleSeeker extends OpenCvPipeline
    Telemetry telemetry;
 
    public boolean object_found = false;
-   public double distance_x = 0;
-   public double distance_y = 0;
+   public double angle_x = 0;
+   public double angle_y = 0;
 
     private double get_horizontal_fov(double x_resolution, double y_resolution, double diagonal_fov)
     {
@@ -54,17 +54,17 @@ public class SampleSeeker extends OpenCvPipeline
    private Scalar lower = new Scalar(0, 178, 75);
    private Scalar upper = new Scalar(255, 255, 255);
    private double threshold;
-   private double max_size_threshold = 5000; //pixels
-   private double x_resolution = 640;
-   private double y_resolution = 480;
+   private double max_size_threshold = 2500; //pixels
+   private double x_resolution = 320;
+   private double y_resolution = 180;
    private double diagonal_fov = 78;
    private double x_fov = get_horizontal_fov(x_resolution, y_resolution, diagonal_fov);
    private double y_fov = get_vertical_fov(x_resolution, y_resolution, diagonal_fov);
    private double x_degrees_per_pixel = x_fov/x_resolution;
    private double y_degrees_per_pixel = y_fov/y_resolution;
    private double max_pickup_angle = 30;
-   private double camera_x_offset = 0;
-   private double camera_y_offset  = 0;
+   private double camera_x_offset = -1.5; // distance in inches camera is FROM claw center
+   private double camera_y_offset  = 2.5; // distance in inches camera is FROM claw center
    private double camera_height = 7.6; //inches
    /*
     * A good practice when typing EOCV pipelines is
@@ -341,8 +341,6 @@ if (forceRetrunYcrcbMat)
       double delta_distance_y = (absolute_center_y - minEllipse[nearest_point_ID].center.y);
       double x_angle = Math.toRadians(delta_distance_x * x_degrees_per_pixel);
       double y_angle = Math.toRadians(delta_distance_y * y_degrees_per_pixel);
-      double distance_x = (Math.tan(x_angle)*camera_height) - camera_x_offset;
-      double distance_y = (Math.tan(y_angle)*camera_height) - camera_y_offset;
       telemetry.addData("Object found?", object_found);
       telemetry.addData("xFOV", x_fov);
       telemetry.addData("yFOV", y_fov);
@@ -350,11 +348,11 @@ if (forceRetrunYcrcbMat)
       telemetry.addData("deltaY", delta_distance_y);
       telemetry.addData("angleX", x_angle);
       telemetry.addData("angleY", y_angle);
-      telemetry.addData("distance_x", distance_x);
-      telemetry.addData("distance_y", distance_y);
+      this.camera_y_offset = camera_y_offset;
+      this.camera_x_offset = camera_x_offset;
       this.object_found = object_found;
-      this.distance_x = distance_x;
-      this.distance_y = distance_y;
+      this.angle_x = x_angle;
+      this.angle_y = y_angle;
    /*
       telemetry.addData("angle: ",minEllipse[maxValIdx].angle);
       telemetry.addData("center x: ",minEllipse[maxValIdx].center.x);
@@ -367,13 +365,13 @@ if (forceRetrunYcrcbMat)
       return input;
    }
 
-    public double getDistance_x()
+    public double getAngle_x()
    {
-        return distance_x;
+        return angle_x;
    }
-    public double getDistance_y()
+    public double getAngle_y()
     {
-        return distance_y;
+        return angle_y;
     }
     public boolean isObject_detected()
     {

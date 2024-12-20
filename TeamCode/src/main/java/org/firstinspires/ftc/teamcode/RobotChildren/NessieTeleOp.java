@@ -126,10 +126,32 @@ public class NessieTeleOp extends LinearOpMode
 
             telemetry.addData("Object detected?", seeker.isObject_detected());
 
-            if (seeker.isObject_detected() && gamepad1.b && !gamepad1.start)
+            if (seeker.isObject_detected())
             {
-                drive.strafe(seeker.getDistance_x(),1,1);
+
+                double camera_height = calculate_camera_height(-(elbow.getMotorPosition() / ticksConversion.elbowInDegrees()), -(slide.getMotorPosition() /(ticksConversion.linearSlideInCM() * 2.54)), 16, 1.725);
+                double object_x_distance = calculate_x_distance(seeker.getAngle_x(), camera_height, 0);
+                double object_y_distance = calculate_y_distance(seeker.getAngle_y(), camera_height, 2.5);
+                telemetry.addData("arm length", -(slide.getMotorPosition() /(ticksConversion.linearSlideInCM() * 2.54)));
+                telemetry.addData("camera height", camera_height);
+                telemetry.addData("object x", object_x_distance);
+                telemetry.addData("object y", object_y_distance);
+                if (gamepad1.b && !gamepad1.start)
+                    {
+                        autoPickup = new AutoPickup(new MecanumDrive(hardwareMap,new Pose2d(0, 0, Math.toRadians(90))));
+//                        autoPickup.align(seeker.getDistance_x(), seeker.getDistance_y());
+                        autoPickup.align(object_x_distance, object_y_distance);
+                    }
             }
+//            if (seeker.isObject_detected())
+//            {
+//                telemetry.addData("object x", seeker.getDistance_x());
+//                telemetry.addData("object y", seeker.getDistance_y());
+//                if (gamepad1.b && !gamepad1.start)
+//                {
+//                    centricDrive.drive(0, 0, 0, 0, autoPickup.align_angle(seeker.getDistance_x(), ticksConversion.linearSlideInCM()*slide.getMotorPosition()));
+//                }
+//            }
 
 
             // Accessories
@@ -263,4 +285,23 @@ public class NessieTeleOp extends LinearOpMode
             }
         });
     }
+
+    private double calculate_camera_height(double arm_angle, double arm_length, double camera_length_offset, double height_offset)
+    {
+        double height = (Math.sin(Math.toRadians(arm_angle)) * (arm_length + camera_length_offset)) + height_offset;
+        return(height);
+    }
+
+    private double calculate_x_distance(double x_angle, double camera_height, double camera_x_offset)
+    {
+        double distance_x = (Math.tan(x_angle)*camera_height) + camera_x_offset;
+        return(distance_x);
+    }
+
+    private double calculate_y_distance(double y_angle, double camera_height, double camera_y_offset)
+    {
+        double distance_y = (Math.tan(y_angle)*camera_height) + camera_y_offset;
+        return(distance_y);
+    }
+
 }
