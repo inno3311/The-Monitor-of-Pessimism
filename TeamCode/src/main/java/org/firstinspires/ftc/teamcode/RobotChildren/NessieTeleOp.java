@@ -128,23 +128,19 @@ public class NessieTeleOp extends LinearOpMode
 
             if (seeker.isObject_detected())
             {
-                double object_x_speed = calculate_x_speed(seeker.getAngle_x());
-                double object_y_speed = calculate_y_speed(seeker.getAngle_y());
                 double x_offset = 0;
-                double y_offset = 0;
+                double y_offset = 3;
+                double object_x_distance = calculate_x_distance(seeker.getAngle_x(), seeker.getCamera_height(), x_offset);
+                double object_y_distance = calculate_y_distance(seeker.getAngle_y(), seeker.getCamera_height(), y_offset);
                 telemetry.addData("angle x", seeker.getAngle_x());
                 telemetry.addData("angle y", seeker.getAngle_y());
-                telemetry.addData("object x speed", object_x_speed);
-                telemetry.addData("object y speed", object_y_speed);
+                telemetry.addData("object x distance", object_x_distance);
+                telemetry.addData("object y distance", object_y_distance);
                 if (gamepad1.b && !gamepad1.start)
                     {
-                        if (Math.abs(seeker.getAngle_x()) <= 0.2 && Math.abs(seeker.getAngle_y()) <= 0.2)
-                        {
                             autoPickup = new AutoPickup(new MecanumDrive(hardwareMap,new Pose2d(0, 0, Math.toRadians(90))));
 //                        autoPickup.align(seeker.getDistance_x(), seeker.getDistance_y());
-                            autoPickup.align(x_offset, y_offset);
-                        }
-                        centricDrive.drive(object_x_speed, object_y_speed, imu.getAngle(), 0, 0);
+                            autoPickup.align(object_x_distance, object_y_distance);
                     }
             }
 //            if (seeker.isObject_detected())
@@ -195,8 +191,8 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (gamepad2.dpad_down)
             {
-                slide.encoderPresets(Slide.Presets.PICKUP_FLOOR);
-                elbow.encoderPresets(Elbow.Presets.PICKUP_FLOOR);
+                slide.encoderPresets(Slide.Presets.PICKUP_SUBMERSIBLE);
+                elbow.encoderPresets(Elbow.Presets.PICKUP_SUBMERSIBLE);
             }
             else if (gamepad2.dpad_left)
             {
@@ -211,7 +207,7 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (runSlide)
             {
-                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
+                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), -2150, false);
             }
             else if (runElbow)
             {
@@ -220,7 +216,7 @@ public class NessieTeleOp extends LinearOpMode
             else
             {
                 slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
-                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), false);
+                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), -2150, false);
             }
 
 

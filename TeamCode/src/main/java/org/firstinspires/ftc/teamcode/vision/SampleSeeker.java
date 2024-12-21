@@ -55,10 +55,11 @@ public class SampleSeeker extends OpenCvPipeline
    public Scalar lower = new Scalar(0, 146, 153);
    public Scalar upper = new Scalar(255, 255, 255);
    private double threshold;
-   private double max_size_threshold = 500; //pixels
-   private double x_resolution = 640;
-   private double y_resolution = 480;
-   private double diagonal_fov = 78;
+   private double max_size_threshold = 3000; //pixels
+   private double min_size_threshold = 1000; //pixels
+   private double x_resolution = 320;
+   private double y_resolution = 180;
+   private double diagonal_fov = 90;
    private double x_fov = get_horizontal_fov(x_resolution, y_resolution, diagonal_fov);
    private double y_fov = get_vertical_fov(x_resolution, y_resolution, diagonal_fov);
    private double x_degrees_per_pixel = x_fov/x_resolution;
@@ -66,7 +67,7 @@ public class SampleSeeker extends OpenCvPipeline
    private double max_pickup_angle = 30;
    private double camera_x_offset = -1.5; // distance in inches camera is FROM claw center
    private double camera_y_offset  = 2.5; // distance in inches camera is FROM claw center
-   private double camera_height = 7.6; //inches
+   private double camera_height = 14; //inches
    /*
     * A good practice when typing EOCV pipelines is
     * declaring the Mats you will use here at the top
@@ -235,6 +236,7 @@ if (forceRetrunYcrcbMat)
       Scalar cyan = new Scalar(0, 222, 222);
       Scalar red = new Scalar(255, 0, 0);
       Scalar yellow = new Scalar(255, 255, 0);
+      Scalar green = new Scalar(0, 255, 0);
 /*
       for (int i = 0; i < contours.size(); i++) {
          Imgproc.drawContours(drawing, contoursPolyList, i, color1);
@@ -304,7 +306,7 @@ if (forceRetrunYcrcbMat)
     for (int j = 0; j < contours.size(); j++)
        {
            double area = minEllipse[j].size.area();
-           if (area < max_size_threshold)
+           if (area < min_size_threshold || area > max_size_threshold)
            {
                continue;
            }
@@ -325,7 +327,7 @@ if (forceRetrunYcrcbMat)
                nearest_point_distance = calculate_distance(x_distance, y_distance);
                nearest_point_ID = j;
            }
-
+           telemetry.addData("area", area);
            Imgproc.ellipse(input, minEllipse[j], cyan, 2);
            Imgproc.circle(input, minEllipse[j].center, 1, cyan, 2);
 
@@ -335,13 +337,14 @@ if (forceRetrunYcrcbMat)
 //      telemetry.addData("nearest_point_distance:", nearest_point_distance);
 //      telemetry.addData("Nearest Point", minEllipse[nearest_point_ID].center);
 //      telemetry.addData("nearest point ID:", nearest_point_ID);
-//      Imgproc.circle(input, minEllipse[nearest_point_ID].center, 1, red, 2);
-//      Imgproc.circle(input, new Point(0, 0), 1, red, 2);
+      Imgproc.circle(input, minEllipse[nearest_point_ID].center, 1, green, 2);
+      Imgproc.circle(input, new Point(0, 0), 1, green, 2);
+      Imgproc.ellipse(input, minEllipse[nearest_point_ID], green, 2);
 //
-//      double delta_distance_x = (minEllipse[nearest_point_ID].center.x) - absolute_center_x;
-//      double delta_distance_y = (absolute_center_y - minEllipse[nearest_point_ID].center.y);
-//      double x_angle = Math.toRadians(delta_distance_x * x_degrees_per_pixel);
-//      double y_angle = Math.toRadians(delta_distance_y * y_degrees_per_pixel);
+      double delta_distance_x = (minEllipse[nearest_point_ID].center.x) - absolute_center_x;
+      double delta_distance_y = (absolute_center_y - minEllipse[nearest_point_ID].center.y);
+      double x_angle = Math.toRadians(delta_distance_x * x_degrees_per_pixel);
+      double y_angle = Math.toRadians(delta_distance_y * y_degrees_per_pixel);
 //      telemetry.addData("Object found?", object_found);
 //      telemetry.addData("xFOV", x_fov);
 //      telemetry.addData("yFOV", y_fov);
@@ -349,11 +352,11 @@ if (forceRetrunYcrcbMat)
 //      telemetry.addData("deltaY", delta_distance_y);
 //      telemetry.addData("angleX", x_angle);
 //      telemetry.addData("angleY", y_angle);
-//      this.camera_y_offset = camera_y_offset;
-//      this.camera_x_offset = camera_x_offset;
-//      this.object_found = object_found;
-//      this.angle_x = x_angle;
-//      this.angle_y = y_angle;
+      this.camera_y_offset = camera_y_offset;
+      this.camera_x_offset = camera_x_offset;
+      this.object_found = object_found;
+      this.angle_x = x_angle;
+      this.angle_y = y_angle;
    /*
       telemetry.addData("angle: ",minEllipse[maxValIdx].angle);
       telemetry.addData("center x: ",minEllipse[maxValIdx].center.x);
@@ -361,6 +364,7 @@ if (forceRetrunYcrcbMat)
       telemetry.addData("hight: ",minEllipse[maxValIdx].size.height);
       telemetry.addData("width: ",minEllipse[maxValIdx].size.width);
       */
+       telemetry.update();
 
 
       return input;
@@ -377,6 +381,11 @@ if (forceRetrunYcrcbMat)
     public boolean isObject_detected()
     {
         return object_found;
+    }
+
+    public double getCamera_height()
+    {
+        return camera_height;
     }
 
 }

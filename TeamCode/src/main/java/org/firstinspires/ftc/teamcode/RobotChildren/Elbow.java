@@ -46,6 +46,7 @@ public class Elbow extends MotorParent
         BOTTOM_BUCKET,
         PICKUP_FLOOR,
         PICKUP_WALL,
+        PICKUP_SUBMERSIBLE,
         INITIALIZATION
     }
 
@@ -70,6 +71,9 @@ public class Elbow extends MotorParent
                 break;
             case PICKUP_WALL:
                 super.encoderControl(-230, 1);
+                break;
+            case PICKUP_SUBMERSIBLE:
+                super.encoderControl(-1000,1);
                 break;
             case INITIALIZATION:
                 super.encoderControl(-1575,1);

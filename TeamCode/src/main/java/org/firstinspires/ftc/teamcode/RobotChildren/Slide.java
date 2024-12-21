@@ -53,6 +53,7 @@ public class Slide extends MotorParent
         TOP_BUCKET,
         BOTTOM_BUCKET,
         PICKUP_FLOOR,
+        PICKUP_SUBMERSIBLE,
         PICKUP_WALL
     }
 
@@ -77,6 +78,9 @@ public class Slide extends MotorParent
                 break;
             case PICKUP_WALL:
                 super.encoderControl(0,1);
+                break;
+            case PICKUP_SUBMERSIBLE:
+                super.encoderControl(-430,1);
                 break;
             default:
                 break;
