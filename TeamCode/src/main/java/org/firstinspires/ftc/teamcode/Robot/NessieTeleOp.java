@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode.RobotChildren;
-
-import android.content.Context;
+package org.firstinspires.ftc.teamcode.Robot;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -20,7 +18,6 @@ import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.vision.SampleDetection;
 import org.firstinspires.ftc.teamcode.vision.SampleSeeker;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -207,7 +204,7 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (runSlide)
             {
-                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), -2150, false);
+                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), -2150, true);
             }
             else if (runElbow)
             {
@@ -216,9 +213,8 @@ public class NessieTeleOp extends LinearOpMode
             else
             {
                 slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
-                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), -2150, false);
+                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), -2150, true);
             }
-
 
             hang.simpleDrive(1, gamepad2.y, gamepad2.a);
 

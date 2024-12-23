@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.vision;
 
 //import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
+import android.graphics.Color;
+
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -94,11 +96,19 @@ public class SampleDetection extends OpenCvPipeline
       maskedInputMat.release();
       Core.bitwise_and(input, input, maskedInputMat, binaryMat);
 
+      boolean test = false;
+      if (test)
+      return binaryMat;
+
       // Start locating objects
       Imgproc.cvtColor(maskedInputMat, gray, Imgproc.COLOR_BGR2GRAY);
       Imgproc.blur(gray, gray, new Size(blur.val[0], blur.val[1]));
       Mat cannyOutput = new Mat();
-      Imgproc.Canny(gray, cannyOutput, threshold, threshold*2);
+      Imgproc.Canny(binaryMat, cannyOutput, threshold, threshold*2);
+
+      boolean cannyTest = false;
+      if (cannyTest)
+         return cannyOutput;
 
       // add found edges to an array
       List<MatOfPoint> contours = new ArrayList<>();
@@ -118,24 +128,31 @@ public class SampleDetection extends OpenCvPipeline
 
       // Draw contours, elipses, and rectangles
       Mat drawing = Mat.zeros(cannyOutput.size(), CvType.CV_8UC3);
-      //telemetry.addData("number of contours", contours.size());
+      telemetry.addData("number of contours", contours.size());
       for (int i = 0; i < contours.size(); i++) {
-         Scalar color = new Scalar(256, 256, 256);
-         // Draw contour
-         Imgproc.drawContours(input, contours, i, color);
-         // Draw ellipse
-          Imgproc.ellipse(input, minEllipse[i], color, 2);
-         // Draw rotated rectangle
-         Point[] rectPoints = new Point[4];
-         minRect[i].points(rectPoints);
-         double size = calculate_bounding_box_area(rectPoints);
-         double y_range_limit = y_resolution/range_limiter;
-         //0, 0 is in the top left, that's why we want a LARGER y value than the limit, NOT a smaller
-         if (minRect[i].center.y <= y_range_limit)
+
+         if ((minEllipse[i].boundingRect().area() > 1000) && (minEllipse[i].boundingRect().area() < 2000))
          {
-            continue;
+            Scalar color = new Scalar(256, 256, 256);
+            Scalar color2 = new Scalar(111, 111, 256);
+            // Draw contour
+            Imgproc.drawContours(input, contours, i, color);
+            // Draw ellipse
+            Imgproc.ellipse(input, minEllipse[i], color, 2);
+
+            Imgproc.putText(input,String.valueOf(i),minEllipse[i].center,1,1,color2,1,1,true);
+            // Draw rotated rectangle
+            Point[] rectPoints = new Point[4];
+            minRect[i].points(rectPoints);
+            double size = calculate_bounding_box_area(rectPoints);
+            double y_range_limit = y_resolution / range_limiter;
+            //0, 0 is in the top left, that's why we want a LARGER y value than the limit, NOT a smaller
+            if (minRect[i].center.y <= y_range_limit)
+            {
+               continue;
+            }
+            sample_points.add(minEllipse[i].center);
          }
-         sample_points.add(minEllipse[i].center);
       }
       this.sample_points = sample_points;
       telemetry.update();

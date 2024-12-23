@@ -9,11 +9,10 @@ import org.firstinspires.ftc.teamcode.AutoBucket;
 import org.firstinspires.ftc.teamcode.aprilTags.AprilTagMaster;
 import org.firstinspires.ftc.teamcode.controller.DriveController;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
-import org.firstinspires.ftc.teamcode.RobotChildren.Slide;
-import org.firstinspires.ftc.teamcode.RobotChildren.Elbow;
-import org.firstinspires.ftc.teamcode.RobotChildren.Hang;
-import org.firstinspires.ftc.teamcode.RobotChildren.Wrist;
-import org.firstinspires.ftc.teamcode.RobotChildren.Claw;
+import org.firstinspires.ftc.teamcode.Robot.Slide;
+import org.firstinspires.ftc.teamcode.Robot.Elbow;
+import org.firstinspires.ftc.teamcode.Robot.Wrist;
+import org.firstinspires.ftc.teamcode.Robot.Claw;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 @Autonomous(name = "dumbyOpMode")

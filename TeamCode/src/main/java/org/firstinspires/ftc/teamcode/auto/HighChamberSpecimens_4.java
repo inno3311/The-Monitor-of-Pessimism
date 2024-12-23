@@ -10,10 +10,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.teamcode.RobotChildren.Claw;
-import org.firstinspires.ftc.teamcode.RobotChildren.Elbow;
-import org.firstinspires.ftc.teamcode.RobotChildren.Slide;
-import org.firstinspires.ftc.teamcode.RobotChildren.Wrist;
+import org.firstinspires.ftc.teamcode.Robot.Claw;
+import org.firstinspires.ftc.teamcode.Robot.Elbow;
+import org.firstinspires.ftc.teamcode.Robot.Slide;
+import org.firstinspires.ftc.teamcode.Robot.Wrist;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;

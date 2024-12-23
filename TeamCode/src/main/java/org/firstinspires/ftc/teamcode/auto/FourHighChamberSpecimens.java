@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Pose2dDual;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -11,13 +10,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.teamcode.RobotChildren.Claw;
-import org.firstinspires.ftc.teamcode.RobotChildren.Elbow;
-import org.firstinspires.ftc.teamcode.RobotChildren.Slide;
-import org.firstinspires.ftc.teamcode.RobotChildren.Wrist;
+import org.firstinspires.ftc.teamcode.Robot.Claw;
+import org.firstinspires.ftc.teamcode.Robot.Elbow;
+import org.firstinspires.ftc.teamcode.Robot.Slide;
+import org.firstinspires.ftc.teamcode.Robot.Wrist;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.roadrunner.MecanumDriveFaster;
 import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 
 @Autonomous(name="FOUR_SpecimenRun", group="Linear OpMode")

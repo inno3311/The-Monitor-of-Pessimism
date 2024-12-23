@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.initialization;
 
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.teamcode.RobotChildren.Elbow;
-import org.firstinspires.ftc.teamcode.RobotChildren.Slide;
+import org.firstinspires.ftc.teamcode.Robot.Elbow;
+import org.firstinspires.ftc.teamcode.Robot.Slide;
 
 public class Initialization
 {
