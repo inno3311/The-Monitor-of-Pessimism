@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.TankDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 
-@Autonomous(name="Push Yellow", group="Linear OpMode")
-public final class PushYellows extends LinearOpMode
+@Autonomous(name="Bucket Run", group="Linear OpMode")
+public final class BucketRun extends LinearOpMode
 {
 
 
@@ -147,14 +147,15 @@ public final class PushYellows extends LinearOpMode
                 .afterTime(0, wrist.action(0))
                 .afterTime(0.5, claw.action(CLAW_OPEN))
                 .afterTime(0.6, wrist.action(.5))
-                .waitSeconds(5)
+                .waitSeconds(1)
 
 
-
-
+                .strafeToLinearHeading(new Vector2d(-35, -20), Math.toRadians(180))
 
                 ;
 
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                //park
 
             Action redRun = yellow_drop
                 .build();
