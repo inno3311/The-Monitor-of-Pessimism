@@ -260,7 +260,7 @@ public class MotorParent
             motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             run(-speed);
         }
-        else {motorBreak();}
+        else {motor.setPower(0);}
     }
 
     /**

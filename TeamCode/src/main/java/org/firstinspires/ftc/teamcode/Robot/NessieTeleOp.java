@@ -9,10 +9,11 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.AutoBucket;
-import org.firstinspires.ftc.teamcode.AutoPickup;
+import org.firstinspires.ftc.teamcode.algirithums.AutoBucket;
+import org.firstinspires.ftc.teamcode.algirithums.AutoHang;
+import org.firstinspires.ftc.teamcode.algirithums.samplePickup.AutoPickup;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
-import org.firstinspires.ftc.teamcode.algirithums.samplePickup.MotorTicksConversion;
+import org.firstinspires.ftc.teamcode.algirithums.MotorTicksConversion;
 import org.firstinspires.ftc.teamcode.aprilTags.AprilTagMaster;
 import org.firstinspires.ftc.teamcode.fieldCentric.CentricDrive;
 import org.firstinspires.ftc.teamcode.fieldCentric.TurnToHeading;
@@ -38,6 +39,7 @@ public class NessieTeleOp extends LinearOpMode
     SampleSeeker seeker;
     AutoPickup autoPickup;
     AutoBucket autoBucket;
+    AutoHang autoHang;
     Initialization initialization;
 
     // DriveBase
@@ -55,6 +57,7 @@ public class NessieTeleOp extends LinearOpMode
     //Other
     ElapsedTime time;
     MotorTicksConversion ticksConversion;
+    private double hangFlag = 0;
 
 
     @Override
@@ -80,6 +83,7 @@ public class NessieTeleOp extends LinearOpMode
 
         seeker = new SampleSeeker(telemetry);
         autoPickup = new AutoPickup(drive);
+        autoHang = new AutoHang(drive, slide, elbow, hang, wrist, claw);
 
         ticksConversion = new MotorTicksConversion();
 
@@ -93,6 +97,10 @@ public class NessieTeleOp extends LinearOpMode
         }
 
         waitForStart();
+
+        // DriveBase
+        // ==========================================================================================================================================================================
+
 
         while (opModeIsActive())
         {
@@ -150,6 +158,8 @@ public class NessieTeleOp extends LinearOpMode
 //                }
 //            }
 
+            // Slide and Elbow
+            // ==========================================================================================================================================================================
 
             // Accessories
             boolean runElbow = false;
@@ -181,7 +191,8 @@ public class NessieTeleOp extends LinearOpMode
 //            telemetry.addData("Slide Restrict", Math.abs(Math.sin(elbow.getMotorPosition() / ticksConversion.elbowInRadians())));
             telemetry.addData("Elbow angle", elbow.getMotorPosition() / ticksConversion.elbowInDegrees());
 
-            if (gamepad2.dpad_up)
+            if (hangFlag > time.seconds()) {}
+            else if (gamepad2.dpad_up)
             {
                 slide.encoderPresets(Slide.Presets.TOP_CHAMBER);
                 elbow.encoderPresets(Elbow.Presets.TOP_CHAMBER);
@@ -204,7 +215,7 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (runSlide)
             {
-                elbow.analogControl(1, gamepad2.right_stick_y, false, false, elbowLimit.isPressed(), -2500, true);
+                elbow.analogControl(1, gamepad2.right_stick_y, false, false, elbowLimit.isPressed(), -3500, true);
             }
             else if (runElbow)
             {
@@ -213,10 +224,37 @@ public class NessieTeleOp extends LinearOpMode
             else
             {
                 slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2175, true);
-                elbow.analogControl(1, gamepad2.right_stick_y, false, false, elbowLimit.isPressed(), -2500, true);
+                elbow.analogControl(1, gamepad2.right_stick_y, false, false, elbowLimit.isPressed(), -3500, true);
             }
 
-            hang.simpleDrive(1, gamepad2.a, gamepad2.y);
+            // Hanging
+            // ==========================================================================================================================================================================
+
+            if (gamepad1.dpad_down || gamepad1.dpad_up)
+            {
+                hangFlag = time.seconds() + 3;
+
+            }
+
+
+            if (hangFlag < time.seconds())
+            {
+                hang.simpleDrive(1, gamepad2.a, gamepad2.y);
+            }
+
+            if (gamepad1.dpad_down)
+            {
+                autoHang.prepare();
+            }
+            else if (gamepad1.dpad_up)
+            {
+                autoHang.hang();
+            }
+
+
+
+            // Claw and Wrist
+            // ==========================================================================================================================================================================
 
             if (gamepad2.right_bumper)   //close
             {

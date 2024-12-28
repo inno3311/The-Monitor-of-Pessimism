@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.algirithums.samplePickup;
+package org.firstinspires.ftc.teamcode.algirithums;
 
 public class MotorTicksConversion
 {

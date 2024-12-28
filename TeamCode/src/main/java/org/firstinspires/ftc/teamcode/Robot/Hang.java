@@ -18,6 +18,24 @@ public class Hang extends MotorParent
         super.simpleDrive(speed, argument1, argument2);
     }
 
+    @Override
+    public boolean isBusy()
+    {
+        return super.isBusy();
+    }
+
+    @Override
+    public int getMotorPosition()
+    {
+        return super.getMotorPosition();
+    }
+
+    @Override
+    public void encoderControl(int target, double speed, double argument)
+    {
+        super.encoderControl(target, speed, argument);
+    }
+
     public enum Presets
     {
         READY,
@@ -30,13 +48,13 @@ public class Hang extends MotorParent
         switch (preset)
         {
             case READY:
-                super.encoderControl(1,1);
+                super.encoderControl(0,1);
                 break;
             case SET:
-                super.encoderControl(1,1);
+                super.encoderControl(-6000,1);
                 break;
             case GO:
-                super.encoderControl(1,1);
+                super.encoderControl(100,1);
                 break;
             default:
                 break;
