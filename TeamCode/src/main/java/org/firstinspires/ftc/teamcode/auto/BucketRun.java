@@ -46,6 +46,8 @@ public final class BucketRun extends LinearOpMode
         double CLAW_OPEN = 0.5;
         int CLAW_CLOSE = 0;
 
+        int SLIDE_DEPLOY_HIGHT = -2275;
+
 
         slideLimit = hardwareMap.get(TouchSensor.class, "slideLimit");
         elbowLimit = hardwareMap.get(TouchSensor.class, "elbowLimit");
@@ -80,14 +82,14 @@ public final class BucketRun extends LinearOpMode
                 .turnTo(Math.toRadians(80))
                 .afterTime(0, elbow.action(-300, 1))
                 .afterTime(1.5, elbow.action(0, .5))
-                .afterTime(0, slide.action(-1300, 1))
+                .afterTime(0, slide.action(-1400, 1))  //changed from -1300
                 .afterTime(1, wrist.action(0))
                 .afterTime(1.5, claw.action(CLAW_CLOSE))
                 .waitSeconds(2)
                 .afterTime(0, claw.action(CLAW_CLOSE))
                 .afterTime(0, slide.action(0, 1))
                 .afterTime(0.5, elbow.action(-2400, 1))
-                .afterTime(1, slide.action(-2175, 1))
+                .afterTime(1, slide.action(SLIDE_DEPLOY_HIGHT, 1))  // changed from -2175
                 .waitSeconds(2)
                 .turnTo(Math.toRadians(225))
 //                .waitSeconds(1)
@@ -100,16 +102,17 @@ public final class BucketRun extends LinearOpMode
 //                //end of second sample drop
 //
 ////               .turnTo(Math.toRadians(64))
-                .strafeToLinearHeading(new Vector2d(-42, -53), Math.toRadians(75), new TranslationalVelConstraint(20))
+                .strafeToLinearHeading(new Vector2d(-41, -53), Math.toRadians(75), new TranslationalVelConstraint(20))
                 .afterTime(0, elbow.action(-300, 1))
                 .afterTime(1.5, elbow.action(0, .5))
-                .afterTime(0, slide.action(-1400, 1))
+                .afterTime(0, slide.action(-1500, 1))  //changed from -1400
                 .afterTime(1, wrist.action(0))
                 .afterTime(1.5, claw.action(CLAW_CLOSE))
                 .waitSeconds(2)
                 .afterTime(0, claw.action(CLAW_CLOSE))
-                .afterTime(0, slide.action(0, 1))
-                .afterTime(0.5, elbow.action(-2400, 1))
+                .afterTime(0, elbow.action(-2400, 1))
+                .afterTime(.5, slide.action(0, 1))
+
                 .afterTime(1, slide.action(-2175, 1))
                 .waitSeconds(1.5)
 //                .turnTo(Math.toRadians(225))
@@ -125,46 +128,73 @@ public final class BucketRun extends LinearOpMode
                 //end of third drop
 
                 .afterTime(0, wrist.action(0))
+                //.afterTime(0, claw.action(CLAW_CLOSE))
+                .afterTime(.2, slide.action(0, 1))
+                .afterTime(.8, elbow.action(-400, 1))  //changed from -300
                 .strafeToLinearHeading(new Vector2d(-56, -53), Math.toRadians(100))
-                .afterTime(0, slide.action(0, 1))
-                .afterTime(0, claw.action(CLAW_CLOSE))
-                .afterTime(1, elbow.action(-300, 1))
-                .afterTime(2, claw.action(CLAW_OPEN))
-                .afterTime(3, slide.action(-1400, 1))
-                .afterTime(4, elbow.action(0, .5))
-                .afterTime(4.2, claw.action(CLAW_CLOSE))
+//                .afterTime(0, slide.action(0, 1))
+//                .afterTime(0, claw.action(CLAW_CLOSE))
+//                .afterTime(.8, elbow.action(-400, 1))  //changed from -300
+                .afterTime(0, claw.action(CLAW_OPEN))
+                .afterTime(1, slide.action(-1550, 1))  //changed from -1400
+                .afterTime(2, elbow.action(0, .5))
+                .afterTime(2.2, claw.action(CLAW_CLOSE))
 
-                .afterTime(5, slide.action(0, 1))
-                .afterTime(5.5, elbow.action(-2400, 1))
-                .waitSeconds(6)
+                .afterTime(3, slide.action(0, 1))
+                .afterTime(3.5, elbow.action(-2500, 1))
+                .waitSeconds(4)
                 .strafeTo(new Vector2d(-45, -53))
 
                 .afterTime(1, slide.action(-2175, 1))
                 .strafeToLinearHeading(new Vector2d(-53, -53), Math.toRadians(225))
                 .afterTime(0.5, elbow.action(-2400, 1))
                 .afterTime(1, slide.action(-2175, 1))
-                .waitSeconds(1.5)
+                .waitSeconds(1)
                 .afterTime(0, wrist.action(0))
                 .afterTime(0.5, claw.action(CLAW_OPEN))
                 .afterTime(0.6, wrist.action(.5))
                 .waitSeconds(1)
 
-
-                .strafeToLinearHeading(new Vector2d(-35, -20), Math.toRadians(180))
-
-                ;
+//                .afterTime(0, wrist.action(0))
+//                .strafeToLinearHeading(new Vector2d(-56, -53), Math.toRadians(100))
+//                .afterTime(0, slide.action(0, 1))
+//                .afterTime(0, claw.action(CLAW_CLOSE))
+//                .afterTime(1, elbow.action(-400, 1))  //changed from -300
+//                .afterTime(2, claw.action(CLAW_OPEN))
+//                .afterTime(3, slide.action(-1500, 1))  //changed from -1400
+//                .afterTime(4, elbow.action(0, .5))
+//                .afterTime(4.2, claw.action(CLAW_CLOSE))
+//
+//                .afterTime(5, slide.action(0, 1))
+//                .afterTime(5.5, elbow.action(-2400, 1))
+//                .waitSeconds(6)
+//                .strafeTo(new Vector2d(-45, -53))
+//
+//                .afterTime(1, slide.action(-2175, 1))
+//                .strafeToLinearHeading(new Vector2d(-53, -53), Math.toRadians(225))
+//                .afterTime(0.5, elbow.action(-2400, 1))
+//                .afterTime(1, slide.action(-2175, 1))
+//                .waitSeconds(1.5)
+//                .afterTime(0, wrist.action(0))
+//                .afterTime(0.5, claw.action(CLAW_OPEN))
+//                .afterTime(0.6, wrist.action(.5))
+//                .waitSeconds(1)
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //park
+                .afterTime(0, wrist.action(0))
+                .afterTime(.3, slide.action(0, 1))
+                .strafeToLinearHeading(new Vector2d(-35, -10), Math.toRadians(180))
+                .afterTime(0, elbow.action(-3200, 1))
+                .strafeToLinearHeading(new Vector2d(-22, -10), Math.toRadians(180))
+                .afterTime(0, wrist.action(.5))
+                .waitSeconds(1)
+                ;
 
             Action redRun = yellow_drop
                 .build();
 
-
             Actions.runBlocking(redRun);
-
-
-
 
         } else if (TuningOpModes.DRIVE_CLASS.equals(TankDrive.class))
     {
