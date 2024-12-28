@@ -20,6 +20,7 @@ public class Elbow extends MotorParent
         super.analogControl(speedLimit, input, advanceBreak, slowMode, upperLimit, lowerLimit, swapBounds);
     }
 
+
     @Override
     public Action action(int target, double speed)
     {
@@ -70,7 +71,7 @@ public class Elbow extends MotorParent
                 super.encoderControl(0,1);
                 break;
             case PICKUP_WALL:
-                super.encoderControl(-230, 1);
+                super.encoderControl(-200, 1);
                 break;
             case PICKUP_SUBMERSIBLE:
                 super.encoderControl(-1000,1);

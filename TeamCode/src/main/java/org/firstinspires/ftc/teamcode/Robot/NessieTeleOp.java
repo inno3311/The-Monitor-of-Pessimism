@@ -153,17 +153,17 @@ public class NessieTeleOp extends LinearOpMode
 
             // Accessories
             boolean runElbow = false;
-            if (Math.abs(elbow.getMotorPosition()) / ticksConversion.elbowInDegrees() > 2800) // THe less then half is where the limit will kick in
-            {
-                runElbow = true;
-                elbow.encoderControl(-2700,1);
-            }
+//            if (Math.abs(elbow.getMotorPosition()) > 2500) // The less then half is where the limit will kick in
+//            {
+//                runElbow = true;
+//                elbow.encoderControl(-2500,1);
+//            }
 
             boolean runSlide = false;
-            if (Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInDegrees()) < 50 && slide.getMotorPosition() <= -1200) // The Greater then half is where the limit will kick in
+            if (Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInDegrees()) < 50 && slide.getMotorPosition() <= -1100) // The Greater then half is where the limit will kick in
             {
                 runSlide = true;
-                slide.encoderControl(-1200, 1);
+                slide.encoderControl(-1100, 1);
             }
 
             // This code sucks Don't delete
@@ -204,19 +204,19 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (runSlide)
             {
-                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), -2150, true);
+                elbow.analogControl(1, gamepad2.right_stick_y, false, false, elbowLimit.isPressed(), -2500, true);
             }
             else if (runElbow)
             {
-                slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
+                slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2175, true);
             }
             else
             {
-                slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2150, true);
-                elbow.analogControl(1, gamepad2.right_stick_y, true, false, elbowLimit.isPressed(), -2150, true);
+                slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2175, true);
+                elbow.analogControl(1, gamepad2.right_stick_y, false, false, elbowLimit.isPressed(), -2500, true);
             }
 
-            hang.simpleDrive(1, gamepad2.y, gamepad2.a);
+            hang.simpleDrive(1, gamepad2.a, gamepad2.y);
 
             if (gamepad2.right_bumper)   //close
             {
@@ -251,7 +251,7 @@ public class NessieTeleOp extends LinearOpMode
             slide.telemetry();
             elbow.telemetry();
             hang.telemetry();
-            telemetry.update();
+//            telemetry.update();
         }
 
     }
@@ -277,7 +277,6 @@ public class NessieTeleOp extends LinearOpMode
             public void onError(int errorCode)
             {
                 telemetry.addData("Camera Failed","");
-                telemetry.update();
             }
         });
     }

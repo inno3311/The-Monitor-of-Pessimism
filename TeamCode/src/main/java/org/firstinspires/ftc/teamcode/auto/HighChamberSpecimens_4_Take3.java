@@ -104,9 +104,9 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
                 .afterTime(0, claw.action(CLAW_CLOSE)) //close claw
                 .waitSeconds(.2) //todo wsa .5
                 .afterTime(0, wrist.action(1))
-                .afterTime(0, elbow.action( ELBOW_HIGH_CHAMBER, 0.5))
+                .afterTime(0, elbow.action(ELBOW_HIGH_CHAMBER, 0.5))
                 .waitSeconds(.2) //todo wsa .5
-                .afterTime(.5, slide.action( SLIDE_HIGH_CHAMBER, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
+                .afterTime(.5, slide.action(SLIDE_HIGH_CHAMBER, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
                 .setReversed(true)
                 .afterTime(0, claw.action(CLAW_CLOSE)) //close claw
                 .splineToSplineHeading(new Pose2d(8,-21, Math.toRadians(90)), Math.toRadians(90)) //move to chamber and hang spec
@@ -118,9 +118,9 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
                 .afterTime(0.0, slide.action( 0, 1)) //raise and extend the arm to the position of the specimen on the wall
                 .waitSeconds(.2) //todo was 1
                 .setReversed(true)
-                .afterTime(.5, slide.action( SLIDE_TO_WALL, 1)) //lower and extend the arm to the position of the specimen on the wall
+                .afterTime(.5, slide.action(SLIDE_TO_WALL, 1)) //lower and extend the arm to the position of the specimen on the wall
                 .afterTime(0, wrist.action(0.7))
-                .afterTime(0.2, elbow.action( ELBOW_TO_WALL, .75))
+                .afterTime(0.2, elbow.action(ELBOW_TO_WALL, .75))
 
                 .setTangent(Math.toRadians(0))
 

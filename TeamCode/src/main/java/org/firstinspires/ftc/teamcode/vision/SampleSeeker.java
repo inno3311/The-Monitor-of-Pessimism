@@ -364,7 +364,7 @@ if (forceRetrunYcrcbMat)
       telemetry.addData("hight: ",minEllipse[maxValIdx].size.height);
       telemetry.addData("width: ",minEllipse[maxValIdx].size.width);
       */
-       telemetry.update();
+//       telemetry.update();
 
 
       return input;
