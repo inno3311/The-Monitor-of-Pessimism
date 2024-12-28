@@ -215,7 +215,7 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (runSlide)
             {
-                elbow.analogControl(1, gamepad2.right_stick_y, false, false, elbowLimit.isPressed(), -3500, true);
+                elbow.analogControl(1, gamepad2.right_stick_y, false, false, elbowLimit.isPressed(), -3300, true);
             }
             else if (runElbow)
             {
@@ -224,7 +224,7 @@ public class NessieTeleOp extends LinearOpMode
             else
             {
                 slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2175, true);
-                elbow.analogControl(1, gamepad2.right_stick_y, false, false, elbowLimit.isPressed(), -3500, true);
+                elbow.analogControl(1, gamepad2.right_stick_y, false, false, elbowLimit.isPressed(), -3300, true);
             }
 
             // Hanging
