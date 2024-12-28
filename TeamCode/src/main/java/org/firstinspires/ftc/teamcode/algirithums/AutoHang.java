@@ -40,7 +40,7 @@ public class AutoHang
         slide.encoderControl(0,1);
         claw.driveServo(0);
         hang.encoderControl(-6500,1);
-        elbow.encoderControl(-3300,0.5);
+        elbow.encoderControl(-3300,1);
     }
     public void hang() throws InterruptedException
     {
