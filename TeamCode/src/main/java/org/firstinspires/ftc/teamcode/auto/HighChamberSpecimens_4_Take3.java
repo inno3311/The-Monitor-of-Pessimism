@@ -42,7 +42,7 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
         double CLAW_OPEN = 0.5;
         int CLAW_CLOSE = 0;
 
-        int ELBOW_TO_WALL = -260;
+        int ELBOW_TO_WALL = -315;
         int SLIDE_TO_WALL = -400;
         int ELBOW_HIGH_CHAMBER = -1265;
         int SLIDE_HIGH_CHAMBER = -1100;
@@ -70,7 +70,7 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
                 .afterTime(0,claw.action(CLAW_CLOSE)) //close claw
                 .afterTime(0, elbow.action(ELBOW_HIGH_CHAMBER, 1))
                 .afterTime(0, slide.action(SLIDE_HIGH_CHAMBER, 1))
-                .splineToConstantHeading(new Vector2d( 10,-26), Math.toRadians(90)) //move to chamber, hang #1 specimen
+                .splineToConstantHeading(new Vector2d( 10,-27), Math.toRadians(90)) //move to chamber, hang #1 specimen
 
                 ////////////////////////////////////////////////////////////////////////////////////
                 /// Move to Left Floor Sample to Observation zone
@@ -81,6 +81,7 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
 
                 .setTangent(Math.toRadians(0))  //TODO  should we be doing this?
                 .splineToSplineHeading(new Pose2d(30, -30, Math.toRadians(270)), Math.toRadians(360))//back away from the submersible
+                .afterTime(0, wrist.action(0.7))
                 .splineToConstantHeading(new Vector2d(36, -12), Math.toRadians(90))  //move around submersible to
                 .splineToConstantHeading(new Vector2d(48, -12), Math.toRadians(0))   //ready to push #1 to wall.
                 .splineToConstantHeading(new Vector2d(48, -43), Math.toRadians(270), new TranslationalVelConstraint(25)) //slow down for sample drop off
@@ -91,7 +92,7 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
 
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(48, -10), Math.toRadians(90), new TranslationalVelConstraint(25)) //go fetch center sample
-                .splineToConstantHeading(new Vector2d(56, -10), Math.toRadians(270), new TranslationalVelConstraint(25)) //move centered to center sample
+                .splineToConstantHeading(new Vector2d(60, -10), Math.toRadians(270), new TranslationalVelConstraint(25)) //move centered to center sample
                 .afterTime(0, elbow.action( ELBOW_TO_WALL, .75))
                 .afterTime(0, slide.action( SLIDE_TO_WALL, 0.75)) //raise and extend the arm to the position of the specimen on the wall
                 .afterTime(0, wrist.action(0.7))
@@ -154,7 +155,7 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
 
                 .splineToSplineHeading(new Pose2d(30, -35, Math.toRadians(270)), Math.toRadians(0))//back away from the submersible
                 .splineToConstantHeading(new Vector2d(50, -38), Math.toRadians(270), new TranslationalVelConstraint(25)) //go to pick up the second specimen from the wall
-                .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270), new TranslationalVelConstraint(10)) //slow down for sample drop off and run into the specimen on the wall
+                .splineToConstantHeading(new Vector2d(50, -49), Math.toRadians(270), new TranslationalVelConstraint(10)) //slow down for sample drop off and run into the specimen on the wall
 //                .splineToConstantHeading(new Vector2d(50, -48), Math.toRadians(270), new TranslationalVelConstraint(10)) //slow down run into the specimen on the wall
                 //.turnTo(Math.toRadians(270))
                 .afterTime(0, claw.action(CLAW_CLOSE)) //close claw
