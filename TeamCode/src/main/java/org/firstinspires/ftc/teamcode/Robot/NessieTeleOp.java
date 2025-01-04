@@ -88,8 +88,6 @@ public class NessieTeleOp extends LinearOpMode
         ticksConversion = new MotorTicksConversion();
 
         initCamera();
-//        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
-//        initialization.initialization();
 
         if (new File("/sdcard/FIRST/blocks/sounds/second.wav").exists())
         {
@@ -100,7 +98,6 @@ public class NessieTeleOp extends LinearOpMode
 
         // DriveBase
         // ==========================================================================================================================================================================
-
 
         while (opModeIsActive())
         {
@@ -161,35 +158,12 @@ public class NessieTeleOp extends LinearOpMode
             // Slide and Elbow
             // ==========================================================================================================================================================================
 
-            // Accessories
-            boolean runElbow = false;
-//            if (Math.abs(elbow.getMotorPosition()) > 2500) // The less then half is where the limit will kick in
-//            {
-//                runElbow = true;
-//                elbow.encoderControl(-2500,1);
-//            }
-
             boolean runSlide = false;
             if (Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInDegrees()) < 50 && slide.getMotorPosition() <= -1100) // The Greater then half is where the limit will kick in
             {
                 runSlide = true;
                 slide.encoderControl(-1100, 1);
             }
-
-            // This code sucks Don't delete
-//            if (-2150 > 50 + (int) ((1 + (-1300 / (Math.abs(Math.sin(Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInRadians()))))))))
-//            {
-//                slide.motorBreak();
-//            }
-//            else if (slide.getMotorPosition() < 50 + (int) (-1300 / (Math.abs(Math.sin(Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInRadians()))))))
-//            {
-//                runAnalog = false;
-//                slide.encoderControl(60 + (int) (-1300 / (Math.abs(Math.sin(Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInRadians()))))), 0.5);
-//            }
-//
-//            telemetry.addData("Slide Restrict", 50 + (int) (1+(Math.abs(Math.sin(elbow.getMotorPosition() / ticksConversion.elbowInRadians()))) * -1300));
-//            telemetry.addData("Slide Restrict", Math.abs(Math.sin(elbow.getMotorPosition() / ticksConversion.elbowInRadians())));
-            telemetry.addData("Elbow angle", elbow.getMotorPosition() / ticksConversion.elbowInDegrees());
 
             if (hangFlag > time.seconds()) {}
             else if (gamepad2.dpad_up)
@@ -216,10 +190,6 @@ public class NessieTeleOp extends LinearOpMode
             else if (runSlide)
             {
                 elbow.analogControl(1, gamepad2.right_stick_y, false, false, elbowLimit.isPressed(), -3300, true);
-            }
-            else if (runElbow)
-            {
-                slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2175, true);
             }
             else
             {
