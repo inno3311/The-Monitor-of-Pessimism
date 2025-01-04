@@ -173,8 +173,10 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (gamepad2.dpad_down)
             {
-                slide.encoderPresets(Slide.Presets.PICKUP_SUBMERSIBLE);
-                elbow.encoderPresets(Elbow.Presets.PICKUP_SUBMERSIBLE);
+                slide.encoderPresets(Slide.Presets.PICKUP_WALL);
+                elbow.encoderPresets(Elbow.Presets.PICKUP_WALL);
+                wrist.driveServo(0.7);
+
             }
             else if (gamepad2.dpad_left)
             {
@@ -183,9 +185,7 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (gamepad2.dpad_right)
             {
-                slide.encoderPresets(Slide.Presets.PICKUP_WALL);
-                elbow.encoderPresets(Elbow.Presets.PICKUP_WALL);
-                wrist.driveServo(0.7);
+
             }
             else if (runSlide)
             {
@@ -193,13 +193,12 @@ public class NessieTeleOp extends LinearOpMode
             }
             else
             {
-                slide.analogControl(1, gamepad2.left_stick_y, true,false, slideLimit.isPressed(), -2175, true);
-                elbow.analogControl(1, gamepad2.right_stick_y, false, false, elbowLimit.isPressed(), -3300, true);
+                slide.analogControl(1, gamepad2.left_stick_y, true, gamepad2.left_stick_button, slideLimit.isPressed(), -2175, true);
+                elbow.analogControl(1, gamepad2.right_stick_y, false, gamepad2.right_stick_button, elbowLimit.isPressed(), -3300, true);
             }
 
             // Hanging
             // ==========================================================================================================================================================================
-
             if (gamepad1.dpad_down || gamepad1.dpad_up)
             {
                 hangFlag = time.seconds() + 3;
@@ -207,16 +206,18 @@ public class NessieTeleOp extends LinearOpMode
             }
 
 
+            //dpad up to extend hang
+            //dpad down to retract hang
             if (hangFlag < time.seconds())
             {
-                hang.simpleDrive(1, gamepad2.a, gamepad2.y);
+                hang.simpleDrive(1, gamepad1.dpad_down, gamepad1.dpad_up);
             }
 
-            if (gamepad1.dpad_down)
+            if (gamepad1.left_bumper)
             {
                 autoHang.prepare();
             }
-            else if (gamepad1.dpad_up)
+            else if (gamepad1.left_trigger > 0.25)
             {
                 autoHang.hang();
             }
@@ -226,16 +227,20 @@ public class NessieTeleOp extends LinearOpMode
             // Claw and Wrist
             // ==========================================================================================================================================================================
 
-            if (gamepad2.right_bumper)   //close
+            if (gamepad2.right_bumper) //close
             {
                 claw.driveServo(0);
+            }
+            else if (gamepad1.b) //Half open
+            {
+                claw.driveServo(0.2);
             }
             else if (gamepad2.right_trigger > 0.2) //open
             {
                 claw.driveServo(0.4);
             }
 
-            if (gamepad2.left_bumper) // Back
+            if (gamepad2.left_bumper) //Back
             {
                 if (elbow.getMotorPosition() > -900)
                 {
