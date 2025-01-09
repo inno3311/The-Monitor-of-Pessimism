@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.genericOpModes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.PIDController;
 
 @TeleOp(name = "Centric Command *Don't run this one*", group = "FieldCentric")
+@Disabled
 public class CentricCommand extends OpMode
 {
     MecanumDrive drive;

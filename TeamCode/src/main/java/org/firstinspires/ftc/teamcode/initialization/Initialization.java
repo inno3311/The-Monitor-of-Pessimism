@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.initialization;
 
 import com.qualcomm.robotcore.hardware.TouchSensor;
-
+import org.firstinspires.ftc.teamcode.Robot.Claw;
 import org.firstinspires.ftc.teamcode.Robot.Elbow;
 import org.firstinspires.ftc.teamcode.Robot.Slide;
 
@@ -11,14 +11,14 @@ public class Initialization
     TouchSensor slideLimit;
     Elbow elbow;
     TouchSensor elbowLimit;
-
-    public Initialization(Slide slide, TouchSensor slideLimit, Elbow elbow, TouchSensor elbowLimit)
+    Claw claw;
+    public Initialization(Slide slide, TouchSensor slideLimit, Elbow elbow, TouchSensor elbowLimit, Claw claw)
     {
         this.slide = slide;
         this.slideLimit = slideLimit;
         this.elbow = elbow;
         this.elbowLimit = elbowLimit;
-
+        this.claw = claw;
     }
 
     public void initialization()
@@ -43,6 +43,7 @@ public class Initialization
     {
         slide.initialize(slideLimit, 1, 0.5);
         elbow.initialize(elbowLimit, 1, 0.5);
+        claw.driveServo(0);
     }
 
     private void fitTheBox()

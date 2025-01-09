@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.initialization.Initialization;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 
-@Autonomous(name="SpecimenRun_Take3", group="Linear OpMode")
+@Autonomous(name="SpecimenRun_Hang_4", group="Linear OpMode")
 public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
 
     Initialization initialization;
@@ -51,7 +51,7 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
         elbowLimit = hardwareMap.get(TouchSensor.class, "elbowLimit");
 
 
-        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
+        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit, claw);
 
         Pose2d beginPose = new Pose2d(10, -55, Math.toRadians(90));
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
@@ -66,8 +66,12 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
 
                 ////////////////////////////////////////////////////////////////////////////////////
                 /// Hang Specimen #1
+                    .afterTime(0,claw.action(CLAW_OPEN)) //close claw
+                    .afterTime(.01,claw.action(CLAW_CLOSE)) //close claw
+                    .waitSeconds(.001) //todo wsa .5
 
                 .afterTime(0,claw.action(CLAW_CLOSE)) //close claw
+                .afterTime(0,wrist.action(0.8)) //close claw
                 .afterTime(0, elbow.action(ELBOW_HIGH_CHAMBER, 1))
                 .afterTime(0, slide.action(SLIDE_HIGH_CHAMBER, 1))
                 .splineToConstantHeading(new Vector2d( 10,-27), Math.toRadians(90)) //move to chamber, hang #1 specimen

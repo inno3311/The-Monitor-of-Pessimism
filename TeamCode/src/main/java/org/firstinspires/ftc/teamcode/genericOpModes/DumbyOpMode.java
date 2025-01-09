@@ -44,7 +44,7 @@ public class DumbyOpMode extends LinearOpMode
         wrist = new Wrist(this);
         claw = new Claw(this);
 
-        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
+        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit,claw);
 
         aprilTag = new AprilTagMaster(hardwareMap);
 

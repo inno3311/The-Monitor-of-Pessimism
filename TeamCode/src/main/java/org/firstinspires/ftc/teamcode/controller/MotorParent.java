@@ -85,7 +85,7 @@ public class MotorParent
     {
         double motorPower = input;
 
-        if (slowMode) {motorPower *= 0.5;}
+        if (slowMode) {motorPower *= 0.25;}
 
         motorPower = Range.clip(motorPower, -speedLimit, speedLimit);
 
@@ -121,7 +121,7 @@ public class MotorParent
     {
         double motorPower = input;
 
-        if (slowMode) {motorPower *= 0.5;}
+        if (slowMode) {motorPower *= 0.25;}
 
         motorPower = Range.clip(motorPower, -speedLimit, speedLimit);
 
@@ -162,7 +162,7 @@ public class MotorParent
     {
         double motorPower = input;
 
-        if (slowMode) {motorPower *= 0.5;}
+        if (slowMode) {motorPower *= 0.25;}
 
         motorPower = Range.clip(motorPower, -speedLimit, speedLimit);
 
@@ -201,7 +201,7 @@ public class MotorParent
     {
         double motorPower = input;
 
-        if (slowMode) {motorPower *= 0.5;}
+        if (slowMode) {motorPower *= 0.25;}
 
         motorPower = Range.clip(motorPower, -speedLimit, speedLimit);
 

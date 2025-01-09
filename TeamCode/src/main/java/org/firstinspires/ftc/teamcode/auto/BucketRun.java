@@ -52,7 +52,7 @@ public final class BucketRun extends LinearOpMode
         slideLimit = hardwareMap.get(TouchSensor.class, "slideLimit");
         elbowLimit = hardwareMap.get(TouchSensor.class, "elbowLimit");
 
-        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit);
+        initialization = new Initialization(slide, slideLimit, elbow, elbowLimit, claw);
 
         Pose2d beginPose = new Pose2d(-35, -60, Math.toRadians(180));
         slide = new Slide(this);

@@ -108,7 +108,7 @@ public class NessieTeleOp extends LinearOpMode
             );
 //            drive.gamepadController(gamepad1);
 
-            if (gamepad1.left_bumper && gamepad1.left_trigger > 0.25 && gamepad1.right_bumper && gamepad1.right_trigger > 0.25)
+            if (gamepad1.y)
             {
                 imu.resetAngle();
             }
@@ -159,10 +159,16 @@ public class NessieTeleOp extends LinearOpMode
             // ==========================================================================================================================================================================
 
             boolean runSlide = false;
-            if (Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInDegrees()) < 50 && slide.getMotorPosition() <= -1100) // The Greater then half is where the limit will kick in
+            if (Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInDegrees()) < 50 && slide.getMotorPosition() <= -1050) // The Greater then half is where the limit will kick in
             {
                 runSlide = true;
-                slide.encoderControl(-1100, 1);
+                slide.encoderControl(-1000, 0.5);
+            }
+
+            if (Math.abs(elbow.getMotorPosition() / ticksConversion.elbowInDegrees()) > 92 && slide.getMotorPosition() <= -10)// The Greater then half is where the limit will kick in
+            {
+                runSlide = true;
+                slide.encoderControl(0, 0.5);
             }
 
             if (hangFlag > time.seconds()) {}
@@ -199,7 +205,7 @@ public class NessieTeleOp extends LinearOpMode
 
             // Hanging
             // ==========================================================================================================================================================================
-            if (gamepad1.dpad_down || gamepad1.dpad_up)
+            if (gamepad1.left_bumper || gamepad1.left_trigger > 0.25)
             {
                 hangFlag = time.seconds() + 3;
 
@@ -210,7 +216,10 @@ public class NessieTeleOp extends LinearOpMode
             //dpad down to retract hang
             if (hangFlag < time.seconds())
             {
-                hang.simpleDrive(1, gamepad1.dpad_down, gamepad1.dpad_up);
+                if (Math.abs(hang.getMotorPosition()) < 6600)
+                {
+                    hang.simpleDrive(1, gamepad1.dpad_down, gamepad1.dpad_up);
+                }
             }
 
             if (gamepad1.left_bumper)
@@ -231,9 +240,9 @@ public class NessieTeleOp extends LinearOpMode
             {
                 claw.driveServo(0);
             }
-            else if (gamepad1.b) //Half open
+            else if (gamepad2.b && !gamepad2.start) //Half open
             {
-                claw.driveServo(0.2);
+                claw.driveServo(0.25);
             }
             else if (gamepad2.right_trigger > 0.2) //open
             {

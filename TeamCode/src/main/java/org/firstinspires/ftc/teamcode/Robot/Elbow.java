@@ -71,13 +71,13 @@ public class Elbow extends MotorParent
                 super.encoderControl(0,1);
                 break;
             case PICKUP_WALL:
-                super.encoderControl(-200, 1);
+                super.encoderControl(-210, 1);
                 break;
             case PICKUP_SUBMERSIBLE:
                 super.encoderControl(-1000,1);
                 break;
             case INITIALIZATION:
-                super.encoderControl(-1575,1);
+                super.encoderControl(-1351,1);
             default:
                 break;
         }
