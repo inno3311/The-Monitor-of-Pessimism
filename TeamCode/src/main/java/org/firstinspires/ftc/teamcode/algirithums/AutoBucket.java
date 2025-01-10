@@ -41,16 +41,16 @@ public class AutoBucket
         {
             target_X = -58;
             target_Y = -58;
-            targetWaypoint_X = -45;
-            targetWaypoint_Y = -45;
+            targetWaypoint_X = -48;
+            targetWaypoint_Y = -48;
             target_heading = Math.toRadians(225);
         }
         else
         {
             target_X = 58;
             target_Y = 58;
-            targetWaypoint_X = 45;
-            targetWaypoint_Y = 45;
+            targetWaypoint_X = 48;
+            targetWaypoint_Y = 48;
             target_heading = Math.toRadians(45);
         }
 
@@ -59,24 +59,24 @@ public class AutoBucket
             .afterTime(0, elbow.action(-3000, 1))
             .afterTime(1, slide.action(0, 1))
 
-                .strafeToLinearHeading(new Vector2d(targetWaypoint_X, targetWaypoint_Y), target_heading)
-                //.splineToSplineHeading(new Pose2d(targetWaypoint_X, targetWaypoint_Y, target_heading), target_heading, new TranslationalVelConstraint(50))
-                .afterTime(0, slide.action(-2175, 1))
-                .afterTime(0, elbow.action(-2450, 1))
-                .waitSeconds(0.5)
-                .splineToConstantHeading(new Vector2d(target_X,target_Y), target_heading)
-                .afterTime(0, wrist.action(0))
-                .waitSeconds(0.1);
+//                .strafeToLinearHeading(new Vector2d(targetWaypoint_X, targetWaypoint_Y), target_heading)
+//                //.splineToSplineHeading(new Pose2d(targetWaypoint_X, targetWaypoint_Y, target_heading), target_heading, new TranslationalVelConstraint(50))
+//                .afterTime(0, slide.action(-2175, 1))
+//                .afterTime(0, elbow.action(-2450, 1))
+//                .waitSeconds(0.5)
+//                .splineToConstantHeading(new Vector2d(target_X,target_Y), target_heading)
+//                .afterTime(0, wrist.action(0))
+//                .waitSeconds(0.1);
 
 
             //.waitSeconds(1)
-//            .splineToSplineHeading(new Pose2d(targetWaypoint_X, targetWaypoint_Y, target_heading), target_heading, new TranslationalVelConstraint(50))
-//            .afterTime(0, slide.action(-2175, 1))
-//            .afterTime(0, elbow.action(-2400, 1))
-//            .waitSeconds(0.5)
-//            .splineToConstantHeading(new Vector2d(target_X,target_Y), target_heading)
-//            .afterTime(0, wrist.action(0))
-//            .waitSeconds(0.1);
+            .splineToSplineHeading(new Pose2d(targetWaypoint_X, targetWaypoint_Y, target_heading), target_heading, new TranslationalVelConstraint(50))
+            .afterTime(0, slide.action(-2175, 1))
+            .afterTime(0, elbow.action(-2400, 1))
+            .waitSeconds(0.5)
+            .splineToConstantHeading(new Vector2d(target_X,target_Y), target_heading)
+            .afterTime(0, wrist.action(0))
+            .waitSeconds(0.1);
 
         Action bucketAction = bucket.build();
 
