@@ -43,7 +43,7 @@ public final class BucketRun extends LinearOpMode
         wrist = new Wrist(this);
         claw = new Claw(this);
 
-        double CLAW_OPEN = 0.5;
+        double CLAW_OPEN = 1;
         int CLAW_CLOSE = 0;
 
         int SLIDE_DEPLOY_HIGHT = -2275;
@@ -69,7 +69,7 @@ public final class BucketRun extends LinearOpMode
                 .afterTime(0, claw.action(CLAW_CLOSE))
                 .afterTime(0, slide.action(-2175, 1))
                 .afterTime(0, elbow.action(-2400, 1))
-                .strafeToLinearHeading(new Vector2d(-53, -53), Math.toRadians(225), new TranslationalVelConstraint(30))
+                .strafeToLinearHeading(new Vector2d(-55, -52), Math.toRadians(225), new TranslationalVelConstraint(30))
                 .waitSeconds(.2)
                 .afterTime(0, wrist.action(0))
                 .afterTime(.5, claw.action(CLAW_OPEN))

@@ -242,11 +242,11 @@ public class NessieTeleOp extends LinearOpMode
             }
             else if (gamepad2.b && !gamepad2.start) //Half open
             {
-                claw.driveServo(0.25);
+                claw.driveServo(0.5);
             }
             else if (gamepad2.right_trigger > 0.2) //open
             {
-                claw.driveServo(0.4);
+                claw.driveServo(1);
             }
 
             if (gamepad2.left_bumper) //Back
