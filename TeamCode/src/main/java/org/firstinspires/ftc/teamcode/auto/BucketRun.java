@@ -46,7 +46,7 @@ public final class BucketRun extends LinearOpMode
         double CLAW_OPEN = 1;
         int CLAW_CLOSE = 0;
 
-        int SLIDE_DEPLOY_HIGHT = -2275;
+        int SLIDE_DEPLOY_HIGHT = -2175;
 
 
         slideLimit = hardwareMap.get(TouchSensor.class, "slideLimit");
@@ -79,10 +79,10 @@ public final class BucketRun extends LinearOpMode
                 //end of the first sample drop
 //
                 .afterTime(0, wrist.action(.5))
-                .turnTo(Math.toRadians(80))
+                .turnTo(Math.toRadians(77))
                 .afterTime(0, elbow.action(-300, 1))
                 .afterTime(1.5, elbow.action(0, .5))
-                .afterTime(0, slide.action(-1400, 1))  //changed from -1300
+                .afterTime(0, slide.action(-1350, 1))  //changed from -1300
                 .afterTime(1, wrist.action(0))
                 .afterTime(1.5, claw.action(CLAW_CLOSE))
                 .waitSeconds(2)
@@ -102,7 +102,7 @@ public final class BucketRun extends LinearOpMode
 //                //end of second sample drop
 //
 ////               .turnTo(Math.toRadians(64))
-                .strafeToLinearHeading(new Vector2d(-41, -53), Math.toRadians(75), new TranslationalVelConstraint(20))
+                .strafeToLinearHeading(new Vector2d(-41, -53), Math.toRadians(85), new TranslationalVelConstraint(20))
                 .afterTime(0, elbow.action(-300, 1))
                 .afterTime(1.5, elbow.action(0, .5))
                 .afterTime(0, slide.action(-1500, 1))  //changed from -1400
@@ -184,10 +184,10 @@ public final class BucketRun extends LinearOpMode
                 //park
                 .afterTime(0, wrist.action(0))
                 .afterTime(.3, slide.action(0, 1))
-                .strafeToLinearHeading(new Vector2d(-35, -10), Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(-35, -8), Math.toRadians(180), new TranslationalVelConstraint(75))
                 .afterTime(0, elbow.action(-3200, 1))
-                .strafeToLinearHeading(new Vector2d(-22, -10), Math.toRadians(180))
-                .afterTime(0, wrist.action(.5))
+                .strafeToLinearHeading(new Vector2d(-22, -8), Math.toRadians(180), new TranslationalVelConstraint(75))
+                .afterTime(0, wrist.action(.7))
                 .waitSeconds(1)
                 ;
 
