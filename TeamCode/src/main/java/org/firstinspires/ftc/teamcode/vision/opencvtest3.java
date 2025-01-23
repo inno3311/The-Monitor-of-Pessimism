@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.vision;
 
 //import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -13,15 +12,13 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
-import org.opencv.core.Size;
-import org.opencv.core.RotatedRect;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class opencvBalls extends OpenCvPipeline
+public class opencvtest3 extends OpenCvPipeline
 {
-   Telemetry telemetry;
+   //Telemetry telemetry;
 
 
    public enum SkystonePosition
@@ -32,10 +29,10 @@ public class opencvBalls extends OpenCvPipeline
    }
 
 
-   public Scalar lower = new Scalar(0, 178, 75);
-   public Scalar upper = new Scalar(255, 255, 255);
-   public double threshold;
+   public Scalar lower = new Scalar(62.3, 206, 60.9);
+   public Scalar upper = new Scalar(213.9, 255, 255);
    //public int blur = 0;
+   public int threshold = 100;
 
    Mat grey = new Mat();
 
@@ -88,12 +85,6 @@ public class opencvBalls extends OpenCvPipeline
    Mat YCrCb = new Mat();
    Mat Cb = new Mat();
    int avg1, avg2, avg3;
-
-
-
-   public opencvBalls(Telemetry telemetry) {
-      this.telemetry = telemetry;
-   }
 
    /*
     * This function takes the RGB frame, converts to YCrCb,
@@ -160,6 +151,8 @@ public class opencvBalls extends OpenCvPipeline
        */
       Core.inRange(ycrcbMat, lower, upper, binaryMat);
 
+
+
       /*
        * Release the reusable Mat so that old data doesn't
        * affect the next step in the current processing
@@ -176,44 +169,14 @@ public class opencvBalls extends OpenCvPipeline
        */
       Core.bitwise_and(input, input, maskedInputMat, binaryMat);
 
-
-
-//
-//      Imgproc.rectangle(
-//            maskedInputMat, // Buffer to draw on
-//            this.region1_pointA, // First point which defines the rectangle
-//            this.region1_pointB, // Firs, // Second point which defines the rectangle
-//            new Scalar(1,244,100), // The color the rectangle is drawn in
-//            2); // Thickness of the rectangle lines
-//
-//      Imgproc.rectangle(
-//            maskedInputMat, // Buffer to draw on
-//            this.region2_pointA, // First point which defines the rectangle
-//            this.region2_pointB, // Firs, // Second point which defines the rectangle
-//            new Scalar(1,244,100), // The color the rectangle is drawn in
-//            2); // Thickness of the rectangle lines
-//
-//      Imgproc.rectangle(
-//            maskedInputMat, // Buffer to draw on
-//            this.region3_pointA, // First point which defines the rectangle
-//            this.region3_pointB, // Firs, // Second point which defines the rectangle
-//            new Scalar(1,244,100), // The color the rectangle is drawn in
-//            2); // Thickness of the rectangle lines
-
-      /*
-       * The Mat returned from this method is the
-       * one displayed on the viewport.
-       *
-       * To visualize our threshold, we'll return
-       * the "masked input mat" which shows the
-       * pixel from the input Mat that were inside
-       * the threshold range.
-       */
-     // org.opencv.core.Size size = Size.;
-      //Imgproc.blur(binaryMat, binaryMat, new Size(5,5));
+//      int elementType = Imgproc.MORPH_RECT;
+//      int kernelSize = 0;
+//      Mat element = Imgproc.getStructuringElement(elementType, new Size(2 * kernelSize + 1, 2 * kernelSize + 1),
+//            new Point(kernelSize, kernelSize));
+//      Imgproc.dilate(maskedInputMat, maskedInputMat, element);
 
       Mat cannyOutput = new Mat();
-      Imgproc.Canny(binaryMat, cannyOutput, threshold, threshold * 2);
+      Imgproc.Canny(maskedInputMat, cannyOutput, threshold, threshold * 2);
 
       List<MatOfPoint> contours = new ArrayList<>();
       Mat hierarchy = new Mat();
@@ -239,78 +202,17 @@ public class opencvBalls extends OpenCvPipeline
          contoursPolyList.add(new MatOfPoint(poly.toArray()));
       }
 
-      //contoursPolyList.get(1).
-
-
-//      for (int i = 0; i < contours.size(); i++) {
-         Scalar color1 = new Scalar(111, 222, 111);
-         Scalar color2 = new Scalar(0, 222, 222);
-//         Imgproc.drawContours(drawing, contoursPolyList, i, color2);
-//         Imgproc.rectangle(drawing, boundRect[i].tl(), boundRect[i].br(), color1, 2);
-//         //Imgproc.circle(drawing, centers[i], (int) radius[i][0], color, 2);
-//      }
-
-      double maxVal = 0;
-      int maxValIdx = 0;
-      for (int contourIdx = 0; contourIdx < contours.size(); contourIdx++)
-      {
-         double contourArea = Imgproc.contourArea(contours.get(contourIdx));
-         if (maxVal < contourArea)
-         {
-            maxVal = contourArea;
-            maxValIdx = contourIdx;
-         }
-      }
-
-      if (contours.size() == 0)
-         return input;
-      Imgproc.drawContours(input, contoursPolyList, maxValIdx, color2);
-      //Imgproc.rectangle(input, boundRect[maxValIdx].tl(), boundRect[maxValIdx].br(), color1, 2);
-
-      //Imgproc.ellipse(input,);
-      //Imgproc.ellipse();
-
-      RotatedRect[] minRect = new RotatedRect[contours.size()];
-      RotatedRect[] minEllipse = new RotatedRect[contours.size()];
       for (int i = 0; i < contours.size(); i++) {
-         minRect[i] = Imgproc.minAreaRect(new MatOfPoint2f(contours.get(i).toArray()));
-         minEllipse[i] = new RotatedRect();
-         if (contours.get(i).rows() > 5) {
-            minEllipse[i] = Imgproc.fitEllipse(new MatOfPoint2f(contours.get(i).toArray()));
-         }
+         Scalar color = new Scalar(200, 111, 222);
+         Imgproc.drawContours(drawing, contoursPolyList, i, color);
+         //Imgproc.rectangle(drawing, boundRect[i].tl(), boundRect[i].br(), color, 2);
+         //Imgproc.circle(drawing, centers[i], (int) radius[i][0], color, 2);
       }
 
-      Mat drawing = Mat.zeros(cannyOutput.size(), CvType.CV_8UC3);
-      for (int i = 0; i < contours.size(); i++) {
-         Scalar color = new Scalar(rng.nextInt(256), rng.nextInt(256), rng.nextInt(256));
-         // contour
-         Imgproc.drawContours(drawing, contours, i, color);
-         // ellipse
-         Imgproc.ellipse(drawing, minEllipse[i], color, 2);
-         // rotated rectangle
-         Point[] rectPoints = new Point[4];
-         minRect[i].points(rectPoints);
-         for (int j = 0; j < 4; j++) {
-            Imgproc.line(drawing, rectPoints[j], rectPoints[(j+1) % 4], color);
-         }
-      }
+//      telemetry.addData("Analysis", "pipeline.getAnalysis()");
+//      telemetry.update();
 
-      Imgproc.ellipse(drawing, minEllipse[maxValIdx], color2, 4);
-
-      ///Core.bitwise_and(input, input, maskedInputMat, drawing);
-
-
-      //Core.bitwise_and(input,drawing,drawing);
-      //Core.bitwise_and();
-      //Core.
-
-      telemetry.addData("contours.size() ", contours.size());
-      telemetry.addData("X:", boundRect[maxValIdx].x);
-      telemetry.addData("Y:", boundRect[maxValIdx].y);
-
-      telemetry.update();
-
-      return input;
+      return drawing ;
    }
 
 
