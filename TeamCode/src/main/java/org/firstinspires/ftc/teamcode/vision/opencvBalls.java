@@ -14,7 +14,7 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.opencv.core.Size;
-import org.opencv.core.RotatedRect;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,23 +46,23 @@ public class opencvBalls extends OpenCvPipeline
    static final int REGION_HEIGHT = 35;
 
    Point region1_pointA = new Point(
-         REGION1_TOPLEFT_ANCHOR_POINT.x,
-         REGION1_TOPLEFT_ANCHOR_POINT.y);
+           REGION1_TOPLEFT_ANCHOR_POINT.x,
+           REGION1_TOPLEFT_ANCHOR_POINT.y);
    Point region1_pointB = new Point(
-         REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-         REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
+           REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+           REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
    Point region2_pointA = new Point(
-         REGION2_TOPLEFT_ANCHOR_POINT.x,
-         REGION2_TOPLEFT_ANCHOR_POINT.y);
+           REGION2_TOPLEFT_ANCHOR_POINT.x,
+           REGION2_TOPLEFT_ANCHOR_POINT.y);
    Point region2_pointB = new Point(
-         REGION2_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-         REGION2_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
+           REGION2_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+           REGION2_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
    Point region3_pointA = new Point(
-         REGION3_TOPLEFT_ANCHOR_POINT.x,
-         REGION3_TOPLEFT_ANCHOR_POINT.y);
+           REGION3_TOPLEFT_ANCHOR_POINT.x,
+           REGION3_TOPLEFT_ANCHOR_POINT.y);
    Point region3_pointB = new Point(
-         REGION3_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-         REGION3_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
+           REGION3_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+           REGION3_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
 
    /*
     * A good practice when typing EOCV pipelines is
@@ -209,7 +209,7 @@ public class opencvBalls extends OpenCvPipeline
        * pixel from the input Mat that were inside
        * the threshold range.
        */
-     // org.opencv.core.Size size = Size.;
+      // org.opencv.core.Size size = Size.;
       //Imgproc.blur(binaryMat, binaryMat, new Size(5,5));
 
       Mat cannyOutput = new Mat();
@@ -243,8 +243,8 @@ public class opencvBalls extends OpenCvPipeline
 
 
 //      for (int i = 0; i < contours.size(); i++) {
-         Scalar color1 = new Scalar(111, 222, 111);
-         Scalar color2 = new Scalar(0, 222, 222);
+      Scalar color1 = new Scalar(111, 222, 111);
+      Scalar color2 = new Scalar(0, 222, 222);
 //         Imgproc.drawContours(drawing, contoursPolyList, i, color2);
 //         Imgproc.rectangle(drawing, boundRect[i].tl(), boundRect[i].br(), color1, 2);
 //         //Imgproc.circle(drawing, centers[i], (int) radius[i][0], color, 2);
@@ -265,37 +265,8 @@ public class opencvBalls extends OpenCvPipeline
       if (contours.size() == 0)
          return input;
       Imgproc.drawContours(input, contoursPolyList, maxValIdx, color2);
-      //Imgproc.rectangle(input, boundRect[maxValIdx].tl(), boundRect[maxValIdx].br(), color1, 2);
+      Imgproc.rectangle(input, boundRect[maxValIdx].tl(), boundRect[maxValIdx].br(), color1, 2);
 
-      //Imgproc.ellipse(input,);
-      //Imgproc.ellipse();
-
-      RotatedRect[] minRect = new RotatedRect[contours.size()];
-      RotatedRect[] minEllipse = new RotatedRect[contours.size()];
-      for (int i = 0; i < contours.size(); i++) {
-         minRect[i] = Imgproc.minAreaRect(new MatOfPoint2f(contours.get(i).toArray()));
-         minEllipse[i] = new RotatedRect();
-         if (contours.get(i).rows() > 5) {
-            minEllipse[i] = Imgproc.fitEllipse(new MatOfPoint2f(contours.get(i).toArray()));
-         }
-      }
-
-      Mat drawing = Mat.zeros(cannyOutput.size(), CvType.CV_8UC3);
-      for (int i = 0; i < contours.size(); i++) {
-         Scalar color = new Scalar(rng.nextInt(256), rng.nextInt(256), rng.nextInt(256));
-         // contour
-         Imgproc.drawContours(drawing, contours, i, color);
-         // ellipse
-         Imgproc.ellipse(drawing, minEllipse[i], color, 2);
-         // rotated rectangle
-         Point[] rectPoints = new Point[4];
-         minRect[i].points(rectPoints);
-         for (int j = 0; j < 4; j++) {
-            Imgproc.line(drawing, rectPoints[j], rectPoints[(j+1) % 4], color);
-         }
-      }
-
-      Imgproc.ellipse(drawing, minEllipse[maxValIdx], color2, 4);
 
       ///Core.bitwise_and(input, input, maskedInputMat, drawing);
 
