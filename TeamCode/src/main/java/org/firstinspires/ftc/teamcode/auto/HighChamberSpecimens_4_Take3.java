@@ -120,7 +120,8 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
                 ////////////////////////////////////////////////////////////////////////////////////
                 /// Pick up Specimen #3 from Wall and Hang it
 
-                .afterTime(0.0, slide.action( 0, 1)) //raise and extend the arm to the position of the specimen on the wall
+                .afterTime(0.0, slide.action( 0, 1)) //raise and extend the arm to the positi
+                // on of the specimen on the wall
                 .waitSeconds(.2) //todo was 1
                 .setReversed(true)
                 .afterTime(.5, slide.action(SLIDE_TO_WALL, 1)) //lower and extend the arm to the position of the specimen on the wall

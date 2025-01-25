@@ -79,10 +79,12 @@ public final class BucketRun extends LinearOpMode
                 //end of the first sample drop
 //
                 .afterTime(0, wrist.action(.5))
-                .turnTo(Math.toRadians(77))
-                .afterTime(0, elbow.action(-300, 1))
-                .afterTime(1.5, elbow.action(0, .5))
-                .afterTime(0, slide.action(-1350, 1))  //changed from -1300
+                .afterTime(0, slide.action(-1300, 1))  //changed from -1300
+                .turnTo(Math.toRadians(75))
+                .afterTime(0, elbow.action(0, 1))
+//                .waitSeconds(0.1)
+//                .afterTime(1.5, elbow.action(0, .5))
+//                .afterTime(0, slide.action(-1350, 1))  //changed from -1300
                 .afterTime(1, wrist.action(0))
                 .afterTime(1.5, claw.action(CLAW_CLOSE))
                 .waitSeconds(2)
@@ -100,12 +102,14 @@ public final class BucketRun extends LinearOpMode
 
 //                /////////////////////////////////////////////////////////////////////////////////////////////
 //                //end of second sample drop
-//
-////               .turnTo(Math.toRadians(64))
-                .strafeToLinearHeading(new Vector2d(-41, -53), Math.toRadians(85), new TranslationalVelConstraint(20))
-                .afterTime(0, elbow.action(-300, 1))
-                .afterTime(1.5, elbow.action(0, .5))
-                .afterTime(0, slide.action(-1500, 1))  //changed from -1400
+
+//               .turnTo(Math.toRadians(64))
+                .afterTime(0, wrist.action(.5))
+                .afterTime(0, slide.action(-1500, 1))  //changed from -1300
+                .strafeToLinearHeading(new Vector2d(-40.5, -53), Math.toRadians(85), new TranslationalVelConstraint(20))
+                .afterTime(0, elbow.action(0, 1))
+//                .afterTime(1.5, elbow.action(0, .5))
+//                .afterTime(0, slide.action(-1500, 1))  //changed from -1400
                 .afterTime(1, wrist.action(0))
                 .afterTime(1.5, claw.action(CLAW_CLOSE))
                 .waitSeconds(2)
@@ -116,17 +120,17 @@ public final class BucketRun extends LinearOpMode
                 .afterTime(1, slide.action(-2175, 1))
                 .waitSeconds(1.5)
 //                .turnTo(Math.toRadians(225))
-                .strafeToLinearHeading(new Vector2d(-53, -53), Math.toRadians(225))
+                .strafeToLinearHeading(new Vector2d(-54, -52), Math.toRadians(225))
 //                .waitSeconds(1)
                 .afterTime(0, wrist.action(0))
                 .afterTime(0.5, claw.action(CLAW_OPEN))
                 .afterTime(0.6, wrist.action(.5))
                 .waitSeconds(1)
+////
 //
-
-                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                //end of third drop
-
+//                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                //end of third drop
+//
                 .afterTime(0, wrist.action(0))
                 //.afterTime(0, claw.action(CLAW_CLOSE))
                 .afterTime(.2, slide.action(0, 1))
@@ -136,7 +140,7 @@ public final class BucketRun extends LinearOpMode
 //                .afterTime(0, claw.action(CLAW_CLOSE))
 //                .afterTime(.8, elbow.action(-400, 1))  //changed from -300
                 .afterTime(0, claw.action(CLAW_OPEN))
-                .afterTime(1, slide.action(-1550, 1))  //changed from -1400
+                .afterTime(1, slide.action(-1450, 1))  //changed from -1400
                 .afterTime(2, elbow.action(0, .5))
                 .afterTime(2.2, claw.action(CLAW_CLOSE))
 
@@ -146,7 +150,7 @@ public final class BucketRun extends LinearOpMode
                 .strafeTo(new Vector2d(-45, -53))
 
                 .afterTime(1, slide.action(-2175, 1))
-                .strafeToLinearHeading(new Vector2d(-53, -53), Math.toRadians(225))
+                .strafeToLinearHeading(new Vector2d(-55, -51), Math.toRadians(225))
                 .afterTime(0.5, elbow.action(-2400, 1))
                 .afterTime(1, slide.action(-2175, 1))
                 .waitSeconds(1)
@@ -154,34 +158,34 @@ public final class BucketRun extends LinearOpMode
                 .afterTime(0.5, claw.action(CLAW_OPEN))
                 .afterTime(0.6, wrist.action(.5))
                 .waitSeconds(1)
-
-//                .afterTime(0, wrist.action(0))
-//                .strafeToLinearHeading(new Vector2d(-56, -53), Math.toRadians(100))
-//                .afterTime(0, slide.action(0, 1))
-//                .afterTime(0, claw.action(CLAW_CLOSE))
-//                .afterTime(1, elbow.action(-400, 1))  //changed from -300
-//                .afterTime(2, claw.action(CLAW_OPEN))
-//                .afterTime(3, slide.action(-1500, 1))  //changed from -1400
-//                .afterTime(4, elbow.action(0, .5))
-//                .afterTime(4.2, claw.action(CLAW_CLOSE))
 //
-//                .afterTime(5, slide.action(0, 1))
-//                .afterTime(5.5, elbow.action(-2400, 1))
-//                .waitSeconds(6)
-//                .strafeTo(new Vector2d(-45, -53))
+////                .afterTime(0, wrist.action(0))
+////                .strafeToLinearHeading(new Vector2d(-56, -53), Math.toRadians(100))
+////                .afterTime(0, slide.action(0, 1))
+////                .afterTime(0, claw.action(CLAW_CLOSE))
+////                .afterTime(1, elbow.action(-400, 1))  //changed from -300
+////                .afterTime(2, claw.action(CLAW_OPEN))
+////                .afterTime(3, slide.action(-1500, 1))  //changed from -1400
+////                .afterTime(4, elbow.action(0, .5))
+////                .afterTime(4.2, claw.action(CLAW_CLOSE))
+////
+////                .afterTime(5, slide.action(0, 1))
+////                .afterTime(5.5, elbow.action(-2400, 1))
+////                .waitSeconds(6)
+////                .strafeTo(new Vector2d(-45, -53))
+////
+////                .afterTime(1, slide.action(-2175, 1))
+////                .strafeToLinearHeading(new Vector2d(-53, -53), Math.toRadians(225))
+////                .afterTime(0.5, elbow.action(-2400, 1))
+////                .afterTime(1, slide.action(-2175, 1))
+////                .waitSeconds(1.5)
+////                .afterTime(0, wrist.action(0))
+////                .afterTime(0.5, claw.action(CLAW_OPEN))
+////                .afterTime(0.6, wrist.action(.5))
+////                .waitSeconds(1)
 //
-//                .afterTime(1, slide.action(-2175, 1))
-//                .strafeToLinearHeading(new Vector2d(-53, -53), Math.toRadians(225))
-//                .afterTime(0.5, elbow.action(-2400, 1))
-//                .afterTime(1, slide.action(-2175, 1))
-//                .waitSeconds(1.5)
-//                .afterTime(0, wrist.action(0))
-//                .afterTime(0.5, claw.action(CLAW_OPEN))
-//                .afterTime(0.6, wrist.action(.5))
-//                .waitSeconds(1)
-
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                //park
+//                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                //park
                 .afterTime(0, wrist.action(0))
                 .afterTime(.3, slide.action(0, 1))
                 .strafeToLinearHeading(new Vector2d(-35, -8), Math.toRadians(180), new TranslationalVelConstraint(75))
