@@ -123,6 +123,9 @@ public class NessieTeleOp extends LinearOpMode
                 {
                     autoBucket = new AutoBucket(new MecanumDrive(hardwareMap, new Pose2d(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians(aprilTag.getFieldYaw()))), slide, elbow, wrist, claw);
                     autoBucket.bucketRun(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians((aprilTag.getFieldYaw())), aprilTag.getDetectionID());
+//                    telemetry.addData("Loc X:", aprilTag.getFieldX());
+//                    telemetry.addData("Loc Y:", aprilTag.getFieldY());
+//                    telemetry.addData("Heading:", aprilTag.getFieldYaw());
                 }
             }
 

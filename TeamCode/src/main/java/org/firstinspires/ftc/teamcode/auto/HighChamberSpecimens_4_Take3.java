@@ -44,8 +44,8 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
 
         int ELBOW_TO_WALL = -250;
         int SLIDE_TO_WALL = -400;
-        int ELBOW_HIGH_CHAMBER = -1300;
-        int SLIDE_HIGH_CHAMBER = -1100;
+        int ELBOW_HIGH_CHAMBER = -1265;
+        int SLIDE_HIGH_CHAMBER = -980;
 
         slideLimit = hardwareMap.get(TouchSensor.class, "slideLimit");
         elbowLimit = hardwareMap.get(TouchSensor.class, "elbowLimit");
@@ -70,8 +70,8 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
                     .afterTime(.01,claw.action(CLAW_CLOSE)) //close claw
                     .waitSeconds(.001) //todo wsa .5
 
-                .afterTime(0,claw.action(CLAW_CLOSE)) //close claw
-                .afterTime(0,wrist.action(0.8)) //close claw
+                .afterTime(0, claw.action(CLAW_CLOSE)) //close claw
+                .afterTime(0, wrist.action(1)) //close claw
                 .afterTime(0, elbow.action(ELBOW_HIGH_CHAMBER, 1))
                 .afterTime(0, slide.action(SLIDE_HIGH_CHAMBER, 1))
                 .splineToConstantHeading(new Vector2d( 10,-27), Math.toRadians(90)) //move to chamber, hang #1 specimen
@@ -79,7 +79,7 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
                 ////////////////////////////////////////////////////////////////////////////////////
                 /// Move to Left Floor Sample to Observation zone
 
-                .afterTime(0, claw.action(CLAW_OPEN)) //open claw
+                .afterTime(0.01, claw.action(CLAW_OPEN)) //open claw
                 .afterTime(0, slide.action(0, 1))
                 .afterTime(0.3, elbow.action(0, 1))
 
@@ -115,7 +115,7 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
                 .setReversed(true)
                 .afterTime(0, claw.action(CLAW_CLOSE)) //close claw
                 .splineToSplineHeading(new Pose2d(8,-21, Math.toRadians(90)), Math.toRadians(90)) //move to chamber and hang spec
-                .afterTime(0, claw.action(CLAW_OPEN)) //open claw to release the specimen that is on the bar
+                .afterTime(0.01, claw.action(CLAW_OPEN)) //open claw to release the specimen that is on the bar
 
                 ////////////////////////////////////////////////////////////////////////////////////
                 /// Pick up Specimen #3 from Wall and Hang it
@@ -143,7 +143,7 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
                 .afterTime(0, claw.action(CLAW_CLOSE)) //close claw
                 .afterTime(.5, slide.action( SLIDE_HIGH_CHAMBER, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
                 .splineToSplineHeading(new Pose2d(6,-20, Math.toRadians(90)), Math.toRadians(90)) //move to chamber
-                .afterTime(0, claw.action(CLAW_OPEN)) //open claw to release the specimen that is hooked on the bar
+                .afterTime(0.01, claw.action(CLAW_OPEN)) //open claw to release the specimen that is hooked on the bar
 
 
                 ////////////////////////////////////////////////////////////////////////////////////
@@ -171,7 +171,7 @@ public final class HighChamberSpecimens_4_Take3 extends LinearOpMode {
                 .afterTime(0, claw.action(CLAW_CLOSE)) //close claw
                 .afterTime(.5, slide.action(SLIDE_HIGH_CHAMBER, 0.5)) //raise and extend the arm to the height of the upper bar on the submersible
                 .splineToSplineHeading(new Pose2d(6,-18, Math.toRadians(90)), Math.toRadians(90), new TranslationalVelConstraint(60)) //move to chamber
-                .afterTime(0, claw.action(CLAW_OPEN)) //open claw to release the specimen that is hooked on the bar
+                .afterTime(0.01, claw.action(CLAW_OPEN)) //open claw to release the specimen that is hooked on the bar
                 .afterTime(0, slide.action(-500, 0.5))
                 .waitSeconds(.1)
                 //.splineToSplineHeading(new Pose2d(50,-50, Math.toRadians(90)), Math.toRadians(90), new TranslationalVelConstraint(50))

@@ -306,7 +306,8 @@ public class AprilTagMaster
      */
     private void initAprilTag(HardwareMap hardwareMap)
     {
-        Position cameraPosition = new Position(DistanceUnit.INCH, 6, 7.5, 7.5, 0);
+        //Position cameraPosition = new Position(DistanceUnit.INCH, 6, 7.5, 7.5, 0);
+        Position cameraPosition = new Position(DistanceUnit.INCH, 8, 0, 7.5, 0);
         YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES, 0, -90, 0, 0);
         // Create the AprilTag processor by using a builder.
 
