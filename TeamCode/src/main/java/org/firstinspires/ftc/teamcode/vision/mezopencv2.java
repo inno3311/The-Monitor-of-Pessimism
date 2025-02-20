@@ -12,12 +12,12 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
-import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +119,12 @@ public class mezopencv2 extends OpenCvPipeline
    @Override
    public Mat processFrame(Mat input)
    {
+
+//      Mat output = example1(input);
+//      boolean ex1 = true;
+//      if (ex1)
+//      return output;
+
       Mat cannyOutput = new Mat();
 
       Imgproc.cvtColor(input, ycrcbMat, Imgproc.COLOR_RGB2YCrCb);
@@ -147,10 +153,14 @@ public class mezopencv2 extends OpenCvPipeline
       if (testInput)
       return input;
 
-      Imgproc.Canny(maskedInputMat, cannyOutput, threshold, threshold * 2);
+      Imgproc.Canny(maskedInputMat, cannyOutput, threshold, threshold * 1);
       List<MatOfPoint> contours = new ArrayList<>();
       Mat hierarchy = new Mat();
-      Imgproc.findContours(cannyOutput, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+
+      //  90 mm long  40 mm wide
+
+      //  RETR_FLOODFILL  RETR_LIST  RETR_EXTERNAL  RETR_LIST RETR_CCOMP
+      Imgproc.findContours(cannyOutput, contours, hierarchy, Imgproc.RETR_CCOMP  , Imgproc.CHAIN_APPROX_SIMPLE);
       RotatedRect[] minRect = new RotatedRect[contours.size()];
       RotatedRect[] minEllipse = new RotatedRect[contours.size()];
       for (int i = 0; i < contours.size(); i++)
@@ -169,9 +179,10 @@ public class mezopencv2 extends OpenCvPipeline
       Mat drawing = Mat.zeros(cannyOutput.size(), CvType.CV_8UC3);
       for (int i = 0; i < contours.size(); i++)
       {
-         Scalar color = new Scalar(111, 0, 0);
+         Scalar color = new Scalar(111, 0, 111);
+         Scalar color2 = new Scalar(200);
          // contour
-         Imgproc.drawContours(drawing, contours, i, color);
+         Imgproc.drawContours(input, contours, i, color);
          // ellipse
 
          color = new Scalar(0, 111, 0);
@@ -179,12 +190,32 @@ public class mezopencv2 extends OpenCvPipeline
          // rotated rectangle
          Point[] rectPoints = new Point[4];
          minRect[i].points(rectPoints);
-         for (int j = 0; j < 4; j++)
-         {
-            color = new Scalar(0, 0, 111);
-            Imgproc.line(drawing, rectPoints[j], rectPoints[(j + 1) % 4], color);
-         }
 
+         Point centerPoint = new Point(drawing.width()/2,drawing.height()/2);
+         Imgproc.circle(input,centerPoint,5, new Scalar(0, 111, 222),3);
+
+         //if minRect[i].points
+         if (minRect[i].size.area() > 800)
+         {
+            for (int j = 0; j < 4; j++)
+            {
+               color = new Scalar(0, 100, 111);
+               Imgproc.line(input, rectPoints[j], rectPoints[(j + 1) % 4], color,2);
+               //Imgproc.polylines(drawing,rectPoints,true,color);
+            }
+            telemetry.addData("area: "," %f %f %f " , minRect[i].size.area(),minRect[i].size.width, minRect[i].size.height);
+
+            Imgproc.circle(input,minRect[i].center,5, new Scalar(111, 111, 222),3);
+            Imgproc.line(input,centerPoint, minRect[i].center,new Scalar(111, 111, 222),2);
+
+         }
+   //      telemetry.addData("area: ","%d", minRect[i].size.area()/*, minRect[i].size.width, minRect[i].size.height*/);
+
+
+
+
+
+         //      telemetry.
        //  Core.bitwise_and(input,drawing,drawing);
          //Core.bitwise_and();
          //Core.
@@ -194,12 +225,41 @@ public class mezopencv2 extends OpenCvPipeline
 //      telemetry.addData("X:", boundRect[maxValIdx].x);
 //      telemetry.addData("Y:", boundRect[maxValIdx].y);
 
-         telemetry.update();
+
 
         // return input;
       }
-      return drawing;
+
+      telemetry.update();
+
+
+      return input;
       //return cannyOutput;
+   }
+
+   public Mat example1(Mat image )
+   {
+      // Convert to grayscale
+      Mat grayImage = new Mat();
+      Imgproc.cvtColor(image, grayImage, Imgproc.COLOR_BGR2GRAY);
+
+      // Apply Gaussian blur
+      Mat blurredImage = new Mat();
+      Imgproc.GaussianBlur(grayImage, blurredImage, new Size(5, 5), 0);
+
+      // Apply thresholding
+      Mat thresholdedImage = new Mat();
+      //Imgproc.threshold(blurredImage, thresholdedImage, 127, 255, Imgproc.THRESH_BINARY);
+
+      // Find contours
+      List<MatOfPoint> contours = new ArrayList<>();
+      Mat hierarchy = new Mat();
+      Imgproc.findContours(blurredImage, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+
+      // Draw contours on the original image (optional)
+      Imgproc.drawContours(image, contours, -1, new Scalar(0, 255, 0), 2);
+
+      return image ;
    }
 }
 
