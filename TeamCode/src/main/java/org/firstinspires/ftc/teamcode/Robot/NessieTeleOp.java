@@ -206,6 +206,11 @@ public class NessieTeleOp extends LinearOpMode
                 elbow.analogControl(1, gamepad2.right_stick_y, false, gamepad2.right_stick_button, elbowLimit.isPressed(), -3300, true);
             }
 
+            if (elbowLimit.isPressed())
+            {
+                elbow.encoderControl(-3,1);
+            }
+
             // Hanging
             // ==========================================================================================================================================================================
             if (gamepad1.left_bumper || gamepad1.left_trigger > 0.25)
