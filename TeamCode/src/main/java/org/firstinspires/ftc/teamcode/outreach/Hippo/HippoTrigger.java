@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode.outreach.Hippo;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.controller.ServoParent;
+import org.firstinspires.ftc.teamcode.MotorControllers.ServoParent;
 
 public class HippoTrigger extends ServoParent
 {

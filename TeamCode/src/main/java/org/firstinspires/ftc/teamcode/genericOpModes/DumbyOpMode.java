@@ -7,12 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.teamcode.algirithums.AutoBucket;
 import org.firstinspires.ftc.teamcode.aprilTags.AprilTagMaster;
-import org.firstinspires.ftc.teamcode.controller.DriveController;
+import org.firstinspires.ftc.teamcode.MotorControllers.DriveController;
 import org.firstinspires.ftc.teamcode.initialization.Initialization;
-import org.firstinspires.ftc.teamcode.Robot.Slide;
-import org.firstinspires.ftc.teamcode.Robot.Elbow;
-import org.firstinspires.ftc.teamcode.Robot.Wrist;
-import org.firstinspires.ftc.teamcode.Robot.Claw;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 @Autonomous(name = "dumbyOpMode")

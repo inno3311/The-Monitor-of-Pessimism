@@ -1,29 +1,28 @@
-package org.firstinspires.ftc.teamcode.controller;
+package org.firstinspires.ftc.teamcode.MotorControllers;
 
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.Logging;
 
-public class ServoParent
+public class CRServoParent
 {
-    private Servo servo;
+    private CRServo servo;
     private String servoName;
-    double minPosition, maxPosition;
-
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
+
     protected Gamepad gamepad1;
     protected Gamepad gamepad2;
 
-    private ServoParent(LinearOpMode opMode)
+    private CRServoParent(LinearOpMode opMode)
     {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
@@ -31,17 +30,15 @@ public class ServoParent
         this.gamepad2 = opMode.gamepad2;
     }
 
-    protected ServoParent(String servoName, double minPosition, double maxPosition, LinearOpMode opMode)
+    protected CRServoParent(String servoName, LinearOpMode opMode)
     {
         this(opMode);
 
         try
         {
             this.servoName = servoName;
-            servo = hardwareMap.servo.get(servoName);
+            this.servo = hardwareMap.crservo.get(servoName);
 
-            this.minPosition = minPosition;
-            this.maxPosition = maxPosition;
         }
         catch (IllegalArgumentException e)
         {
@@ -52,23 +49,47 @@ public class ServoParent
 
     }
 
-    protected void driveServo(double target)
+    protected void driveForward()
     {
-//        if (servo.getPosition() != target)
-//        {
-            servo.setPosition(target);
-//        }
-//        else
-//        {
-//            servo.setPosition(servo.getPosition());
-//        }
+        servo.setPower(1);
     }
 
-    protected void driveServo(double target, boolean argument)
+    protected void driveForwardBoolean(boolean flag)
     {
-        if (argument)
+        driveForward();
+    }
+
+    protected void driveBackward()
+    {
+        servo.setPower(-1);
+    }
+
+    protected void driveBackwardBoolean(boolean flag)
+    {
+        driveBackward();
+    }
+
+    protected void driveServo(boolean direction)
+    {
+        if (direction)
         {
-            driveServo(target);
+            driveForward();
+        }
+        else if (!direction)
+        {
+            driveBackward();
+        }
+    }
+
+    protected void driveServoBoolean(boolean forward, boolean backward)
+    {
+        if (forward)
+        {
+            driveForward();
+        }
+        else if (backward)
+        {
+            driveBackward();
         }
     }
 
@@ -76,26 +97,14 @@ public class ServoParent
     {
         return new Action()
         {
-//            private boolean initialized = false;
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket)
             {
-//                if (!initialized)
-//                {
-                    driveServo(target);
-//                    initialized = true;
-//                }
-
+                driveForward();
                 return false;
             }
         };
     }
 
-
-    protected void telemetry()
-    {
-        telemetry.addData(servoName, "minPosition: %.2f\n" +
-                "\tmaxPosition: %.2f", minPosition, maxPosition);
-    }
 
 }

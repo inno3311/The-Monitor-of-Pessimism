@@ -5,10 +5,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import org.firstinspires.ftc.teamcode.Robot.Claw;
-import org.firstinspires.ftc.teamcode.Robot.Elbow;
-import org.firstinspires.ftc.teamcode.Robot.Slide;
-import org.firstinspires.ftc.teamcode.Robot.Wrist;
+
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 public class AutoPickup

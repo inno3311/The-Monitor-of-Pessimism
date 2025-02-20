@@ -1,14 +1,10 @@
-package org.firstinspires.ftc.teamcode.controller;
+package org.firstinspires.ftc.teamcode.MotorControllers;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.IMU.IMUControl;
-import org.firstinspires.ftc.teamcode.util.ImuHardware;
-import org.firstinspires.ftc.teamcode.util.Logging;
-import org.firstinspires.ftc.teamcode.util.PIDController;
 
 // Do not use
 public class DriveController

@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode.outreach.Hippo;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.controller.MotorParent;
+import org.firstinspires.ftc.teamcode.MotorControllers.MotorParent;
 
 public class HippoIntake extends MotorParent
 {

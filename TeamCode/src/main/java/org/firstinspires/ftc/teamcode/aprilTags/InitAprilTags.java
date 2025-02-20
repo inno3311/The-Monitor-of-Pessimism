@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.aprilTags;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.controller.MecanumSynchronousDriver;
+import org.firstinspires.ftc.teamcode.MotorControllers.MecanumSynchronousDriver;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 public class InitAprilTags
