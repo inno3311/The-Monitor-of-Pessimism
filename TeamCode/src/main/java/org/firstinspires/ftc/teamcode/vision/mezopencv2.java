@@ -115,6 +115,7 @@ public class mezopencv2 extends OpenCvPipeline
   //rivate int threshold = 100;
   // private Random rng = new Random(12345);
 
+   Mat cannyOutput = new Mat();
 
    @Override
    public Mat processFrame(Mat input)
@@ -125,7 +126,7 @@ public class mezopencv2 extends OpenCvPipeline
 //      if (ex1)
 //      return output;
 
-      Mat cannyOutput = new Mat();
+
 
       Imgproc.cvtColor(input, ycrcbMat, Imgproc.COLOR_RGB2YCrCb);
 
@@ -195,7 +196,7 @@ public class mezopencv2 extends OpenCvPipeline
          Imgproc.circle(input,centerPoint,5, new Scalar(0, 111, 222),3);
 
          //if minRect[i].points
-         if (minRect[i].size.area() > 800)
+         if (minRect[i].size.area() > 10000)
          {
             for (int j = 0; j < 4; j++)
             {

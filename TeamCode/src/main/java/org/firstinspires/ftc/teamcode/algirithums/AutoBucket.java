@@ -29,7 +29,7 @@ public class AutoBucket
         this.claw = claw;
     }
 
-    public void bucketRun(double x, double y, double heading, int tag)
+    public Action bucketRun(double x, double y, double heading, int tag)
     {
         double target_X;
         double target_Y;
@@ -69,7 +69,9 @@ public class AutoBucket
 
         Action bucketAction = bucket.build();
 
-        Actions.runBlocking(bucketAction);
+        //Actions.runBlocking(bucketAction);
+
+        return bucketAction;
 
     }
 

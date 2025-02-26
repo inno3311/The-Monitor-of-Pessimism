@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode.Robot;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.canvas.Canvas;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -59,6 +63,30 @@ public class NessieTeleOp extends LinearOpMode
     MotorTicksConversion ticksConversion;
     private double hangFlag = 0;
 
+    public void runBlocking2(Action action, Gamepad gpad) {
+        FtcDashboard dash = FtcDashboard.getInstance();
+        Canvas previewCanvas = new Canvas();
+        action.preview(previewCanvas);
+
+        boolean running = true;
+        while (running && !Thread.currentThread().isInterrupted()) {
+            TelemetryPacket packet = new TelemetryPacket();
+            packet.fieldOverlay().getOperations().addAll(previewCanvas.getOperations());
+
+            running = action.run(packet);
+
+            dash.sendTelemetryPacket(packet);
+            telemetry.addData("runBlocking2", "in loop");
+            telemetry.update();
+
+            if (gpad.b)
+            {
+                break;
+            }
+        }
+        telemetry.addData("runBlocking2", "exit loop");
+        telemetry.update();
+    }
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -87,7 +115,7 @@ public class NessieTeleOp extends LinearOpMode
 
         ticksConversion = new MotorTicksConversion();
 
-        initCamera();
+        //initCamera();
 
         if (new File("/sdcard/FIRST/blocks/sounds/second.wav").exists())
         {
@@ -122,41 +150,43 @@ public class NessieTeleOp extends LinearOpMode
                 if (gamepad1.a && (aprilTag.getDetectionID() == 16  || aprilTag.getDetectionID()== 13) && !gamepad1.start)
                 {
                     autoBucket = new AutoBucket(new MecanumDrive(hardwareMap, new Pose2d(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians(aprilTag.getFieldYaw()))), slide, elbow, wrist, claw);
-                    autoBucket.bucketRun(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians((aprilTag.getFieldYaw())), aprilTag.getDetectionID());
-//                    telemetry.addData("Loc X:", aprilTag.getFieldX());
+                    Action temp = autoBucket.bucketRun(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians((aprilTag.getFieldYaw())), aprilTag.getDetectionID());
+                    runBlocking2(temp,gamepad1);
+
+                    //                    telemetry.addData("Loc X:", aprilTag.getFieldX());
 //                    telemetry.addData("Loc Y:", aprilTag.getFieldY());
 //                    telemetry.addData("Heading:", aprilTag.getFieldYaw());
                 }
             }
-
-            telemetry.addData("Object detected?", seeker.isObject_detected());
-
-            if (seeker.isObject_detected())
-            {
-                double x_offset = 0;
-                double y_offset = 3;
-                double object_x_distance = calculate_x_distance(seeker.getAngle_x(), seeker.getCamera_height(), x_offset);
-                double object_y_distance = calculate_y_distance(seeker.getAngle_y(), seeker.getCamera_height(), y_offset);
-                telemetry.addData("angle x", seeker.getAngle_x());
-                telemetry.addData("angle y", seeker.getAngle_y());
-                telemetry.addData("object x distance", object_x_distance);
-                telemetry.addData("object y distance", object_y_distance);
-                if (gamepad1.b && !gamepad1.start)
-                    {
-                            autoPickup = new AutoPickup(new MecanumDrive(hardwareMap,new Pose2d(0, 0, Math.toRadians(90))));
-//                        autoPickup.align(seeker.getDistance_x(), seeker.getDistance_y());
-                            autoPickup.align(object_x_distance, object_y_distance);
-                    }
-            }
+//
+//            telemetry.addData("Object detected?", seeker.isObject_detected());
+//
 //            if (seeker.isObject_detected())
 //            {
-//                telemetry.addData("object x", seeker.getDistance_x());
-//                telemetry.addData("object y", seeker.getDistance_y());
+//                double x_offset = 0;
+//                double y_offset = 3;
+//                double object_x_distance = calculate_x_distance(seeker.getAngle_x(), seeker.getCamera_height(), x_offset);
+//                double object_y_distance = calculate_y_distance(seeker.getAngle_y(), seeker.getCamera_height(), y_offset);
+//                telemetry.addData("angle x", seeker.getAngle_x());
+//                telemetry.addData("angle y", seeker.getAngle_y());
+//                telemetry.addData("object x distance", object_x_distance);
+//                telemetry.addData("object y distance", object_y_distance);
 //                if (gamepad1.b && !gamepad1.start)
-//                {
-//                    centricDrive.drive(0, 0, 0, 0, autoPickup.align_angle(seeker.getDistance_x(), ticksConversion.linearSlideInCM()*slide.getMotorPosition()));
-//                }
+//                    {
+//                            autoPickup = new AutoPickup(new MecanumDrive(hardwareMap,new Pose2d(0, 0, Math.toRadians(90))));
+////                        autoPickup.align(seeker.getDistance_x(), seeker.getDistance_y());
+//                            autoPickup.align(object_x_distance, object_y_distance);
+//                    }
 //            }
+////            if (seeker.isObject_detected())
+////            {
+////                telemetry.addData("object x", seeker.getDistance_x());
+////                telemetry.addData("object y", seeker.getDistance_y());
+////                if (gamepad1.b && !gamepad1.start)
+////                {
+////                    centricDrive.drive(0, 0, 0, 0, autoPickup.align_angle(seeker.getDistance_x(), ticksConversion.linearSlideInCM()*slide.getMotorPosition()));
+////                }
+////            }
 
             // Slide and Elbow
             // ==========================================================================================================================================================================
@@ -285,31 +315,31 @@ public class NessieTeleOp extends LinearOpMode
         }
 
     }
-    private void initCamera()
-    {
-        //https://github.com/OpenFTC/EasyOpenCV/blob/master/doc/user_docs/camera_initialization_overview.md
-        String camera_name = "Webcam 2";
-        //OpenCvCamera camera = OpenCvCameraFactory.getInstance().createInternalCamera2(OpenCvInternalCamera2.CameraDirection.BACK);
-        WebcamName webcamName = hardwareMap.get(WebcamName.class, camera_name);
-        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
-        seeker = new SampleSeeker(telemetry);
-        FtcDashboard.getInstance().startCameraStream(camera,0);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                camera.setViewportRenderer(OpenCvCamera.ViewportRenderer.GPU_ACCELERATED);
-                camera.startStreaming(320, 180, OpenCvCameraRotation.UPRIGHT);
-                camera.setPipeline(seeker);
-            }
-            @Override
-            public void onError(int errorCode)
-            {
-                telemetry.addData("Camera Failed","");
-            }
-        });
-    }
+//    private void initCamera()
+//    {
+//        //https://github.com/OpenFTC/EasyOpenCV/blob/master/doc/user_docs/camera_initialization_overview.md
+//        String camera_name = "Webcam 2";
+//        //OpenCvCamera camera = OpenCvCameraFactory.getInstance().createInternalCamera2(OpenCvInternalCamera2.CameraDirection.BACK);
+//        WebcamName webcamName = hardwareMap.get(WebcamName.class, camera_name);
+//        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
+//        seeker = new SampleSeeker(telemetry);
+//        FtcDashboard.getInstance().startCameraStream(camera,0);
+//        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+//        {
+//            @Override
+//            public void onOpened()
+//            {
+//                camera.setViewportRenderer(OpenCvCamera.ViewportRenderer.GPU_ACCELERATED);
+//                camera.startStreaming(320, 180, OpenCvCameraRotation.UPRIGHT);
+//                camera.setPipeline(seeker);
+//            }
+//            @Override
+//            public void onError(int errorCode)
+//            {
+//                telemetry.addData("Camera Failed","");
+//            }
+//        });
+//    }
 
     private double calculate_camera_height(double arm_angle, double arm_length, double camera_length_offset, double height_offset)
     {
