@@ -75,4 +75,54 @@ public class AutoBucket
 
     }
 
+    public Action wall_pickup(double x, double y, double heading, int tag)
+    {
+        double target_X;
+        double target_Y;
+        double targetWaypoint_X;
+        double targetWaypoint_Y;
+        double target_heading;
+
+        if (tag == 16 || tag == 15 || tag == 14)
+        {
+            target_X = 45;
+            target_Y = -65;
+            targetWaypoint_X = 45;
+            targetWaypoint_Y = -45;
+            target_heading = Math.toRadians(270);
+        }
+        else
+        {
+            target_X = -60;
+            target_Y = 65;
+            targetWaypoint_X = -45;
+            targetWaypoint_Y = 45;
+            target_heading = Math.toRadians(90);
+        }
+
+        TrajectoryActionBuilder wall_pickup = drive.actionBuilder(new Pose2d(x,y, heading))
+
+                .afterTime(0, wrist.action(0.7))
+                .afterTime(0, claw.action(0.6))
+                .afterTime(0, elbow.action(-210, 1))
+                .afterTime(1, slide.action(0,1))
+                .strafeToLinearHeading(new Vector2d(targetWaypoint_X, targetWaypoint_Y), target_heading, new TranslationalVelConstraint(70))
+                .waitSeconds(.2)
+                .strafeToLinearHeading(new Vector2d(target_X, target_Y), target_heading, new TranslationalVelConstraint(15))
+                .afterTime(0, claw.action(0))
+                .waitSeconds(0.3)
+                .afterTime(0, elbow.action(-1350,1))
+                ;
+
+
+
+        Action wallPickup = wall_pickup.build();
+
+        //Actions.runBlocking(bucketAction);
+
+        return wallPickup;
+
+    }
+
+
 }

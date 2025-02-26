@@ -79,7 +79,7 @@ public class NessieTeleOp extends LinearOpMode
             telemetry.addData("runBlocking2", "in loop");
             telemetry.update();
 
-            if (gpad.b)
+            if (gpad.left_stick_button && gpad.right_stick_button)
             {
                 break;
             }
@@ -150,10 +150,20 @@ public class NessieTeleOp extends LinearOpMode
                 if (gamepad1.a && (aprilTag.getDetectionID() == 16  || aprilTag.getDetectionID()== 13) && !gamepad1.start)
                 {
                     autoBucket = new AutoBucket(new MecanumDrive(hardwareMap, new Pose2d(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians(aprilTag.getFieldYaw()))), slide, elbow, wrist, claw);
-                    Action temp = autoBucket.bucketRun(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians((aprilTag.getFieldYaw())), aprilTag.getDetectionID());
-                    runBlocking2(temp,gamepad1);
+                    Action auto_bucket = autoBucket.bucketRun(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians((aprilTag.getFieldYaw())), aprilTag.getDetectionID());
+                    runBlocking2(auto_bucket, gamepad1);
 
                     //                    telemetry.addData("Loc X:", aprilTag.getFieldX());
+//                    telemetry.addData("Loc Y:", aprilTag.getFieldY());
+//                    telemetry.addData("Heading:", aprilTag.getFieldYaw());
+                }
+                if (gamepad1.x && (aprilTag.getDetectionID() == 14  || aprilTag.getDetectionID()== 11) && !gamepad1.start)
+                {
+                autoBucket = new AutoBucket(new MecanumDrive(hardwareMap, new Pose2d(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians(aprilTag.getFieldYaw()))), slide, elbow, wrist, claw);
+                Action wall_pickup = autoBucket.wall_pickup(aprilTag.getFieldX(), aprilTag.getFieldY(), Math.toRadians((aprilTag.getFieldYaw())), aprilTag.getDetectionID());
+                runBlocking2(wall_pickup, gamepad1);
+
+                //                    telemetry.addData("Loc X:", aprilTag.getFieldX());
 //                    telemetry.addData("Loc Y:", aprilTag.getFieldY());
 //                    telemetry.addData("Heading:", aprilTag.getFieldYaw());
                 }
