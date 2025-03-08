@@ -23,8 +23,6 @@ import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 public final class BucketRun extends LinearOpMode
 {
 
-
-
     Initialization initialization;
 
     Slide slide;
@@ -67,7 +65,7 @@ public final class BucketRun extends LinearOpMode
 
             TrajectoryActionBuilder yellow_drop = drive.actionBuilder(beginPose)
                 .afterTime(0, claw.action(CLAW_CLOSE))
-                .afterTime(0, slide.action(-2175, 1))
+                .afterTime(0, slide.action(SLIDE_DEPLOY_HIGHT, 1))
                 .afterTime(0, elbow.action(-2400, 1))
                 .strafeToLinearHeading(new Vector2d(-55, -52), Math.toRadians(225), new TranslationalVelConstraint(30))
                 .waitSeconds(.2)
@@ -117,7 +115,7 @@ public final class BucketRun extends LinearOpMode
                 .afterTime(0, elbow.action(-2400, 1))
                 .afterTime(.5, slide.action(0, 1))
 
-                .afterTime(1, slide.action(-2175, 1))
+                .afterTime(1, slide.action(SLIDE_DEPLOY_HIGHT, 1))
                 .waitSeconds(1.5)
 //                .turnTo(Math.toRadians(225))
                 .strafeToLinearHeading(new Vector2d(-54, -52), Math.toRadians(225))
@@ -149,10 +147,10 @@ public final class BucketRun extends LinearOpMode
                 .waitSeconds(4)
                 .strafeTo(new Vector2d(-45, -53))
 
-                .afterTime(1, slide.action(-2175, 1))
+                .afterTime(1, slide.action(SLIDE_DEPLOY_HIGHT, 1))
                 .strafeToLinearHeading(new Vector2d(-55, -51), Math.toRadians(225))
                 .afterTime(0.5, elbow.action(-2400, 1))
-                .afterTime(1, slide.action(-2175, 1))
+                .afterTime(1, slide.action(SLIDE_DEPLOY_HIGHT, 1))
                 .waitSeconds(1)
                 .afterTime(0, wrist.action(0))
                 .afterTime(0.5, claw.action(CLAW_OPEN))

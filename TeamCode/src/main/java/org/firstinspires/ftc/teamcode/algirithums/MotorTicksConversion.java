@@ -8,7 +8,7 @@ public class MotorTicksConversion
      */
     public double linearSlideInCM()
     {
-        double ticksToSomething = 384.5 / (4 * Math.PI); // 30.61
+        double ticksToSomething = 384.5 / (4 * Math.PI); // 30.61 cm //77.71 in
         return ticksToSomething;
     }
 
