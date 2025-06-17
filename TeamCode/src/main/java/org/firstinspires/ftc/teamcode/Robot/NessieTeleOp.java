@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.Robot;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.ftccommon.SoundPlayer;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -29,6 +32,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.io.File;
+import java.util.List;
 
 @TeleOp(name = "TeleOp", group = "proto")
 public class NessieTeleOp extends LinearOpMode
@@ -88,6 +92,8 @@ public class NessieTeleOp extends LinearOpMode
         telemetry.update();
     }
 
+    private static ElapsedTime myStopwatch = new ElapsedTime();
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -115,6 +121,14 @@ public class NessieTeleOp extends LinearOpMode
 
         ticksConversion = new MotorTicksConversion();
 
+
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+
+        for (LynxModule hub : allHubs) {
+            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
+
+
         //initCamera();
 
         if (new File("/sdcard/FIRST/blocks/sounds/second.wav").exists())
@@ -129,6 +143,10 @@ public class NessieTeleOp extends LinearOpMode
 
         while (opModeIsActive())
         {
+            myStopwatch.reset();
+            for (LynxModule hub : allHubs) {
+                hub.clearBulkCache();
+            }
             // Drive Code
             centricDrive.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, imu.getAngle(), gamepad1.right_trigger,
                     centricDrive.whichTurnMode(turnToHeading.turnToHeading(gamepad1.right_stick_x, gamepad1.right_stick_y, 0.2, 0.2),
@@ -321,7 +339,8 @@ public class NessieTeleOp extends LinearOpMode
             slide.telemetry();
             elbow.telemetry();
             hang.telemetry();
-//            telemetry.update();
+            telemetry.addData("Stopwatch Timer", "%.5f", myStopwatch.time());
+            telemetry.update();
         }
 
     }
